@@ -4,25 +4,9 @@
 	<classpathentry kind="src" path="lib_src"/>
 	<classpathentry kind="src" path="physics_engine_src"/>
 	<classpathentry kind="src" path="render_engine_src"/>
-	<classpathentry kind="src" path="proxy_engine_src"/>
+	<classpathentry kind="src" path="network_src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/luaj-3.0.1/lib/luaj-jse-3.0.1.jar" sourcepath="E:/eclipse/workspace/Isometric Gameling/lib/luaj-3.0.1/lib/luaj-sources-3.0.1.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/core.jar" sourcepath="E:/eclipse/processing/processing-master.zip"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-aarch64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-armv6hf.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/gluegen-rt-natives-windows-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-linux-aarch64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-linux-armv6hf.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isometric Gameling/lib/processing-3.3.6/core/library/jogl-all-natives-windows-i586.jar"/>
+	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-jse-3.0.1.jar" sourcepath="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-sources-3.0.1.jar"/>
+	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/core.jar" sourcepath="E:/eclipse/processing/processing-master.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
