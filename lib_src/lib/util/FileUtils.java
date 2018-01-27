@@ -21,14 +21,10 @@ public class FileUtils implements IsoConstants {
 	
 	public static String getOS() {
 		String osname = System.getProperty("os.name").toLowerCase();
-		if(osname.indexOf("win")>=0) 
-			return "windows";
-		if(osname.indexOf("mac")>=0) 
-			return "mac";
-		if(osname.indexOf("sunos")>=0) 
-			return "windows";
-		if(osname.indexOf("nix") + osname.indexOf("nux") + osname.indexOf("aix") + 3 != 0) 
-			return "unix";
+		if(osname.indexOf("win")>=0) return "windows";
+		if(osname.indexOf("mac")>=0) return "mac";
+		if(osname.indexOf("sunos")>=0) return "windows";
+		if(osname.indexOf("nix") + osname.indexOf("nux") + osname.indexOf("aix") + 3 != 0) return "unix";
 		return "unknown";
 	}
 	

@@ -1,70 +1,6 @@
 package lib.util;
 
 public class ArrayUtils {
-	public static <T> void printArray(T[] array) {
-		if(array.length == 0) {
-			System.out.println("Array: {}");
-			return;
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Array: { ");
-		for(int i=0; i<array.length-1; i++) {
-			sb.append(array[i].toString() + ", ");
-		}
-		sb.append(array[array.length-1].toString() + " }");
-		
-		ConsoleLogger.info(sb);
-	}
-	
-	public static void printArray(int[] array) {
-		if(array.length == 0) {
-			System.out.println("Array: {}");
-			return;
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Array: { ");
-		for(int i=0; i<array.length-1; i++) {
-			sb.append(array[i] + ", ");
-		}
-		sb.append(array[array.length-1] + " }");
-		
-		ConsoleLogger.info(sb);
-	}
-	
-	public static <T> void printArray(T[] array, String label) {
-		if(array.length == 0) {
-			System.out.println("Array: {}");
-			return;
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(label+": { ");
-		for(int i=0; i<array.length-1; i++) {
-			sb.append(array[i].toString() + ", ");
-		}
-		sb.append(array[array.length-1].toString() + " }");
-		
-		ConsoleLogger.info(sb);
-	}
-	
-	public static void printArray(int[] array, String label) {
-		if(array.length == 0) {
-			System.out.println("Array: {}");
-			return;
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(label+": { ");
-		for(int i=0; i<array.length-1; i++) {
-			sb.append(array[i] + ", ");
-		}
-		sb.append(array[array.length-1] + " }");
-		
-		ConsoleLogger.info(sb);
-	}
-		
 	public static String[] merge(String[]...arrays) {
 		int length = 0;
 	    for (String[] array : arrays) {
@@ -135,6 +71,69 @@ public class ArrayUtils {
 				System.out.println();
 			});
 		}
+	}
+	
+	public static <T> void printArray(T[] array) {
+		if(array.length == 0) {
+			System.out.println("Array: {}");
+			return;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Array: { ");
+		for(int i=0; i<array.length-1; i++) {
+			sb.append(array[i].toString() + ", ");
+		}
+		sb.append(array[array.length-1].toString() + " }");
+		
+		ConsoleLogger.info(sb);
+	}
+	
+	public static void printArray(int[] array) {
+		if(array.length == 0) {
+			System.out.println("Array: {}");
+			return;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Array: { ");
+		for(int i=0; i<array.length-1; i++) {
+			sb.append(array[i] + ", ");
+		}
+		sb.append(array[array.length-1] + " }");
+		
+		ConsoleLogger.info(sb);
+	}
+	
+	public static <T> void printArray(T[] array, String label) {
+		if(array.length == 0) {
+			System.out.println("Array: {}");
+			return;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(label+": { ");
+		for(int i=0; i<array.length-1; i++) {
+			sb.append(array[i].toString() + ", ");
+		}
+		sb.append(array[array.length-1].toString() + " }");
+		
+		ConsoleLogger.info(sb);
+	}
+	
+	public static void printArray(int[] array, String label) {
+		if(array.length == 0) {
+			System.out.println("Array: {}");
+			return;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(label+": { ");
+		for(int i=0; i<array.length-1; i++) {
+			sb.append(array[i] + ", ");
+		}
+		sb.append(array[array.length-1] + " }");
+		
+		ConsoleLogger.info(sb);
 	}*/
-
 }

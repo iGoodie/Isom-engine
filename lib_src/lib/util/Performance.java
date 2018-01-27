@@ -22,19 +22,15 @@ public class Performance {
 		return totalMemory() / MEGABYTE;
 	}
 	
-	public static long executionTime(Runnable test) {
-		long t0, t1;
-		t0 = System.currentTimeMillis();
-		test.run();
-		t1 = System.currentTimeMillis();
-		return t1-t0;
+	public static long testTime(Runnable test) {
+		return testTimeAvg(test, 1);
 	}
 	
-	public static double executionTimeAvg(Runnable test, int testNumber) {
-		double timesum=0;
+	public static long testTimeAvg(Runnable test, int testNumber) {
+		long timesum=0;
 		
 		for(int i=0; i<testNumber; i++) {
-			timesum += executionTime(test);
+			timesum += testTime(test);
 		}
 		
 		return timesum / testNumber;

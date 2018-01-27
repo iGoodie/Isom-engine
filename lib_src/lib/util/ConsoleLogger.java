@@ -15,7 +15,7 @@ public class ConsoleLogger {
 		debugMode = mode;
 	}
 	
-	public static void setLoggingSystem(PrintStream out) {
+	public static void setLoggingSteam(PrintStream out) {
 		loggingStream = out;
 	}
 	

@@ -26,4 +26,10 @@ public class Stringifier {
 			return zeros + hex;
 		}
 	}
+	
+	public static String asHex(int value) {
+		return asHex(value, 8);
+	}
+
+	
 }

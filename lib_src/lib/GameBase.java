@@ -5,12 +5,12 @@ import processing.core.PApplet;
 
 public class GameBase extends PApplet {
 	/* Cameras */
-	private Camera[] cameras = new Camera[16];
+	private Camera[] cameras = new Camera[2];
 	private int selectedCam = 0;
 	
 	/* Constructors */
 	public GameBase() {
-		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera();
+		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera(0, 0);
 	}
 	
 	/* Methods */
