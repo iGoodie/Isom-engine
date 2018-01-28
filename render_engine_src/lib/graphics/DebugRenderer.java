@@ -21,14 +21,14 @@ public class DebugRenderer {
 		parent = p;
 	}
 	
-	public static void appendLine(int placing, String line) {
-		lines.add(line);
-		placings.add(placing);
+	public static void appendLine(String line) {
+		appendLine(UPPER_LEFT, line);
 	}
 	
-	public static void appendLine(String line) {
+	public static void appendLine(int placing, String line) {
+		if(!parent.debugEnabled) return;
 		lines.add(line);
-		placings.add(UPPER_LEFT);
+		placings.add(placing);
 	}
 	
 	public static void render() {
@@ -55,5 +55,6 @@ public class DebugRenderer {
 			}
 		}
 		lines.clear();
+		placings.clear();
 	}
 }

@@ -52,14 +52,12 @@ public class Coordinator {
 	 * @return Canvas position of given world position
 	 */
 	public static IsoVector worldToCanvas(IsoVector worldPos) {
-		float cx = (worldPos.x + worldPos.y) * HALF_TILE_WIDTH;
-		float cy = (worldPos.x - worldPos.y) * -HALF_TILE_HEIGHT;
-		return new IsoVector(cx, cy);
+		return worldToCanvas(worldPos.x, worldPos.y);
 	}
 	
 	public static IsoVector worldToCanvas(float wx, float wy) {
 		float cx = (wx + wy) * HALF_TILE_WIDTH;
-		float cy = (wx - wy) * -HALF_TILE_HEIGHT;
+		float cy = (wx - wy) * HALF_TILE_HEIGHT;
 		return new IsoVector(cx, cy);
 	}
 	
@@ -69,11 +67,14 @@ public class Coordinator {
 	 * @return World position of given canvas position
 	 */
 	public static IsoVector canvasToWorld(IsoVector canvasPos) {
-		float xu = canvasPos.x / HALF_TILE_WIDTH;
+		float bx = canvasPos.x / TILE_WIDTH;
+		float by = canvasPos.y / TILE_HEIGHT;
+		return new IsoVector(Math.round(bx+by), Math.round(bx-by));
+		/*float xu = canvasPos.x / HALF_TILE_WIDTH;
 		float yv = canvasPos.y / HALF_TILE_HEIGHT;
 		float worldx = Math.round((xu - yv) / 2f);
 		float worldy = Math.round((xu + yv) / 2f);
-		return new IsoVector(worldx, worldy);
+		return new IsoVector(worldx, worldy);*/
 	}
 	
 	/**
@@ -82,11 +83,14 @@ public class Coordinator {
 	 * @return World position of given canvas position
 	 */
 	public static IsoVector canvasToWorldExact(IsoVector canvasPos) {
-		float xu = canvasPos.x / HALF_TILE_WIDTH;
+		float bx = canvasPos.x / TILE_WIDTH;
+		float by = canvasPos.y / TILE_HEIGHT;
+		return new IsoVector(bx+by, bx-by);
+		/*float xu = canvasPos.x / HALF_TILE_WIDTH;
 		float yv = canvasPos.y / HALF_TILE_HEIGHT;
 		float worldx = (xu - yv) / 2f;
 		float worldy = (xu + yv) / 2f;
-		return new IsoVector(worldx, worldy);
+		return new IsoVector(worldx, worldy);*/
 	}
 
 	/*

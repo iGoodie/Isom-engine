@@ -1,6 +1,7 @@
 package lib;
 
 import lib.camera.Camera;
+import lib.image.PivotImage;
 import processing.core.PApplet;
 
 public class GameBase extends PApplet {
@@ -23,6 +24,10 @@ public class GameBase extends PApplet {
 	
 	public void selectCamera(int index) {
 		selectedCam = index;
+	}
+	
+	public PivotImage loadImage(String filename, float x, float y) {
+		return new PivotImage(loadImage(filename), x, y);
 	}
 	
 	/* Text-related methods */

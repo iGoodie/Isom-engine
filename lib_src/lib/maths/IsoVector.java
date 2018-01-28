@@ -22,7 +22,7 @@ public class IsoVector {
 	public static IsoVector sub(float x, float y, IsoVector v) {
 		return new IsoVector(x-v.x, y-v.y);
 	}
-	
+
 	public static IsoVector mult(IsoVector v1, float n) {
 		return new IsoVector(v1.x*n, v1.y*n);
 	}
@@ -44,8 +44,8 @@ public class IsoVector {
 	}
 
 	static public float angleBetween(IsoVector v1, IsoVector v2) {
-		if (v1.x == 0 && v1.y == 0 && v1.z == 0 ) return 0.0f;
-		if (v2.x == 0 && v2.y == 0 && v2.z == 0 ) return 0.0f;
+		if (v1.x == 0 && v1.y == 0 && v1.z == 0) return 0.0f;
+		if (v2.x == 0 && v2.y == 0 && v2.z == 0) return 0.0f;
 
 		double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 		double v1mag = Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
@@ -113,10 +113,21 @@ public class IsoVector {
 	}
 
 	/* Random 2D & 3D */
+	public IsoVector randomize2D() {
+		return normalizeWithAngle(IsoMath.randomFloat() * PConstants.PI * 2);
+	}
+
+	public IsoVector randomize3D() {
+		float angle = IsoMath.randomFloat() * PConstants.PI * 2;
+		float vz = IsoMath.randomFloat(-1, 1);
+		float vx = PApplet.sqrt(1-vz*vz) * PApplet.cos(angle);
+		float vy = PApplet.sqrt(1-vz*vz) * PApplet.sin(angle);
+		return set(vx, vy, vz);
+	}
 
 	/* Mag & MagSq */
 	public float mag() {
-		return (float) Math.sqrt(x*x + y*y + z*z);
+		return PApplet.sqrt(x*x + y*y + z*z);
 	}
 
 	public float magSq() {
@@ -178,20 +189,20 @@ public class IsoVector {
 		float dx = x - v.x;
 		float dy = y - v.y;
 		float dz = z - v.z;
-		return (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
+		return PApplet.sqrt(dx*dx + dy*dy + dz*dz);
 	}
 
 	public float dist(float x, float y) {
 		float dx = this.x - x;
 		float dy = this.y - y;
-		return (float) Math.sqrt(dx*dx + dy*dy);
+		return PApplet.sqrt(dx*dx + dy*dy);
 	}
 
 	public float dist(float x, float y, float z) {
 		float dx = this.x - x;
 		float dy = this.y - y;
 		float dz = this.z - z;
-		return (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
+		return PApplet.sqrt(dx*dx + dy*dy + dz*dz);
 	}
 
 	/* Dot */
@@ -233,8 +244,15 @@ public class IsoVector {
 	}
 
 	/* From Angle & Angle related */
-	public float heading() {
-		return (float) Math.atan2(y, x);
+	public IsoVector normalizeWithAngle(float angle) {
+		this.x = PApplet.cos(angle);
+		this.y = PApplet.sin(angle);
+		this.z = 0;
+		return this;
+	}
+
+	public float headingAngle() {
+		return PApplet.atan2(y, x);
 	}
 
 	public IsoVector rotate(float angle) {
@@ -293,7 +311,7 @@ public class IsoVector {
 		sb.append((int)z + "} ");
 		return sb.toString();
 	}
-	
+
 	public String toCastedString2D() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
