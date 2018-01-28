@@ -8,6 +8,9 @@ public class GameBase extends PApplet {
 	private Camera[] cameras = new Camera[2];
 	private int selectedCam = 0;
 	
+	/* Flags */
+	public boolean debugEnabled = true;
+	
 	/* Constructors */
 	public GameBase() {
 		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera(0, 0);
@@ -35,4 +38,17 @@ public class GameBase extends PApplet {
 	public void circle(float x, float y, float r) {
 		ellipse(x, y, r, r);
 	}
+
+	public void grid(int offset, int strokeColor) {
+		pushStyle();
+		stroke(strokeColor);
+		for(int i=offset; i<width; i+=offset) { //Vertical lines
+			line(i, 0, i, height);
+		}
+		for(int i=offset; i<height; i+=offset) { //Horizontal lines
+			line(0, i, width, i);			
+		}
+		popStyle();
+	}
 }
+

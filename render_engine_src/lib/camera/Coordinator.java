@@ -33,7 +33,7 @@ public class Coordinator {
 	}
 	
 	/**
-	 * TODO: Fix
+	 * TODO: Fix, not urgent tho
 	 * Assumed the formula is M = [w/2, h/2] - z*([Cx, Cy]-[Ox, Oy])
 	 * @param c
 	 * @param canvasPos
@@ -71,8 +71,21 @@ public class Coordinator {
 	public static IsoVector canvasToWorld(IsoVector canvasPos) {
 		float xu = canvasPos.x / HALF_TILE_WIDTH;
 		float yv = canvasPos.y / HALF_TILE_HEIGHT;
-		float worldx = (xu - yv) / 2;
-		float worldy = (xu + yv) / 2;
+		float worldx = Math.round((xu - yv) / 2f);
+		float worldy = Math.round((xu + yv) / 2f);
+		return new IsoVector(worldx, worldy);
+	}
+	
+	/**
+	 * Converts given canvas position to world position in exact coordinates. It won't round to return tile coordinates.
+	 * @param canvasPos Canvas position to be converted
+	 * @return World position of given canvas position
+	 */
+	public static IsoVector canvasToWorldExact(IsoVector canvasPos) {
+		float xu = canvasPos.x / HALF_TILE_WIDTH;
+		float yv = canvasPos.y / HALF_TILE_HEIGHT;
+		float worldx = (xu - yv) / 2f;
+		float worldy = (xu + yv) / 2f;
 		return new IsoVector(worldx, worldy);
 	}
 

@@ -1,4 +1,4 @@
 function square(x)
-  print(x*x)
+  print("Std in: " .. x*x)
   return x*x
 end

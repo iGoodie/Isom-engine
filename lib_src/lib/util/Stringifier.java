@@ -28,7 +28,7 @@ public class Stringifier {
 	}
 	
 	public static String asHex(int value) {
-		return asHex(value, 8);
+		return Integer.toHexString(value).toUpperCase();
 	}
 
 	

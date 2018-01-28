@@ -24,4 +24,10 @@ public class IsoMath {
 	public static float randomFloat(float min, float max) {
 		return random.nextFloat() * (max-min) + min;
 	}
+
+	public static float resolveError(float num, float resolution) {
+		int i10 = (int) Math.pow(10, resolution);
+		float f10 = (float) Math.pow(10, resolution);
+		return (int)(num*i10)/f10;
+	}
 }

@@ -6,6 +6,8 @@ import lib.GameBase;
 import lib.Timer.Ticker;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
+import lib.graphics.DebugRenderer;
+import lib.input.Keyboard;
 import lib.maths.IsoMath;
 import lib.maths.IsoVector;
 import lib.util.ConsoleLogger;
@@ -15,11 +17,12 @@ import processing.event.MouseEvent;
 public class TestGame extends GameBase implements TestConstants {
 	/* Singleton */
 	private static TestGame game;
+	
 	public static TestGame getGame() {
 		return game;
 	}
 	
-	/**/
+	/* Mechanic Methods */
 	private static Ticker tickTimer = new Ticker();
 	
 	private PImage test_tile;
@@ -37,7 +40,9 @@ public class TestGame extends GameBase implements TestConstants {
 		
 		selectCamera(0);
 		getCamera().resize(ST_WIDTH, ST_HEIGHT);
+		
 		Coordinator.setParent(this);
+		DebugRenderer.setParent(this);
 		
 		test_tile = loadImage("test.png");
 	}
@@ -62,6 +67,27 @@ public class TestGame extends GameBase implements TestConstants {
 		//getCamera().move(10*dt, 10*dt);
 		//getCamera().rotate(PI/360 * dt * 10);
 		//getCamera().zoomTo(cos(millis() / 500f) + 1.5f);
+		
+		if(Keyboard.isKeyActiveOnce(Keyboard.KEY_F11)) {
+			debugEnabled = !debugEnabled;
+		}
+		
+		IsoVector velocity = new IsoVector();
+		if(Keyboard.isKeyActive(Keyboard.KEY_UP)) {
+			velocity.add(0, -1);
+		}
+		if(Keyboard.isKeyActive(Keyboard.KEY_DOWN)) {
+			velocity.add(0, 1);
+		}
+		if(Keyboard.isKeyActive(Keyboard.KEY_LEFT)) {
+			velocity.add(-1, 0);
+		}
+		if(Keyboard.isKeyActive(Keyboard.KEY_RIGHT)) {
+			velocity.add(1, 0);
+		}
+		velocity.len(200 * dt);
+		
+		getCamera().move(velocity.x, velocity.y);
 	}
 	
 	private void render() {
@@ -86,23 +112,32 @@ public class TestGame extends GameBase implements TestConstants {
 		renderPostDebug();
 	}
 	
+	/* Debug Renders */
 	private void renderPreDebug() {
+		if(!debugEnabled) return;
+		
 		//Draw grid
-		stroke(100);
-		for(int i=10; i<width; i+=10) {
-			line(i, 0, i, height);
-		}
-		for(int i=10; i<height; i+=10) {
-			line(0, i, width, i);			
-		}
+		grid(20, 0xFF_303030);
 	}
 	
 	private void renderPostDebug() {
+		if(!debugEnabled) return;
+		
+		//Midpoint
 		ellipse(width/2, height/2, 10, 10);
-		getCamera().renderDebug(this);
+		
+		//Debug
+		DebugRenderer.appendLine("FPS: " + (int)frameRate);
+		DebugRenderer.appendLine("FC: " + frameCount);
+		
+		DebugRenderer.appendLine(2, getCamera().toString());
+		DebugRenderer.appendLine(2, "Camera World Pos: " + Coordinator.canvasToWorld(getCamera().getCanvasPos()).toCastedString2D());
+		DebugRenderer.appendLine(2, "Zoom: " + getCamera().getZoom());
+		
+		DebugRenderer.render();
 	}
 	
-	/**/
+	/* Input Listeners */
 	@Override
 	public void mousePressed() {
 		/*IsoVector c = Coordinator.screen2Camera(getCamera(), mouseX, mouseY);
@@ -115,25 +150,28 @@ public class TestGame extends GameBase implements TestConstants {
 	
 	@Override
 	public void mouseWheel(MouseEvent e) {
-		float z = IsoMath.clamp(getCamera().getZoom() + e.getCount() * -0.1f, 0.5f, 2f);
+		float z = getCamera().getZoom() + e.getCount() * -0.5f; //Form input
+		z = IsoMath.resolveError(z, 1); //Remove error;
+		z = IsoMath.clamp(z, 0.5f, 2f); //Clamping bw [0.5 , 2.0]
 		getCamera().zoomTo(z);
 	}
 	
 	@Override
 	public void keyPressed() {
-		//System.out.println(keyCode + " | " + key);
-		if(keyCode == CODED) {}
-		else {
-			if(key == '+') {
-				getCamera().zoom(0.5f);
-			}
-			else if(key == '-') {
-				getCamera().zoom(-0.5f);
-			}
-			else if(key == ' ') {
-				getCamera().move(10, 10);
-			}
+		//ConsoleLogger.debug("KeyPressed: %s", Keyboard.getKeyString(key, keyCode)); //Log pressed key
+		
+		Keyboard.keyPressed(key, keyCode);
+		
+		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
+			key = (char) (keyCode = 0); //Reset signal
 		}
+	}
+	
+	@Override
+	public void keyReleased() {
+		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
+		
+		Keyboard.keyReleased(key, keyCode);
 	}
 	
 	/* Unique Main Method */

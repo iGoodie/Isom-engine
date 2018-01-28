@@ -5,8 +5,6 @@ import processing.core.PConstants;
 import processing.core.PVector;
 
 public class IsoVector {
-	private static final long serialVersionUID = 001_000L;
-
 	public float x, y, z;
 
 	public static IsoVector add(IsoVector v1, IsoVector v2) {
@@ -258,8 +256,8 @@ public class IsoVector {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append(x + "\t| ");
-		sb.append(y + "\t| ");
+		sb.append(x + ", ");
+		sb.append(y + ", ");
 		sb.append(z + "} ");
 		return sb.toString();
 	}
@@ -284,5 +282,23 @@ public class IsoVector {
 		result = 31 * result + Float.floatToIntBits(y);
 		result = 31 * result + Float.floatToIntBits(z);
 		return result;
+	}
+
+	/* Special Definitions */
+	public String toCastedString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append((int)x + ", ");
+		sb.append((int)y + ", ");
+		sb.append((int)z + "} ");
+		return sb.toString();
+	}
+	
+	public String toCastedString2D() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append((int)x + ", ");
+		sb.append((int)y + "} ");
+		return sb.toString();
 	}
 }

@@ -95,9 +95,4 @@ public class Camera implements Updatable {
 	public String toString() {
 		return String.format("Camera Canvas Pos:{%.0f, %.0f}", canvasPos.x, canvasPos.y);
 	}
-
-	public void renderDebug(TestGame game) {
-		game.text(this, 10, 20);
-		game.text("Zoom: " + zoom, 10, 31);
-	}
 }
