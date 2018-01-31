@@ -195,12 +195,12 @@ public class TestGame extends GameBase implements TestConstants {
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$@£#%½&'\";`";
+		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$₺s@£#%½&'\";`";
 		//ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode), printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
 		//ConsoleLogger.debug(event.getModifiers());
 		//ConsoleLogger.debug(event.getNative());
 
-		if(event.getModifiers() != 0) { //If CTRL, ALT, META or SHIFT on
+		if(event.getModifiers()!=0 && key!='\uFFFF') { //If CTRL, ALT, META or SHIFT on
 			key = (char) keyCode;
 		}
 
@@ -215,7 +215,7 @@ public class TestGame extends GameBase implements TestConstants {
 	public void keyReleased(KeyEvent event) {
 		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
 
-		if(event.getModifiers() != 0) { //If CTRL, ALT, META or SHIFT on
+		if(event.getModifiers()!=0 && key!='\uFFFF') { //If CTRL, ALT, META or SHIFT on
 			key = (char) keyCode;
 		}
 
