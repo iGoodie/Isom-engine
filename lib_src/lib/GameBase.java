@@ -14,7 +14,7 @@ public class GameBase extends PApplet {
 	
 	/* Constructors */
 	public GameBase() {
-		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera(0, 0);
+		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera("Cam#"+i, 0, 0);
 	}
 	
 	/* Methods */
@@ -26,6 +26,14 @@ public class GameBase extends PApplet {
 		selectedCam = index;
 	}
 	
+	public void selectCamera(String label) {
+		for(int i=0; i<cameras.length; i++) {
+			if(cameras[i].getLabel().equals(label)) {
+				selectedCam = i;
+			}
+		}
+	}
+	
 	public PivotImage loadImage(String filename, float x, float y) {
 		return new PivotImage(loadImage(filename), x, y);
 	}
@@ -33,6 +41,17 @@ public class GameBase extends PApplet {
 	/* Text-related methods */
 	public void text(Object o, float x, float y) {
 		text(o.toString(), x, y);
+	}
+	
+	//TODO: Parameterize fill colors
+	public void textWithStroke(String str, float x, float y) {
+		fill(0);
+		text(str, x-1, y);
+		text(str, x+1, y);
+		text(str, x, y-1);
+		text(str, x, y+1);
+		fill(255);
+		text(str, x, y);
 	}
 	
 	public float textHeight() {

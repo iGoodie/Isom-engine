@@ -13,6 +13,7 @@ import lib.maths.IsoMath;
 import lib.maths.IsoVector;
 import lib.util.ConsoleLogger;
 import processing.core.PImage;
+import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PJOGL;
 
@@ -28,6 +29,8 @@ public class TestGame extends GameBase implements TestConstants {
 	private static Ticker tickTimer = new Ticker();
 
 	private PImage test_tile;
+	private PImage test_tile_cursor;
+	private IsoVector map_size = new IsoVector(30, 20);
 
 	public void settings() {
 		game = this;
@@ -38,7 +41,7 @@ public class TestGame extends GameBase implements TestConstants {
 	public void setup() {
 		surface.setTitle(WINDOW_TITLE);
 		surface.setResizable(false);
-		
+
 		smooth();
 
 		selectCamera(0);
@@ -49,6 +52,7 @@ public class TestGame extends GameBase implements TestConstants {
 		CursorRenderer.setParent(this);
 
 		test_tile = loadImage("test.png");
+		test_tile_cursor = loadImage("cursor_tile.png");
 	}
 
 	public void draw() {
@@ -66,6 +70,8 @@ public class TestGame extends GameBase implements TestConstants {
 		tickTimer.update();
 		float dt = tickTimer.deltaSec();
 		float tick = tickTimer.getTick();
+		
+		DebugRenderer.appendLine("Significant Tick: " + (int)(tick/20)); //Testing 20 tick updates
 
 		//TODO update
 		getCamera().update(dt);
@@ -77,10 +83,10 @@ public class TestGame extends GameBase implements TestConstants {
 		IsoVector mousePos = new IsoVector(mouseX, mouseY);
 		mousePos = Coordinator.canvasToWorld(Coordinator.screenToCanvas(getCamera(), mousePos));
 		DebugRenderer.appendLine(3, "Mouse World Pos: " + mousePos.toCastedString2D());
-		if((mousePos.x >= 0 && mousePos.x < 5) && (mousePos.y >= 0 && mousePos.y < 3)) {
+		if((mousePos.x >= 0 && mousePos.x < map_size.x) && (mousePos.y >= 0 && mousePos.y < map_size.y)) {
 			CursorRenderer.setCursor("map");
 		}
-		
+
 		//Debug Toggler
 		if(Keyboard.isKeyActiveOnce(Keyboard.KEY_F11)) {
 			debugEnabled = !debugEnabled;
@@ -88,50 +94,67 @@ public class TestGame extends GameBase implements TestConstants {
 
 		//Keyboard Input Handler
 		IsoVector velocity = new IsoVector();
-		if(Keyboard.isKeyActive(Keyboard.KEY_UP)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_W)) {
 			velocity.add(0, 1);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_DOWN)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_S)) {
 			velocity.add(0, -1);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_RIGHT)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_D)) {
 			velocity.add(1, 0);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_LEFT)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_A)) {
 			velocity.add(-1, 0);
 		}
 		DebugRenderer.appendLine(1, "W-Direction Unit: " + velocity.toCastedString2D());
+		velocity.len(10 * dt); // Normalize, then mult
 		velocity.rotate(QUARTER_PI);
 		velocity = Coordinator.worldToCanvas(velocity); //World movement
 		DebugRenderer.appendLine(1, "C-Direction: " + velocity.toCastedString2D());
-		velocity.len(200 * dt); // Normalize, then mult
 
 		getCamera().move(velocity.x, velocity.y);
 	}
 
 	private void render() {
+		//Pre debug
 		if(debugEnabled) {
 			//Draw grid
 			grid(20, 0xFF_303030);
 		}
 
-		getCamera().attachCamera(); { //Render by camera options
+		getCamera().attachCamera(); //Render by camera options
+		{
+			pushMatrix();
 			translate(-64, -32); //-Tw/2, Th/2
 			DebugRenderer.appendLine(1, "World Size 5x3");
-			for(int i=0; i<5; i++) for(int j=0; j<3; j++) {
+			for(int i=0; i<map_size.x; i++) for(int j=0; j<map_size.y; j++) {
 				IsoVector canvasPos = Coordinator.worldToCanvas(i, j); //W(i, j) -> Canvas
 				image(test_tile, canvasPos.x, canvasPos.y);
 			}
-			translate(64, 32);
-			stroke(255);
-			IsoVector xAxis = Coordinator.worldToCanvas(3, 0);
-			IsoVector yAxis = Coordinator.worldToCanvas(0, 1);
-			line(0, 0, xAxis.x, xAxis.y);
-			line(0, 0, yAxis.x, yAxis.y);
-			stroke(0);
+
+			{ //Draw tile cursor on the mouse position
+				IsoVector mousePos = new IsoVector(mouseX, mouseY);
+				mousePos = Coordinator.screenToWorld(getCamera(), mousePos);
+				mousePos = Coordinator.worldToCanvas(mousePos);
+				image(test_tile_cursor, mousePos.x, mousePos.y);
+				
+				mousePos = Coordinator.canvasToScreen(getCamera(), mousePos);
+				DebugRenderer.appendLine(3, mousePos.toCastedString());
+			}
+			popMatrix();
+			{ //Draw X and Y axises for debug 
+				pushStyle();
+				stroke(255);
+				IsoVector xAxis = Coordinator.worldToCanvas(3, 0);
+				IsoVector yAxis = Coordinator.worldToCanvas(0, 1);
+				line(0, 0, xAxis.x, xAxis.y);
+				line(0, 0, yAxis.x, yAxis.y);
+				popStyle();
+			}
 		}
 		getCamera().deattachCamera();
 
+		//Post debug
 		if(debugEnabled) {
 			//Midpoint
 			ellipse(width/2, height/2, 10, 10);
@@ -143,6 +166,9 @@ public class TestGame extends GameBase implements TestConstants {
 			DebugRenderer.appendLine(2, getCamera().toString());
 			DebugRenderer.appendLine(2, "Camera World Pos: " + Coordinator.canvasToWorld(getCamera().getCanvasPos()).toCastedString2D());
 			DebugRenderer.appendLine(2, "Camera Zoom: " + getCamera().getZoom());
+
+			String[] activeKeys = Keyboard.getKeyList();
+			for(String k : activeKeys) DebugRenderer.appendLine(3, k);
 
 			DebugRenderer.render();
 		}
@@ -168,10 +194,17 @@ public class TestGame extends GameBase implements TestConstants {
 	}
 
 	@Override
-	public void keyPressed() {
-		//ConsoleLogger.debug("KeyPressed: %s", Keyboard.getKeyString(key, keyCode)); //Log pressed key
+	public void keyPressed(KeyEvent event) {
+		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$@£#%½&'\";`";
+		//ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode), printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
+		//ConsoleLogger.debug(event.getModifiers());
+		//ConsoleLogger.debug(event.getNative());
 
-		Keyboard.keyPressed(key, keyCode);
+		if(event.getModifiers() != 0) { //If CTRL, ALT, META or SHIFT on
+			key = (char) keyCode;
+		}
+
+		Keyboard.keyActivated(key, keyCode);
 
 		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
 			key = (char) (keyCode = 0); //Reset signal
@@ -179,10 +212,24 @@ public class TestGame extends GameBase implements TestConstants {
 	}
 
 	@Override
-	public void keyReleased() {
+	public void keyReleased(KeyEvent event) {
 		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
 
-		Keyboard.keyReleased(key, keyCode);
+		if(event.getModifiers() != 0) { //If CTRL, ALT, META or SHIFT on
+			key = (char) keyCode;
+		}
+
+		Keyboard.keyDeactivated(key, keyCode);
+	}
+
+	@Override
+	public void focusLost() {
+		Keyboard.reset();
+	}
+
+	@Override
+	public void focusGained() {
+		Keyboard.reset(); //TODO: Check validity
 	}
 
 	/* Unique Main Method */
@@ -193,6 +240,5 @@ public class TestGame extends GameBase implements TestConstants {
 		args = builder.build();
 		ConsoleLogger.info("Launch Arguments: " + Arrays.toString(args));
 		GameBase.main(args); //Continues on other thread (sync)
-		//ConsoleProgram.start(new String[]{});
 	}
 }

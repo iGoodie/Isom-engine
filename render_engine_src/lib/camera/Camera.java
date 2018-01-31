@@ -7,14 +7,19 @@ import lib.maths.IsoVector;
 public class Camera implements Updatable {
 	public static final float TWEENING_FACTOR = 5f; //0.2s delay to target pos | 1/TF seconds delay
 	
-	IsoVector canvasPos = new IsoVector(), targetPos = new IsoVector();
+	String label;
+	
+	IsoVector canvasPos = new IsoVector();
+	IsoVector targetCanvasPos = new IsoVector();
+	
 	float width, height;
 	float zoom = 1f;
-	float cameraRotate = 0f;
+	float rotation = 0f;
 
-	public Camera(float w, float h) {
-		width = w;
-		height = h;
+	public Camera(String label, float width, float height) {
+		this.width = width;
+		this.height = height;
+		this.label = label;
 	}
 	
 	/**/
@@ -25,16 +30,16 @@ public class Camera implements Updatable {
 		g.pushMatrix();
 		g.scale(zoom);
 		g.translate(centerX, centerY);
-		g.rotate(cameraRotate);
+		g.rotate(rotation);
 		g.translate(-canvasPos.x, -canvasPos.y);
 	}
 	
 	public void discardRotation() {
-		TestGame.getGame().rotate(-cameraRotate);
+		TestGame.getGame().rotate(-rotation);
 	}
 	
 	public void discardZoom() {
-		TestGame.getGame().scale(1f/cameraRotate);		
+		TestGame.getGame().scale(1f/rotation);		
 	}
 	
 	public void deattachCamera() {
@@ -43,7 +48,7 @@ public class Camera implements Updatable {
 	
 	@Override
 	public void update(float dt) {
-		IsoVector vel = IsoVector.sub(targetPos, canvasPos);
+		IsoVector vel = IsoVector.sub(targetCanvasPos, canvasPos);
 		vel.mult(TWEENING_FACTOR * dt);
 		canvasPos.add(vel);
 	}
@@ -55,11 +60,11 @@ public class Camera implements Updatable {
 	}
 	
 	public void moveTo(float x, float y) {
-		targetPos.set(x, y);
+		targetCanvasPos.set(x, y);
 	}
 
 	public void move(float dx, float dy) {
-		targetPos.add(dx, dy);
+		targetCanvasPos.add(dx, dy);
 	}
 	
 	public void zoomTo(float scale) {
@@ -71,20 +76,24 @@ public class Camera implements Updatable {
 	}
 	
 	public void rotateTo(float rotate) {
-		cameraRotate = rotate;
+		rotation = rotate;
 	}
 	
 	public void rotate(float deltaRotation) {
-		cameraRotate += deltaRotation;
+		rotation += deltaRotation;
 	}
 	
 	/**/
+	public String getLabel() {
+		return label;
+	}
+	
 	public IsoVector getCanvasPos() {
 		return canvasPos;
 	}
 
 	public float getRotation() {
-		return cameraRotate;
+		return rotation;
 	}
 	
 	public float getZoom() {
