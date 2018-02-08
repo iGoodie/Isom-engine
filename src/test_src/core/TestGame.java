@@ -1,5 +1,6 @@
 package core;
 
+import java.awt.RenderingHints.Key;
 import java.util.Arrays;
 
 import lib.GameBase;
@@ -58,6 +59,10 @@ public class TestGame extends GameBase implements TestConstants {
 	public void draw() {
 		background(0xFF_000000);
 		CursorRenderer.setDefaultCursor();
+		
+		if(Keyboard.isKeyActive(Keyboard.KEY_ALT, Keyboard.KEY_F4)) { //ALT+F4 to exit
+			exit();
+		}
 
 		update();
 		render();
@@ -81,7 +86,7 @@ public class TestGame extends GameBase implements TestConstants {
 
 		//Boundary Cursor Test
 		IsoVector mousePos = new IsoVector(mouseX, mouseY);
-		mousePos = Coordinator.canvasToWorld(Coordinator.screenToCanvas(getCamera(), mousePos));
+		mousePos = mousePos.toCanvas(getCamera()).toWorld();
 		DebugRenderer.appendLine(3, "Mouse World Pos: " + mousePos.toCastedString2D());
 		if((mousePos.x >= 0 && mousePos.x < map_size.x) && (mousePos.y >= 0 && mousePos.y < map_size.y)) {
 			CursorRenderer.setCursor("map");
@@ -93,7 +98,8 @@ public class TestGame extends GameBase implements TestConstants {
 		}
 
 		//Keyboard Input Handler
-		IsoVector velocity = new IsoVector();
+		IsoVector velocity = new IsoVector(); 
+		velocity.plane = IsoVector.WORLD;
 		if(Keyboard.isKeyActive(Keyboard.KEY_W)) {
 			velocity.add(0, 1);
 		}
@@ -109,7 +115,7 @@ public class TestGame extends GameBase implements TestConstants {
 		DebugRenderer.appendLine(1, "W-Direction Unit: " + velocity.toCastedString2D());
 		velocity.len(10 * dt); // Normalize, then mult
 		velocity.rotate(QUARTER_PI);
-		velocity = Coordinator.worldToCanvas(velocity); //World movement
+		velocity = velocity.toCanvas(); //World movement
 		DebugRenderer.appendLine(1, "C-Direction: " + velocity.toCastedString2D());
 
 		getCamera().move(velocity.x, velocity.y);
@@ -139,7 +145,7 @@ public class TestGame extends GameBase implements TestConstants {
 				image(test_tile_cursor, mousePos.x, mousePos.y);
 				
 				mousePos = Coordinator.canvasToScreen(getCamera(), mousePos);
-				DebugRenderer.appendLine(3, mousePos.toCastedString());
+				//DebugRenderer.appendLine(3, mousePos.toCastedString2D());
 			}
 			popMatrix();
 			{ //Draw X and Y axises for debug 
@@ -173,7 +179,7 @@ public class TestGame extends GameBase implements TestConstants {
 			DebugRenderer.render();
 		}
 	}
-
+	
 	/* Input Listeners */
 	@Override
 	public void mousePressed() {
@@ -195,13 +201,18 @@ public class TestGame extends GameBase implements TestConstants {
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$₺s@£#%½&'\";`";
+		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$₺@£#%½&'\";`";
 		//ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode), printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
 		//ConsoleLogger.debug(event.getModifiers());
 		//ConsoleLogger.debug(event.getNative());
+		//ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
 
-		if(event.getModifiers()!=0 && key!='\uFFFF') { //If CTRL, ALT, META or SHIFT on
-			key = (char) keyCode;
+		if(event.getModifiers()!=0) { //If CTRL, ALT, META or SHIFT is on
+			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
+				if(key!='\uFFFF' && key!='\u0000') {
+					key = (char) keyCode;
+				}
+			}
 		}
 
 		Keyboard.keyActivated(key, keyCode);
@@ -215,8 +226,12 @@ public class TestGame extends GameBase implements TestConstants {
 	public void keyReleased(KeyEvent event) {
 		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
 
-		if(event.getModifiers()!=0 && key!='\uFFFF') { //If CTRL, ALT, META or SHIFT on
-			key = (char) keyCode;
+		if(event.getModifiers()!=0) { //If CTRL, ALT, META or SHIFT is on
+			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
+				if(key!='\uFFFF' && key!='\u0000') {
+					key = (char) keyCode;
+				}
+			}
 		}
 
 		Keyboard.keyDeactivated(key, keyCode);
@@ -237,7 +252,9 @@ public class TestGame extends GameBase implements TestConstants {
 		LaunchBuilder builder = new LaunchBuilder(TestGame.class, args);
 		builder.argDisplayPrimaryMonitor();
 		builder.argWindowColor(0xFF_000000);
+		
 		args = builder.build();
+		
 		ConsoleLogger.info("Launch Arguments: " + Arrays.toString(args));
 		GameBase.main(args); //Continues on other thread (sync)
 	}

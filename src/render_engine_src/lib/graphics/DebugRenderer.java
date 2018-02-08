@@ -27,6 +27,7 @@ public class DebugRenderer {
 	
 	public static void appendLine(int placing, String line) {
 		if(!parent.debugEnabled) return;
+		if(placing > LOWER_RIGHT) throw new IllegalArgumentException("Given placing enum is not defined!");
 		lines.add(line);
 		placings.add(placing);
 	}

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="lib_src"/>
-	<classpathentry kind="src" path="physics_engine_src"/>
-	<classpathentry kind="src" path="render_engine_src"/>
-	<classpathentry kind="src" path="network_src"/>
+	<classpathentry kind="src" path="src/network_src"/>
+	<classpathentry kind="src" path="src/physics_engine_src"/>
+	<classpathentry kind="src" path="src/render_engine_src"/>
+	<classpathentry kind="src" path="src/test_src"/>
+	<classpathentry kind="src" path="src/lib_src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-jse-3.0.1.jar" sourcepath="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-sources-3.0.1.jar"/>
 	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/core.jar" sourcepath="E:/eclipse/processing/processing-master.zip"/>

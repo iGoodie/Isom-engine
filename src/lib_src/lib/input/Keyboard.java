@@ -33,6 +33,7 @@ public class Keyboard {
 	public static final KeyPair KEY_LEFT = new KeyPair('\uFFFF', 0x00000025);
 	public static final KeyPair KEY_RIGHT = new KeyPair('\uFFFF', 0x00000027);
 	
+	public static final KeyPair KEY_F4 = new KeyPair('\u0000', 0x00000064);
 	public static final KeyPair KEY_F11 = new KeyPair('\u0000', 0x0000006B);
 	
 	public static final KeyPair KEY_W = new KeyPair('W', 0x00000057);
@@ -85,7 +86,16 @@ public class Keyboard {
 	public static boolean isKeyActive(KeyPair pair) {
 		return activeKeys.contains(pair);
 	}
-
+	
+	public static boolean isKeyActive(KeyPair...pairs) {
+		for(KeyPair pair : pairs) {
+			if(!activeKeys.contains(pair)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/* To Handle Once */
 	public static boolean isKeyActiveOnce(char key, int keyCode) {
 		return isKeyActiveOnce(new KeyPair(key, keyCode));
