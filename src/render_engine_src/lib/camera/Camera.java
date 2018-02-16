@@ -2,15 +2,17 @@ package lib.camera;
 
 import core.TestGame;
 import lib.Updatable;
+import lib.animation.Animation2v;
+import lib.animation.Animation2v.Easing;
 import lib.maths.IsoVector;
 
 public class Camera implements Updatable {
-	public static final float TWEENING_FACTOR = 5f; //0.2s delay to target pos | 1/TF seconds delay
+	private static final float EASING_DURATION = 1f; //seconds 
 	
 	String label;
-	
 	IsoVector canvasPos = new IsoVector();
-	IsoVector targetCanvasPos = new IsoVector();
+	
+	Animation2v anim = null;
 	
 	float width, height;
 	float zoom = 1f;
@@ -25,8 +27,8 @@ public class Camera implements Updatable {
 	/**/
 	public void attachCamera() { //TODO test : https://gamedev.stackexchange.com/questions/74007/generating-transformation-matrix-for-2d-camera-with-pan-zoom-rotate
 		TestGame g = TestGame.getGame();
-		float centerX = g.width/(2*zoom), 
-				centerY = g.height/(2*zoom);
+		float centerX = g.width/(2*zoom);
+		float centerY = g.height/(2*zoom);
 		g.pushMatrix();
 		g.scale(zoom);
 		g.translate(centerX, centerY);
@@ -48,9 +50,11 @@ public class Camera implements Updatable {
 	
 	@Override
 	public void update(float dt) {
-		IsoVector vel = IsoVector.sub(targetCanvasPos, canvasPos);
-		vel.mult(TWEENING_FACTOR * dt);
-		canvasPos.add(vel);
+		if(anim != null) {			
+			canvasPos.set(anim.proceed(dt));
+			if(anim.isFinished()) anim = null;
+			return;
+		}
 	}
 	
 	/**/
@@ -60,11 +64,13 @@ public class Camera implements Updatable {
 	}
 	
 	public void moveTo(float x, float y) {
-		targetCanvasPos.set(x, y);
+		anim = new Animation2v(canvasPos, new IsoVector(x, y), EASING_DURATION, 1);
+		anim.easing = Easing.SINE_IN_OUT;
 	}
 
 	public void move(float dx, float dy) {
-		targetCanvasPos.add(dx, dy);
+		if(anim != null) return;
+		canvasPos.add(dx, dy);
 	}
 	
 	public void zoomTo(float scale) {

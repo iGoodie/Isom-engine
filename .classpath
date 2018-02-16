@@ -24,5 +24,5 @@
 	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-macosx-universal.jar"/>
 	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-windows-amd64.jar"/>
 	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-windows-i586.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="client/bin"/>
 </classpath>

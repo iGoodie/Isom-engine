@@ -1,15 +1,16 @@
 package core;
 
-import java.awt.RenderingHints.Key;
 import java.util.Arrays;
 
 import lib.GameBase;
-import lib.Timer.Ticker;
+import lib.Timer.TickTimer;
+import lib.animation.Animation2v;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
-import lib.input.Keyboard;
+import lib.input.keyboard.Keyboard;
+import lib.input.keyboard.Keys;
 import lib.maths.IsoMath;
 import lib.maths.IsoVector;
 import lib.util.ConsoleLogger;
@@ -27,7 +28,7 @@ public class TestGame extends GameBase implements TestConstants {
 	}
 
 	/* Mechanic Methods */
-	private static Ticker tickTimer = new Ticker();
+	private static TickTimer tickTimer = new TickTimer();
 
 	private PImage test_tile;
 	private PImage test_tile_cursor;
@@ -42,6 +43,8 @@ public class TestGame extends GameBase implements TestConstants {
 	public void setup() {
 		surface.setTitle(WINDOW_TITLE);
 		surface.setResizable(false);
+		
+		frameRate(ST_FPS_LIMIT);
 
 		smooth();
 
@@ -60,7 +63,7 @@ public class TestGame extends GameBase implements TestConstants {
 		background(0xFF_000000);
 		CursorRenderer.setDefaultCursor();
 		
-		if(Keyboard.isKeyActive(Keyboard.KEY_ALT, Keyboard.KEY_F4)) { //ALT+F4 to exit
+		if(Keyboard.isKeyActive(Keys.KEY_ALT, Keys.KEY_F4)) { //ALT+F4 to exit
 			exit();
 		}
 
@@ -78,7 +81,13 @@ public class TestGame extends GameBase implements TestConstants {
 		
 		DebugRenderer.appendLine("Significant Tick: " + (int)(tick/20)); //Testing 20 tick updates
 
-		//TODO update
+		if(tick % 20 == 0) {
+			//TODO tick update here
+		}
+		
+		//TODO update here
+		
+		//TODO remove
 		getCamera().update(dt);
 		//getCamera().move(10*dt, 10*dt);
 		//getCamera().rotate(PI/360 * dt * 10);
@@ -93,31 +102,37 @@ public class TestGame extends GameBase implements TestConstants {
 		}
 
 		//Debug Toggler
-		if(Keyboard.isKeyActiveOnce(Keyboard.KEY_F11)) {
+		if(Keyboard.isKeyActiveOnce(Keys.KEY_F11)) {
 			debugEnabled = !debugEnabled;
 		}
 
 		//Keyboard Input Handler
 		IsoVector velocity = new IsoVector(); 
 		velocity.plane = IsoVector.WORLD;
-		if(Keyboard.isKeyActive(Keyboard.KEY_W)) {
+		if(Keyboard.isKeyActive(Keys.KEY_W)) {
 			velocity.add(0, 1);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_S)) {
+		if(Keyboard.isKeyActive(Keys.KEY_S)) {
 			velocity.add(0, -1);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_D)) {
+		if(Keyboard.isKeyActive(Keys.KEY_D)) {
 			velocity.add(1, 0);
 		}
-		if(Keyboard.isKeyActive(Keyboard.KEY_A)) {
+		if(Keyboard.isKeyActive(Keys.KEY_A)) {
 			velocity.add(-1, 0);
 		}
-		DebugRenderer.appendLine(1, "W-Direction Unit: " + velocity.toCastedString2D());
-		velocity.len(10 * dt); // Normalize, then mult
+		DebugRenderer.appendLine(1, "W-Velocity Unit: " + velocity.toCastedString2D());
 		velocity.rotate(QUARTER_PI);
+		int speed = 10; //tile per sec
+		velocity.len(speed * dt); // Normalize, then mult
 		velocity = velocity.toCanvas(); //World movement
-		DebugRenderer.appendLine(1, "C-Direction: " + velocity.toCastedString2D());
-
+		
+		if(mousePressed && mouseButton==RIGHT) {
+			velocity.set(width/2 - mouseX, height/2 - mouseY);
+			velocity.mult(5 * -dt);
+		}
+		
+		DebugRenderer.appendLine(1, "C-Velocity: " + velocity.toCastedString2D());
 		getCamera().move(velocity.x, velocity.y);
 	}
 
@@ -206,7 +221,11 @@ public class TestGame extends GameBase implements TestConstants {
 		//ConsoleLogger.debug(event.getModifiers());
 		//ConsoleLogger.debug(event.getNative());
 		//ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
-
+		
+		if(key == '.') {
+			getCamera().moveTo(0, 0);
+		}
+		
 		if(event.getModifiers()!=0) { //If CTRL, ALT, META or SHIFT is on
 			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
 				if(key!='\uFFFF' && key!='\u0000') {
@@ -217,7 +236,7 @@ public class TestGame extends GameBase implements TestConstants {
 
 		Keyboard.keyActivated(key, keyCode);
 
-		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
+		if(Keys.KEY_ESC.equals(key, keyCode)) { //ESC pressed
 			key = (char) (keyCode = 0); //Reset signal
 		}
 	}

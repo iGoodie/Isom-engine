@@ -5,17 +5,17 @@ public class Timer {
 	 * Ticker class that stands for measuring delta time between time points
 	 * and measuring elapsed time. Unit for time is milliseconds
 	 */
-	public static class Ticker {
+	public static class TickTimer {
 		long startTime, prevTime;
 		int dt, elapsed;
 		int tick;
 		
-		public Ticker() {
+		public TickTimer() {
 			this.startTime = System.currentTimeMillis();
 			this.prevTime = this.startTime;
 		}
 		
-		public Ticker(long startTime) {
+		public TickTimer(long startTime) {
 			this.startTime = startTime;
 			this.prevTime = startTime;
 		}

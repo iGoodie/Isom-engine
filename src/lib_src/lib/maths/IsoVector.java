@@ -12,6 +12,10 @@ public class IsoVector {
 	public static IsoVector add(IsoVector v1, IsoVector v2) {
 		return new IsoVector(v1.x+v2.x, v1.y+v2.y);
 	}
+	
+	public static IsoVector add(IsoVector v1, float n) {
+		return new IsoVector(v1.x+n, v1.y+n);
+	}
 
 	public static IsoVector sub(IsoVector v1, IsoVector v2) {
 		return new IsoVector(v1.x-v2.x, v1.y-v2.y);
