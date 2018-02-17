@@ -1,6 +1,6 @@
 package lib.camera;
 
-import lib.GameBase;
+import lib.core.GameBase;
 import lib.maths.IsoVector;
 
 /*

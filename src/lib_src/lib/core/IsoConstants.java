@@ -1,4 +1,4 @@
-package lib;
+package lib.core;
 
 public interface IsoConstants {
 	public static final String LIBRARY_NAME = "Isom-engine";

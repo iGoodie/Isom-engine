@@ -1,8 +1,8 @@
 package lib.graphics;
 
-import static lib.GameBase.*;
+import static lib.core.GameBase.*;
 
-import lib.GameBase;
+import lib.core.GameBase;
 
 public class StyleManager {
 	public static GameBase base;

@@ -4,7 +4,7 @@ import lib.maths.IsoVector;
 import processing.core.PApplet;
 
 public class Animation2v {
-	public static enum Easing {
+	public static enum Easing2v {
 		LINEAR {
 			@Override
 			public IsoVector interpolate(IsoVector from, IsoVector distance, float time, float duration) {
@@ -42,12 +42,15 @@ public class Animation2v {
 		public IsoVector interpolate(IsoVector from, IsoVector to, float time, float duration) { return null; }
 	}
 	
-	public Easing easing = Easing.LINEAR;
+	public Easing2v easing = Easing2v.LINEAR;
 	
-	IsoVector from, to;
-	float duration;
-	float time = 0;
+	public IsoVector from, to;
+	public float duration;
 	float toleranceSq;
+
+	float time = 0;
+	
+	public Animation2v() {}
 	
 	public Animation2v(IsoVector from, IsoVector to, float duration) {
 		this(from, to, duration, 0);
@@ -60,6 +63,10 @@ public class Animation2v {
 		this.toleranceSq = tolerance * tolerance;
 	}
 
+	public void setTolerance(float toleranceSeconds) {
+		this.toleranceSq = toleranceSeconds * toleranceSeconds;
+	}
+	
 	public boolean isFinished() {
 		return time >= duration;
 	}

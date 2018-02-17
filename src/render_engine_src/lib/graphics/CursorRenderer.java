@@ -2,7 +2,7 @@ package lib.graphics;
 
 import java.util.HashMap;
 
-import lib.GameBase;
+import lib.core.GameBase;
 import lib.image.PivotImage;
 
 public class CursorRenderer {

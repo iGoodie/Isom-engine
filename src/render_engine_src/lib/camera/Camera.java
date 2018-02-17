@@ -3,11 +3,11 @@ package lib.camera;
 import core.TestGame;
 import lib.Updatable;
 import lib.animation.Animation2v;
-import lib.animation.Animation2v.Easing;
+import lib.animation.Animation2v.Easing2v;
 import lib.maths.IsoVector;
 
 public class Camera implements Updatable {
-	private static final float EASING_DURATION = 1f; //seconds 
+	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 
 	
 	String label;
 	IsoVector canvasPos = new IsoVector();
@@ -63,9 +63,13 @@ public class Camera implements Updatable {
 		height = h;
 	}
 	
-	public void moveTo(float x, float y) {
-		anim = new Animation2v(canvasPos, new IsoVector(x, y), EASING_DURATION, 1);
-		anim.easing = Easing.SINE_IN_OUT;
+	public void moveTo(float canvasX, float canvasY) {
+		anim = new Animation2v();
+		anim.from = canvasPos;
+		anim.to = new IsoVector(canvasX, canvasY);
+		anim.duration = canvasPos.dist(anim.to) / EASING_PX_PER_SEC;
+		anim.easing = Easing2v.SINE_IN_OUT;
+		anim.setTolerance(1);
 	}
 
 	public void move(float dx, float dy) {

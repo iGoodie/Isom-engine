@@ -31,11 +31,8 @@ public class Keyboard {
 		
 		key = Character.toUpperCase(key);
 		
-		for(int i=0; i<activeKeys.size(); i++) {
-			KeyPair pair = activeKeys.get(i);
-			if(pair.key!='\uFFFF' && pair.key==key) {
-				return true;
-			}
+		for(KeyPair pair : activeKeys) {
+			if(pair.key == key) return true;
 		}
 		
 		return false;
@@ -64,8 +61,7 @@ public class Keyboard {
 		
 		key = Character.toUpperCase(key);
 		
-		for(int i=0; i<activeKeys.size(); i++) {
-			KeyPair pair = activeKeys.get(i);
+		for(KeyPair pair : activeKeys) {
 			if(pair.key!='\uFFFF' && pair.key==key) {
 				keyDeactivated(pair.key, pair.keyCode);
 				return true; 

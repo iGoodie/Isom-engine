@@ -1,4 +1,4 @@
-package lib;
+package lib.util;
 
 public class Timer {
 	/**
@@ -42,6 +42,12 @@ public class Timer {
 		
 		public int getTick() {
 			return tick;
+		}
+		
+		public void reset() {
+			startTime = System.currentTimeMillis();
+			prevTime = startTime;
+			dt = elapsed = tick = 0;
 		}
 		
 		public void update() {

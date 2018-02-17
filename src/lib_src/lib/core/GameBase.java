@@ -1,10 +1,20 @@
-package lib;
+package lib.core;
 
 import lib.camera.Camera;
 import lib.image.PivotImage;
+import lib.stage.Stage;
+import lib.util.Timer.TickTimer;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class GameBase extends PApplet {
+	/* Game time */
+	protected TickTimer deltaTimer = new TickTimer();
+	protected float blackScreenTime;
+	
+	/* Stage */
+	protected Stage currentStage;	
+	
 	/* Cameras */
 	private Camera[] cameras = new Camera[2];
 	private int selectedCam = 0;
@@ -38,13 +48,17 @@ public class GameBase extends PApplet {
 		return new PivotImage(loadImage(filename), x, y);
 	}
 	
+	/* General Methods */
+	public void changeStage(Stage s) {
+		currentStage = s;
+	}
+	
 	/* Text-related methods */
 	public void text(Object o, float x, float y) {
 		text(o.toString(), x, y);
 	}
 	
-	//TODO: Parameterize fill colors
-	public void textWithStroke(String str, float x, float y) {
+	public void textWithStroke(String str, float x, float y) { //TODO: Parameterize fill colors
 		fill(0);
 		text(str, x-1, y);
 		text(str, x+1, y);
@@ -73,6 +87,10 @@ public class GameBase extends PApplet {
 			line(0, i, width, i);			
 		}
 		popStyle();
+	}
+
+	public void image(PivotImage img, float x, float y) {
+		image((PImage)img, x-img.pivot.x, y-img.pivot.y);
 	}
 }
 

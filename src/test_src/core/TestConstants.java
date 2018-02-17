@@ -1,6 +1,6 @@
 package core;
 
-import lib.IsoConstants;
+import lib.core.IsoConstants;
 
 public interface TestConstants {
 	public static final String GAME_NAME = "Isometric Test Game";

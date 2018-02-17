@@ -2,7 +2,7 @@ package lib.graphics;
 
 import java.util.ArrayList;
 
-import lib.GameBase;
+import lib.core.GameBase;
 
 public class DebugRenderer {
 	private static final int GAP = 15; //px

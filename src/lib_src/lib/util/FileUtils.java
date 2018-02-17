@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import lib.IsoConstants;
+import lib.core.IsoConstants;
 
 public class FileUtils implements IsoConstants {
 	private static final String SEPERATOR = File.pathSeparator;

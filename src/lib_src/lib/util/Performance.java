@@ -1,9 +1,18 @@
 package lib.util;
 
 public class Performance {
-	public static final long MEGABYTE_TO_BYTE = 1024L * 1024L; //1MB = 1024*1024B
+	public static final long BYTE_PER_MEGABYTE = 1024L * 1024L; //1MB = 1024*1024B
 	
 	private static final Runtime runtime = Runtime.getRuntime();
+	
+	public static String getOS() {
+		String osname = System.getProperty("os.name").toLowerCase();
+		if(osname.indexOf("win")>=0) return "windows";
+		if(osname.indexOf("mac")>=0) return "mac";
+		if(osname.indexOf("sunos")>=0) return "windows";
+		if(osname.indexOf("nix") + osname.indexOf("nux") + osname.indexOf("aix") + 3 != 0) return "unix";
+		return "unknown";
+	}
 	
 	public static long usedMemory() {
 		long bytes = runtime.totalMemory() - runtime.freeMemory();
@@ -11,7 +20,7 @@ public class Performance {
 	}
 	
 	public static long usedMemoryMB() {
-		return usedMemory() / MEGABYTE_TO_BYTE;
+		return usedMemory() / BYTE_PER_MEGABYTE;
 	}
 
 	public static long totalMemory() {
@@ -19,7 +28,7 @@ public class Performance {
 	}
 	
 	public static long totalMemoryMB() {
-		return totalMemory() / MEGABYTE_TO_BYTE;
+		return totalMemory() / BYTE_PER_MEGABYTE;
 	}
 	
 	public static long testTime(Runnable test) {
@@ -52,6 +61,5 @@ public class Performance {
 		}
 		
 		return timesum / testNumber;
-	}
-	
+	}	
 }

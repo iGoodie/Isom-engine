@@ -34,8 +34,8 @@ public class IsoMath {
 	}
 	
 	public static float resolveError(float num, float resolution) {
-		int i10 = (int) Math.pow(10, resolution);
 		float f10 = (float) Math.pow(10, resolution);
+		int i10 = (int) f10;
 		return (int)(num*i10)/f10;
 	}
 }

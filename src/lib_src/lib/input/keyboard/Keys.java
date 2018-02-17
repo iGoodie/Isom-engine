@@ -8,8 +8,18 @@ public class Keys {
 	public static final KeyPair KEY_LEFT = new KeyPair('\uFFFF', 0x00000025);
 	public static final KeyPair KEY_RIGHT = new KeyPair('\uFFFF', 0x00000027);
 
+	public static final KeyPair KEY_F1 = new KeyPair('\u0000', 0x00000061);
+	public static final KeyPair KEY_F2 = new KeyPair('\u0000', 0x00000062);
+	public static final KeyPair KEY_F3 = new KeyPair('\u0000', 0x00000063);
 	public static final KeyPair KEY_F4 = new KeyPair('\u0000', 0x00000064);
+	public static final KeyPair KEY_F5 = new KeyPair('\u0000', 0x00000065);
+	public static final KeyPair KEY_F6 = new KeyPair('\u0000', 0x00000066);
+	public static final KeyPair KEY_F7 = new KeyPair('\u0000', 0x00000067);
+	public static final KeyPair KEY_F8 = new KeyPair('\u0000', 0x00000068);
+	public static final KeyPair KEY_F9 = new KeyPair('\u0000', 0x00000069);
+	public static final KeyPair KEY_F10 = new KeyPair('\u0000', 0x0000006A);
 	public static final KeyPair KEY_F11 = new KeyPair('\u0000', 0x0000006B);
+	public static final KeyPair KEY_F12 = new KeyPair('\u0000', 0x0000006C);
 
 	public static final KeyPair KEY_W = new KeyPair('W', 0x00000057);
 	public static final KeyPair KEY_A = new KeyPair('A', 0x00000041);
