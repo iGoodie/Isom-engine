@@ -8,7 +8,7 @@ public class Stringifier {
 	 * @return Hex string of given integer.
 	 */
 	public static String asHex(int value, int digits) {
-		String hex = Integer.toHexString(value).toUpperCase();
+		String hex = asHex(value);
 		
 		if(digits < 0) return hex;
 		
@@ -30,6 +30,4 @@ public class Stringifier {
 	public static String asHex(int value) {
 		return Integer.toHexString(value).toUpperCase();
 	}
-
-	
 }

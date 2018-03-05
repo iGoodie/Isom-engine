@@ -18,8 +18,8 @@ public class CursorRenderer {
 	}
 	
 	private static void initialize() {
-		cursors.put(DEFAULT_CURSOR_NAME, parent.loadImage("cursor_default.png", 2, 2));
-		cursors.put("map", parent.loadImage("cursor_map.png", 2, 2));
+		cursors.put(DEFAULT_CURSOR_NAME, parent.loadImage("cursors/cursor_default.png", 2, 2));
+		cursors.put("map", parent.loadImage("cursors/cursor_map.png", 2, 2));
 	}
 
 	public static void setCursor(String name) {

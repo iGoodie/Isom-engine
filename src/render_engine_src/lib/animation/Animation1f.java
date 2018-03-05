@@ -53,6 +53,10 @@ public class Animation1f {
 		this.tolerance = tolerance;
 	}
 	
+	public void reset() {
+		time = 0;
+	}
+	
 	public boolean isFinished() {
 		return time >= duration;
 	}

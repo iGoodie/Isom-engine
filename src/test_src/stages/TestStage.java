@@ -90,7 +90,6 @@ public class TestStage extends Stage {
 		{
 			game.pushMatrix();
 			game.translate(-64, -32); //-Tw/2, Th/2
-			DebugRenderer.appendLine(1, "World Size 5x3");
 			for(int i=0; i<map_size.x; i++) for(int j=0; j<map_size.y; j++) {
 				IsoVector canvasPos = Coordinator.worldToCanvas(i, j); //W(i, j) -> Canvas
 				game.image(test_tile, canvasPos.x, canvasPos.y);
@@ -114,7 +113,7 @@ public class TestStage extends Stage {
 				game.line(0, 0, xAxis.x, xAxis.y);
 				game.line(0, 0, yAxis.x, yAxis.y);
 				game.popStyle();
-			}
+			}			
 		}
 		game.getCamera().deattachCamera();
 
@@ -126,6 +125,8 @@ public class TestStage extends Stage {
 			//Debug
 			DebugRenderer.appendLine("FPS: " + (int)game.frameRate);
 			DebugRenderer.appendLine("FC: " + game.frameCount);
+			
+			DebugRenderer.appendLine(1, "World Size " + (int)map_size.x + "x" + (int)map_size.y);
 
 			DebugRenderer.appendLine(2, game.getCamera().toString());
 			DebugRenderer.appendLine(2, "Camera World Pos: " + Coordinator.canvasToWorld(game.getCamera().getCanvasPos()).toCastedString2D());

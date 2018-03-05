@@ -6,20 +6,26 @@ import lib.animation.Animation1f.Easing1f;
 import lib.graphics.DebugRenderer;
 import lib.image.PivotImage;
 import lib.input.keyboard.Keyboard;
+import lib.input.keyboard.Keys;
 import lib.stage.Stage;
 
 public class IntroStage extends Stage {
 	PivotImage logo;
+	
 	Animation1f transparencyAnim;
 	float transparency = 0;
+	
 	String loadingInfo;
 	
 	public IntroStage() {
 		TestGame game = TestGame.getGame();
+		
+		name = "Intro Stage";
+		
 		logo = new PivotImage(game.loadImage("logo.png"));
 		loadingInfo = "Fetching..";
 		transparencyAnim = new Animation1f(0, 255, 1);
-		transparencyAnim.easing = Easing1f.SINE_OUT;
+		transparencyAnim.easing = Easing1f.SINE_IN;
 	}
 	
 	@Override
@@ -29,6 +35,9 @@ public class IntroStage extends Stage {
 		if(transparencyAnim.isFinished() && Keyboard.isKeyActiveOnce(' ')) {
 			TestGame game = TestGame.getGame();
 			game.changeStage(new TestStage());
+		}
+		else if(Keyboard.isKeyActiveOnce(Keys.KEY_F1)) { //Debug purposes
+			transparencyAnim.reset();
 		}
 	}
 
@@ -46,5 +55,4 @@ public class IntroStage extends Stage {
 		}
 		game.popStyle();
 	}
-
 }

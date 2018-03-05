@@ -20,7 +20,7 @@ public class ArrayUtils {
 	    return result;
 	}
 
-	public static String[] addElement(String[] array, String element) {
+	public static String[] appendElement(String[] array, String element) {
 		String[] tmp = new String[array.length+1];
 		
 		for(int i=0; i<array.length; i++) {

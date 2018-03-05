@@ -1,15 +1,22 @@
 package lib.core;
 
+import igoodie.utils.io.FileUtils;
 import lib.camera.Camera;
 import lib.image.PivotImage;
 import lib.stage.Stage;
-import lib.util.Timer.TickTimer;
+import lib.util.time.DeltaTimer;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class GameBase extends PApplet {
+	
+	public static void main (final String args[]) {
+		FileUtils.setExternalDataPath(IsoConstants.EXTERNAL_DATA_PATH);
+		PApplet.main(args);
+	}
+	
 	/* Game time */
-	protected TickTimer deltaTimer = new TickTimer();
+	protected DeltaTimer deltaTimer = new DeltaTimer();
 	protected float blackScreenTime;
 	
 	/* Stage */

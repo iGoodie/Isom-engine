@@ -1,12 +1,11 @@
 package lib.camera;
 
 import core.TestGame;
-import lib.Updatable;
 import lib.animation.Animation2v;
 import lib.animation.Animation2v.Easing2v;
 import lib.maths.IsoVector;
 
-public class Camera implements Updatable {
+public class Camera {
 	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 
 	
 	String label;
@@ -48,7 +47,6 @@ public class Camera implements Updatable {
 		TestGame.getGame().popMatrix();
 	}
 	
-	@Override
 	public void update(float dt) {
 		if(anim != null) {			
 			canvasPos.set(anim.proceed(dt));

@@ -2,6 +2,9 @@ package core;
 
 import java.util.Arrays;
 
+import igoodie.utils.benchmark.Performance;
+import igoodie.utils.log.ConsolePrinter;
+import igoodie.utils.math.MathUtils;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.core.GameBase;
@@ -9,9 +12,6 @@ import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.Keys;
-import lib.maths.IsoMath;
-import lib.util.ConsoleLogger;
-import lib.util.Performance;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PJOGL;
@@ -29,7 +29,11 @@ public class TestGame extends GameBase implements TestConstants {
 		game = this;
 		
 		size(ST_WIDTH, ST_HEIGHT, P2D);
-		PJOGL.setIcon("icon.png", "icon.png"); //favicon
+		PJOGL.setIcon( "icons/icon16.png",
+				"icons/icon32.png",
+				"icons/icon48.png",
+				"icons/icon128.png",
+				"icons/icon256.png"); //favicons
 	}
 
 	public void setup() {
@@ -102,8 +106,8 @@ public class TestGame extends GameBase implements TestConstants {
 	@Override
 	public void mouseWheel(MouseEvent e) {
 		float z = getCamera().getZoom() + e.getCount() * -0.125f; //Form input
-		z = IsoMath.resolveError(z, 3); //Remove error;
-		z = IsoMath.clamp(z, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
+		z = MathUtils.resolveError(z, 3); //Remove error;
+		z = MathUtils.clamp(z, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
 		getCamera().zoomTo(z);
 	}
 
@@ -164,7 +168,7 @@ public class TestGame extends GameBase implements TestConstants {
 	/* Unique Main Method */
 	public static void main(String[] args) {
 		if(Performance.getOS() != "windows") {
-			ConsoleLogger.error(GAME_NAME + " only supports Windows OS.");
+			ConsolePrinter.error(GAME_NAME + " only supports Windows OS.");
 			return;
 		}
 		
@@ -174,7 +178,7 @@ public class TestGame extends GameBase implements TestConstants {
 		
 		args = builder.build();
 		
-		ConsoleLogger.info("Launch Arguments: " + Arrays.toString(args));
+		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
 		GameBase.main(args); //Continues on other thread (sync)
 	}
 }

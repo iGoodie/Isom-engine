@@ -1,5 +1,6 @@
 package lib.maths;
 
+import igoodie.utils.math.MathUtils;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import processing.core.PApplet;
@@ -127,12 +128,12 @@ public class IsoVector {
 	
 	/* Random 2D & 3D */
 	public IsoVector randomize2D() {
-		return normalizeWithAngle(IsoMath.randomFloat() * PConstants.PI * 2);
+		return normalizeWithAngle(MathUtils.randomFloat() * PConstants.PI * 2);
 	}
 
 	public IsoVector randomize3D() {
-		float angle = IsoMath.randomFloat() * PConstants.PI * 2;
-		float vz = IsoMath.randomFloat(-1, 1);
+		float angle = MathUtils.randomFloat() * PConstants.PI * 2;
+		float vz = MathUtils.randomFloat(-1, 1);
 		float vx = PApplet.sqrt(1-vz*vz) * PApplet.cos(angle);
 		float vy = PApplet.sqrt(1-vz*vz) * PApplet.sin(angle);
 		return set(vx, vy, vz);
@@ -336,73 +337,45 @@ public class IsoVector {
 	/* Plane Transformation Wrappers */
 	public IsoVector toScreen(Camera c) {
 		IsoVector screen;
-		switch(plane) {
-		case CANVAS:
-			screen = Coordinator.canvasToScreen(c, this);
-			screen.plane = SCREEN;
-			return screen;
-		case WORLD: 
-			screen = Coordinator.canvasToScreen(c, Coordinator.worldToCanvas(this));
-			screen.plane = SCREEN;
-			return screen;
-		default: 
-			screen = this.copy();
-			screen.plane = SCREEN;
-			return screen;
-		}
+		
+		if(plane == CANVAS) screen = Coordinator.canvasToScreen(c, this);
+		else if(plane == WORLD) screen = Coordinator.canvasToScreen(c, Coordinator.worldToCanvas(this));
+		else screen = this.copy();
+		
+		screen.plane = SCREEN;
+		return screen;
 	}
 	
 	public IsoVector toCanvas(Camera...c) {
 		IsoVector canvas;
-		switch(plane) {
-		case CANVAS:
-			canvas = this.copy();
-			canvas.plane = CANVAS;
-			return canvas;
-		case WORLD:
-			canvas = Coordinator.worldToCanvas(this);
-			canvas.plane = CANVAS;
-			return canvas;
-		default:
-			canvas = Coordinator.screenToCanvas(c[0], this);
-			canvas.plane = CANVAS;
-			return canvas;
-		}
+		
+		if(plane == CANVAS) canvas = this.copy();
+		else if(plane == WORLD) canvas = Coordinator.worldToCanvas(this);
+		else canvas = Coordinator.screenToCanvas(c[0], this);
+		
+		canvas.plane = CANVAS;
+		return canvas;
 	}
 	
 	public IsoVector toWorld(Camera...c) {
 		IsoVector world;
-		switch(plane) {
-		case CANVAS:
-			world = Coordinator.canvasToWorld(this);
-			world.plane = WORLD;
-			return world;
-		case WORLD:
-			world = this.copy();
-			world.plane = WORLD;
-			return world;
-		default:
-			world = Coordinator.canvasToWorld(Coordinator.screenToCanvas(c[0], this));
-			world.plane = WORLD;
-			return world;
-		}
+		
+		if(plane == CANVAS) world = Coordinator.canvasToWorld(this);
+		else if(plane == WORLD) world = this.copy();
+		else world = Coordinator.canvasToWorld(Coordinator.screenToCanvas(c[0], this));
+		
+		world.plane = WORLD;
+		return world;
 	}
 	
 	public IsoVector toWorldExact(Camera...c) {
 		IsoVector world;
-		switch(plane) {
-		case CANVAS:
-			world = Coordinator.canvasToWorldExact(this);
-			world.plane = WORLD;
-			return world;
-		case WORLD:
-			world = this.copy();
-			world.plane = WORLD;
-			return world;
-		default:
-			world = Coordinator.canvasToWorldExact(Coordinator.screenToCanvas(c[0], this));
-			world.plane = WORLD;
-			return world;
-		}
+		
+		if(plane == CANVAS) world = Coordinator.canvasToWorldExact(this);
+		else if(plane == WORLD) world = this.copy();
+		else world = Coordinator.canvasToWorldExact(Coordinator.screenToCanvas(c[0], this));
+		
+		world.plane = WORLD;
+		return world;
 	}
 }
