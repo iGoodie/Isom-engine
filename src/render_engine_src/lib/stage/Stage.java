@@ -1,11 +1,9 @@
 package lib.stage;
 
-public abstract class Stage {
+import lib.core.Drawable;
+
+public abstract class Stage implements Drawable {
 	public String name = "Unnamed Stage";
-	
-	public abstract void update(float dt); //seconds
-	
-	public abstract void render();
 	
 	public void updateTick() {};
 	

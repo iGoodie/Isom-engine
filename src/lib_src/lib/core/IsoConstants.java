@@ -17,4 +17,6 @@ public interface IsoConstants {
 	
 	public static final String DATA_FOLDER = "data"; //../data
 	public static final String EXTERNAL_DATA_PATH = System.getProperty("user.dir") + FileUtils.SEPERATOR + DATA_FOLDER;
+
+	public static final int STD_CAMERA_COUNT = 2;
 }

@@ -5,6 +5,7 @@ package lib.util.time;
  * Provides pause feature. Unit for time is milliseconds.
  */
 public class Countdown {
+	
 	boolean paused;
 	long prevTime;
 	int duration;

@@ -1,6 +1,7 @@
 package lib.util;
 
 public class ArrayUtils {
+	
 	public static String[] merge(String[]...arrays) {
 		int length = 0;
 	    for (String[] array : arrays) {
@@ -20,13 +21,16 @@ public class ArrayUtils {
 	    return result;
 	}
 
-	public static String[] appendElement(String[] array, String element) {
-		String[] tmp = new String[array.length+1];
+	public static String[] append(String[] array, String...elements) {
+		String[] tmp = new String[array.length + elements.length];
 		
-		for(int i=0; i<array.length; i++) {
+		for(int i=0; i<array.length; i++) { // Copy original
 			tmp[i] = array[i];
 		}
-		tmp[tmp.length-1] = element;
+		
+		for(int i=0; i<elements.length; i++) { // Append elements
+			tmp[tmp.length + i - 1] = elements[i];
+		}
 		
 		return tmp;
 	}

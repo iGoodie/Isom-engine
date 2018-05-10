@@ -5,6 +5,7 @@ package lib.util.time;
  * and measuring elapsed time. Unit for time is milliseconds
  */
 public class DeltaTimer {
+	
 	long startTime, prevTime;
 	int dt, elapsed;
 	int tick;

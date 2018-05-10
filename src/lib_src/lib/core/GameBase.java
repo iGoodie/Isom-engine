@@ -1,17 +1,26 @@
 package lib.core;
 
+import java.util.Arrays;
+
 import igoodie.utils.io.FileUtils;
+import igoodie.utils.log.ConsolePrinter;
 import lib.camera.Camera;
+import lib.config.LaunchBuilder;
 import lib.image.PivotImage;
 import lib.stage.Stage;
 import lib.util.time.DeltaTimer;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class GameBase extends PApplet {
+public abstract class GameBase extends PApplet implements Drawable, IsoConstants {
 	
-	public static void main (final String args[]) {
+	public static void main(LaunchBuilder lb) {
 		FileUtils.setExternalDataPath(IsoConstants.EXTERNAL_DATA_PATH);
+		
+		String[] args = lb.build(); // Build with given builder
+		
+		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
+		
 		PApplet.main(args);
 	}
 	
@@ -23,7 +32,7 @@ public class GameBase extends PApplet {
 	protected Stage currentStage;	
 	
 	/* Cameras */
-	private Camera[] cameras = new Camera[2];
+	private Camera[] cameras = new Camera[STD_CAMERA_COUNT];
 	private int selectedCam = 0;
 	
 	/* Flags */
@@ -32,6 +41,17 @@ public class GameBase extends PApplet {
 	/* Constructors */
 	public GameBase() {
 		for(int i=0; i<cameras.length; i++) cameras[i] = new Camera("Cam#"+i, 0, 0);
+	}
+	
+	/* Game-loop */
+	@Override
+	public void draw() {
+		deltaTimer.update();
+		float dt = deltaTimer.deltaSec();
+		
+		update(dt);
+		render();
+		//input();
 	}
 	
 	/* Methods */

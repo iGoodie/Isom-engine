@@ -135,7 +135,7 @@ public class LaunchBuilder {
 		if(recipe.length() != 0) {
 			build = recipe.toString().split(DELIMITER);
 		}
-		build = ArrayUtils.appendElement(build, launchingClass.getName());
+		build = ArrayUtils.append(build, launchingClass.getName());
 		build = ArrayUtils.merge(build, userArgs);
 		return build;
 	}

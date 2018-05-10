@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Arrays;
-
 import igoodie.utils.benchmark.Performance;
 import igoodie.utils.log.ConsolePrinter;
 import igoodie.utils.math.MathUtils;
@@ -18,13 +16,16 @@ import processing.opengl.PJOGL;
 import stages.IntroStage;
 
 public class TestGame extends GameBase implements TestConstants {
+	
 	/* Singleton */
 	private static TestGame game;
+	
 	public static TestGame getGame() {
 		return game;
 	}
 
 	/* Mechanic Methods */
+	@Override
 	public void settings() {
 		game = this;
 		
@@ -36,6 +37,7 @@ public class TestGame extends GameBase implements TestConstants {
 				"icons/icon256.png"); //favicons
 	}
 
+	@Override
 	public void setup() {
 		surface.setTitle(WINDOW_TITLE);
 		surface.setResizable(false);
@@ -55,22 +57,15 @@ public class TestGame extends GameBase implements TestConstants {
 		deltaTimer.reset(); //Ignore blackscreen dt before gameloop
 	}
 
-	public void draw() { //A.K.A Gameloop
+	/* Game Loop */
+	@Override
+	public void update(float dt) {
 		CursorRenderer.setDefaultCursor();
 		
 		if(Keyboard.isKeyActive(Keys.KEY_ALT, Keys.KEY_F4)) { //ALT+F4 to exit
 			exit();
 		}
 		
-		update();
-		render();
-		//input();
-	}
-
-	/* Game Loop */
-	private void update() {
-		deltaTimer.update();
-		float dt = deltaTimer.deltaSec();
 		//Testing 20 tick updates
 		if(frameCount % 20 == 0) currentStage.updateTick();
 		
@@ -79,15 +74,17 @@ public class TestGame extends GameBase implements TestConstants {
 		currentStage.update(dt);
 	}
 
-	private void render() {
-		if(debugEnabled) {
+	@Override
+	public void render() {
+		background(0xFF_000000);
+
+		if(debugEnabled) { // Pre-debug rendering
 			DebugRenderer.appendLine("Stage: " + currentStage.name);
 		}
 		
-		background(0xFF_000000);
 		currentStage.render();
 		
-		if(debugEnabled) {
+		if(debugEnabled) { // Post-debug rendering
 			DebugRenderer.render();
 		}
 	}
@@ -167,18 +164,16 @@ public class TestGame extends GameBase implements TestConstants {
 	
 	/* Unique Main Method */
 	public static void main(String[] args) {
-		if(Performance.getOS() != "windows") {
+		if(Performance.getOS() != "windows") { // Check OS compatibility
 			ConsolePrinter.error(GAME_NAME + " only supports Windows OS.");
 			return;
 		}
 		
+		// Initialize launch builder
 		LaunchBuilder builder = new LaunchBuilder(TestGame.class, args);
 		builder.argDisplayPrimaryMonitor();
 		builder.argWindowColor(0xFF_000000);
 		
-		args = builder.build();
-		
-		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
-		GameBase.main(args); //Continues on other thread (sync)
+		GameBase.main(builder); //Continues on other thread (sync)
 	}
 }
