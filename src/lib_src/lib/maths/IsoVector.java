@@ -8,6 +8,7 @@ import processing.core.PConstants;
 import processing.core.PVector;
 
 public class IsoVector {
+	
 	public static final int SCREEN=0, CANVAS=1, WORLD=2;
 	
 	public static IsoVector add(IsoVector v1, IsoVector v2) {
@@ -50,7 +51,7 @@ public class IsoVector {
 		return v1.dist(v2);
 	}
 
-	static public float angleBetween(IsoVector v1, IsoVector v2) {
+	public static float angleBetween(IsoVector v1, IsoVector v2) {
 		if (v1.x == 0 && v1.y == 0 && v1.z == 0) return 0.0f;
 		if (v2.x == 0 && v2.y == 0 && v2.z == 0) return 0.0f;
 
@@ -232,7 +233,7 @@ public class IsoVector {
 		return this.x*x + this.y*y;
 	}
 
-	/* Cross */
+	/* Cross TODO */
 
 	/* Normalize & Limiters */
 	public IsoVector normalize() {

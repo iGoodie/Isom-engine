@@ -5,14 +5,18 @@ import java.util.NoSuchElementException;
 
 import igoodie.utils.io.FileUtils;
 import igoodie.utils.log.ConsolePrinter;
+import igoodie.utils.math.MathUtils;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.image.PivotImage;
+import lib.input.keyboard.Keyboard;
 import lib.stage.Stage;
 import lib.util.time.DeltaTimer;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public abstract class GameBase extends PApplet implements Drawable, IsoConstants {
 	
@@ -70,6 +74,7 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 	
 	/* General Methods */
 	public void changeStage(Stage s) {
+		currentStage.dispose();
 		currentStage = s;
 	}
 	
@@ -131,5 +136,77 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 		return new PivotImage(loadImage(filename), x, y);
 	}
 	
+	/* Overriding Methods */
+	@Override
+	public void mousePressed() {
+		/*IsoVector c = Coordinator.screen2Camera(getCamera(), mouseX, mouseY);
+		System.out.println(c);*/
+		/*IsoVector s2c = Coordinator.screenToCanvas(getCamera(), new IsoVector(mouseX, mouseY));
+		System.out.println(s2c);*/
+		/*IsoVector w2c = Coordinator.worldToCanvas(new IsoVector(0, 1));
+		System.out.println(w2c);*/
+	}
+
+	@Override
+	public void mouseWheel(MouseEvent e) {
+		float z = getCamera().getZoom() + e.getCount() * -0.125f; //Form input
+		z = MathUtils.resolveError(z, 3); //Remove error;
+		z = MathUtils.clamp(z, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
+		getCamera().zoomTo(z);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent event) {
+		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$₺@£#%½&'\";`";
+		//ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode), printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
+		//ConsoleLogger.debug(event.getModifiers());
+		//ConsoleLogger.debug(event.getNative());
+		//ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
+		
+		if(event.getModifiers()!=0) { //If CTRL, ALT, META or SHIFT is on
+			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
+				if(key!='\uFFFF' && key!='\u0000') {
+					key = (char) keyCode;
+				}
+			}
+		}
+
+		Keyboard.keyActivated(key, keyCode);
+
+		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
+			key = (char) (keyCode = 0); //Reset signal
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent event) {
+		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
+
+		if(event.getModifiers()!=0) { //If CTRL, ALT, META or SHIFT is on
+			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
+				if(key!='\uFFFF' && key!='\u0000') {
+					key = (char) keyCode;
+				}
+			}
+		}
+
+		Keyboard.keyDeactivated(key, keyCode);
+	}
+	
+	@Override
+	public void focusLost() {
+		Keyboard.reset();
+	}
+
+	@Override
+	public void focusGained() {
+		Keyboard.reset(); //TODO: Check validity
+	}
+	
+	@Override
+	public void exit() {
+		currentStage.dispose();
+		super.exit();
+	}
 }
 

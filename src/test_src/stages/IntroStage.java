@@ -5,12 +5,13 @@ import lib.animation.Animation1f;
 import lib.animation.Animation1f.Easing1f;
 import lib.graphics.DebugRenderer;
 import lib.image.PivotImage;
+import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
-import lib.input.keyboard.Keys;
+import lib.input.keyboard.KeyboardListener;
 import lib.resources.ResourceLoader;
 import lib.stage.Stage;
 
-public class IntroStage extends Stage {
+public class IntroStage extends Stage implements KeyboardListener {
 	
 	PivotImage logo;
 	
@@ -24,8 +25,8 @@ public class IntroStage extends Stage {
 		
 		name = "Intro Stage";
 		
+		// Load splash before resources
 		logo = new PivotImage(game.loadImage("logo.png"));
-		
 		transparencyAnim = new Animation1f(0, 255, 1);
 		transparencyAnim.easing = Easing1f.SINE_IN;
 		
@@ -42,20 +43,15 @@ public class IntroStage extends Stage {
 			}
 		};
 		loader.start();
+		
+		// Subscribe to keyboard events
+		Keyboard.subscribe(this);
 	}
 	
 	@Override
 	public void update(float dt) {
 		transparency = transparencyAnim.proceed(dt);
 		DebugRenderer.appendLine(2, "Transparency: " + (int)transparency);
-		
-		if(transparencyAnim.isFinished() && Keyboard.isKeyActiveOnce(' ')) {
-			TestGame game = TestGame.getGame();
-			game.changeStage(new TestStage());
-		}
-		else if(Keyboard.isKeyActiveOnce(Keys.KEY_F1)) { //Debug purposes
-			transparencyAnim.reset();
-		}
 	}
 
 	@Override
@@ -76,5 +72,24 @@ public class IntroStage extends Stage {
 					game.height * (0.5f + 0.3f));
 		}
 		game.popStyle();
+	}
+
+	@Override
+	public void keyPressed(KeyPair pair) {
+		if(pair.getKey() == ' ') {
+			if(transparencyAnim.isFinished() && !loader.isLoading()) {
+				TestGame game = TestGame.getGame();
+				game.changeStage(new TestStage());
+			}
+		}
+		else if(pair.equals(Keyboard.KEY_F1)) {
+			transparencyAnim.reset();
+		}
+		
+	}
+
+	@Override
+	public void dispose() {
+		Keyboard.unsubscribe(this);
 	}
 }

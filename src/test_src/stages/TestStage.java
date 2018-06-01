@@ -4,25 +4,29 @@ import core.TestGame;
 import lib.camera.Coordinator;
 import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
+import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
-import lib.input.keyboard.Keys;
+import lib.input.keyboard.KeyboardListener;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
 import processing.core.PImage;
 
-public class TestStage extends Stage {
+public class TestStage extends Stage implements KeyboardListener {
+
 	private IsoVector map_size = new IsoVector(30, 20);
-	
+
 	private PImage test_tile;
 	private PImage test_tile_cursor;
-	
+
 	public TestStage() {
 		TestGame game = TestGame.getGame(); //Fetch game singleton
-		
+
 		name = "Test Stage";
-		
+
 		test_tile = game.loadImage("test.png");
 		test_tile_cursor = game.loadImage("cursor_tile.png");
+		
+		Keyboard.subscribe(this);
 	}
 
 	@Override
@@ -38,24 +42,19 @@ public class TestStage extends Stage {
 			CursorRenderer.setCursor("map");
 		}
 
-		//Debug Toggler
-		if(Keyboard.isKeyActiveOnce(Keys.KEY_F11)) {
-			game.debugEnabled = !game.debugEnabled;
-		}
-
 		//Keyboard Input Handler
 		IsoVector velocity = new IsoVector(); 
 		velocity.plane = IsoVector.WORLD;
-		if(Keyboard.isKeyActive(Keys.KEY_W)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_W)) {
 			velocity.add(0, 1);
 		}
-		if(Keyboard.isKeyActive(Keys.KEY_S)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_S)) {
 			velocity.add(0, -1);
 		}
-		if(Keyboard.isKeyActive(Keys.KEY_D)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_D)) {
 			velocity.add(1, 0);
 		}
-		if(Keyboard.isKeyActive(Keys.KEY_A)) {
+		if(Keyboard.isKeyActive(Keyboard.KEY_A)) {
 			velocity.add(-1, 0);
 		}
 		DebugRenderer.appendLine(1, "W-Velocity Unit: " + velocity.toCastedString2D());
@@ -63,10 +62,6 @@ public class TestStage extends Stage {
 		int speed = 10; //tile per sec
 		velocity.len(speed * dt); // Normalize, then mult
 		velocity = velocity.toCanvas(coord); //World movement
-
-		if(Keyboard.isKeyActiveOnce('.')) {
-			game.getCamera().moveTo(0, 0);
-		}
 
 		if(game.mousePressed && game.mouseButton==TestGame.RIGHT) {
 			velocity.set(game.width/2 - game.mouseX, game.height/2 - game.mouseY);
@@ -81,7 +76,7 @@ public class TestStage extends Stage {
 	public void render() {
 		TestGame game = TestGame.getGame(); //Fetch game singleton
 		Coordinator coord = game.getCoordinator();
-		
+
 		//Pre debug
 		if(game.debugEnabled) {
 			//Draw grid
@@ -127,7 +122,7 @@ public class TestStage extends Stage {
 			//Debug
 			DebugRenderer.appendLine("FPS: " + (int)game.frameRate);
 			DebugRenderer.appendLine("FC: " + game.frameCount);
-			
+
 			DebugRenderer.appendLine(1, "World Size " + (int)map_size.x + "x" + (int)map_size.y);
 
 			DebugRenderer.appendLine(2, game.getCamera().toString());
@@ -137,5 +132,22 @@ public class TestStage extends Stage {
 			String[] activeKeys = Keyboard.getKeyList();
 			for(String k : activeKeys) DebugRenderer.appendLine(3, k);
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyPair pair) {
+		TestGame game = TestGame.getGame();
+
+		if(pair.equals(Keyboard.KEY_F11)) {	//Debug Toggler	
+			game.debugEnabled = !game.debugEnabled;
+		}
+		else if(pair.getKey() == '.') { // Reset camera pos
+			game.getCamera().moveTo(0, 0);
+		}
+	}
+	
+	@Override
+	public void dispose() {
+		Keyboard.unsubscribe(this);
 	}
 }
