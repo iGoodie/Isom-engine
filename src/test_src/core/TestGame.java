@@ -10,6 +10,7 @@ import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.Keys;
+import lib.resources.ResourceLoader;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import processing.opengl.PJOGL;
@@ -49,6 +50,12 @@ public class TestGame extends GameBase implements TestConstants {
 		selectCamera(0);
 		getCamera().resize(ST_WIDTH, ST_HEIGHT);
 
+		// Some example splash info msges
+		ResourceLoader.submitLine("Feeding the beast..");
+		ResourceLoader.submitLine("Prepping the lava pits..");
+		ResourceLoader.submitLine("Sharpening the horns of demons..");
+		ResourceLoader.submitLine("Straightening out the halos..");
+		
 		DebugRenderer.setParent(this);
 		CursorRenderer.setParent(this);
 
