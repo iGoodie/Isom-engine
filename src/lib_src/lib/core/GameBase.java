@@ -1,10 +1,12 @@
 package lib.core;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import igoodie.utils.io.FileUtils;
 import igoodie.utils.log.ConsolePrinter;
 import lib.camera.Camera;
+import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.image.PivotImage;
 import lib.stage.Stage;
@@ -29,7 +31,10 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 	protected float blackScreenTime;
 	
 	/* Stage */
-	protected Stage currentStage;	
+	protected Stage currentStage;
+	
+	/* Coordinator */
+	protected Coordinator coordinator;
 	
 	/* Cameras */
 	private Camera[] cameras = new Camera[STD_CAMERA_COUNT];
@@ -54,30 +59,32 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 		//input();
 	}
 	
-	/* Methods */
+	/* Getter/Setter Methods */
 	public Camera getCamera() {
-		return cameras[selectedCam];
+		return this.cameras[selectedCam];
 	}
-	
-	public void selectCamera(int index) {
-		selectedCam = index;
-	}
-	
-	public void selectCamera(String label) {
-		for(int i=0; i<cameras.length; i++) {
-			if(cameras[i].getLabel().equals(label)) {
-				selectedCam = i;
-			}
-		}
-	}
-	
-	public PivotImage loadImage(String filename, float x, float y) {
-		return new PivotImage(loadImage(filename), x, y);
+
+	public Coordinator getCoordinator() {
+		return this.coordinator;
 	}
 	
 	/* General Methods */
 	public void changeStage(Stage s) {
 		currentStage = s;
+	}
+	
+	public void selectCamera(int index) {
+		this.selectedCam = index;
+	}
+	
+	public void selectCamera(String label) {
+		for(int i=0; i<cameras.length; i++) {
+			if(cameras[i].getLabel().equals(label)) {
+				this.selectedCam = i;
+				return;
+			}
+		}
+		throw new NoSuchElementException("There is no cam with the label: " + label);
 	}
 	
 	/* Text-related methods */
@@ -99,7 +106,7 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 		return textAscent() + textDescent();
 	}
 	
-	/* Drawing methods */
+	/* Extension to Processing methods */
 	public void circle(float x, float y, float r) {
 		ellipse(x, y, r, r);
 	}
@@ -119,5 +126,10 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 	public void image(PivotImage img, float x, float y) {
 		image((PImage)img, x-img.pivot.x, y-img.pivot.y);
 	}
+
+	public PivotImage loadImage(String filename, float x, float y) {
+		return new PivotImage(loadImage(filename), x, y);
+	}
+	
 }
 

@@ -49,10 +49,10 @@ public class TestGame extends GameBase implements TestConstants {
 		selectCamera(0);
 		getCamera().resize(ST_WIDTH, ST_HEIGHT);
 
-		Coordinator.setParent(this);
 		DebugRenderer.setParent(this);
 		CursorRenderer.setParent(this);
 
+		coordinator = new Coordinator(this, 128, 64);
 		currentStage = new IntroStage();
 		deltaTimer.reset(); //Ignore blackscreen dt before gameloop
 	}

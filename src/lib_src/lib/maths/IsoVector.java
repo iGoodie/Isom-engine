@@ -335,45 +335,45 @@ public class IsoVector {
 	}
 
 	/* Plane Transformation Wrappers */
-	public IsoVector toScreen(Camera c) {
+	public IsoVector toScreen(Coordinator coord, Camera c) {
 		IsoVector screen;
 		
-		if(plane == CANVAS) screen = Coordinator.canvasToScreen(c, this);
-		else if(plane == WORLD) screen = Coordinator.canvasToScreen(c, Coordinator.worldToCanvas(this));
+		if(plane == CANVAS) screen = coord.canvasToScreen(c, this);
+		else if(plane == WORLD) screen = coord.canvasToScreen(c, coord.worldToCanvas(this));
 		else screen = this.copy();
 		
 		screen.plane = SCREEN;
 		return screen;
 	}
 	
-	public IsoVector toCanvas(Camera...c) {
+	public IsoVector toCanvas(Coordinator coord, Camera...c) {
 		IsoVector canvas;
 		
 		if(plane == CANVAS) canvas = this.copy();
-		else if(plane == WORLD) canvas = Coordinator.worldToCanvas(this);
-		else canvas = Coordinator.screenToCanvas(c[0], this);
+		else if(plane == WORLD) canvas = coord.worldToCanvas(this);
+		else canvas = coord.screenToCanvas(c[0], this);
 		
 		canvas.plane = CANVAS;
 		return canvas;
 	}
 	
-	public IsoVector toWorld(Camera...c) {
+	public IsoVector toWorld(Coordinator coord, Camera...c) {
 		IsoVector world;
 		
-		if(plane == CANVAS) world = Coordinator.canvasToWorld(this);
+		if(plane == CANVAS) world = coord.canvasToWorld(this);
 		else if(plane == WORLD) world = this.copy();
-		else world = Coordinator.canvasToWorld(Coordinator.screenToCanvas(c[0], this));
+		else world = coord.canvasToWorld(coord.screenToCanvas(c[0], this));
 		
 		world.plane = WORLD;
 		return world;
 	}
 	
-	public IsoVector toWorldExact(Camera...c) {
+	public IsoVector toWorldExact(Coordinator coord, Camera...c) {
 		IsoVector world;
 		
-		if(plane == CANVAS) world = Coordinator.canvasToWorldExact(this);
+		if(plane == CANVAS) world = coord.canvasToWorldExact(this);
 		else if(plane == WORLD) world = this.copy();
-		else world = Coordinator.canvasToWorldExact(Coordinator.screenToCanvas(c[0], this));
+		else world = coord.canvasToWorldExact(coord.screenToCanvas(c[0], this));
 		
 		world.plane = WORLD;
 		return world;

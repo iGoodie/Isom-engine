@@ -28,10 +28,11 @@ public class TestStage extends Stage {
 	@Override
 	public void update(float dt) {
 		TestGame game = TestGame.getGame(); //Fetch game singleton
+		Coordinator coord = game.getCoordinator();
 
 		//Boundary Cursor Test
 		IsoVector mousePos = new IsoVector(game.mouseX, game.mouseY);
-		mousePos = mousePos.toCanvas(game.getCamera()).toWorld();
+		mousePos = mousePos.toCanvas(coord, game.getCamera()).toWorld(coord);
 		DebugRenderer.appendLine(3, "Mouse World Pos: " + mousePos.toCastedString2D());
 		if((mousePos.x >= 0 && mousePos.x < map_size.x) && (mousePos.y >= 0 && mousePos.y < map_size.y)) {
 			CursorRenderer.setCursor("map");
@@ -61,7 +62,7 @@ public class TestStage extends Stage {
 		velocity.rotate(TestGame.QUARTER_PI);
 		int speed = 10; //tile per sec
 		velocity.len(speed * dt); // Normalize, then mult
-		velocity = velocity.toCanvas(); //World movement
+		velocity = velocity.toCanvas(coord); //World movement
 
 		if(Keyboard.isKeyActiveOnce('.')) {
 			game.getCamera().moveTo(0, 0);
@@ -79,6 +80,7 @@ public class TestStage extends Stage {
 	@Override
 	public void render() {
 		TestGame game = TestGame.getGame(); //Fetch game singleton
+		Coordinator coord = game.getCoordinator();
 		
 		//Pre debug
 		if(game.debugEnabled) {
@@ -91,25 +93,25 @@ public class TestStage extends Stage {
 			game.pushMatrix();
 			game.translate(-64, -32); //-Tw/2, Th/2
 			for(int i=0; i<map_size.x; i++) for(int j=0; j<map_size.y; j++) {
-				IsoVector canvasPos = Coordinator.worldToCanvas(i, j); //W(i, j) -> Canvas
+				IsoVector canvasPos = coord.worldToCanvas(i, j); //W(i, j) -> Canvas
 				game.image(test_tile, canvasPos.x, canvasPos.y);
 			}
 
 			{ //Draw tile cursor on the mouse position
 				IsoVector mousePos = new IsoVector(game.mouseX, game.mouseY);
-				mousePos = Coordinator.screenToWorld(game.getCamera(), mousePos);
-				mousePos = Coordinator.worldToCanvas(mousePos);
+				mousePos = coord.screenToWorld(game.getCamera(), mousePos);
+				mousePos = coord.worldToCanvas(mousePos);
 				game.image(test_tile_cursor, mousePos.x, mousePos.y);
 
-				mousePos = Coordinator.canvasToScreen(game.getCamera(), mousePos);
+				mousePos = coord.canvasToScreen(game.getCamera(), mousePos);
 				//DebugRenderer.appendLine(3, mousePos.toCastedString2D());
 			}
 			game.popMatrix();
 			{ //Draw X and Y axises for debug 
 				game.pushStyle();
 				game.stroke(255);
-				IsoVector xAxis = Coordinator.worldToCanvas(3, 0);
-				IsoVector yAxis = Coordinator.worldToCanvas(0, 1);
+				IsoVector xAxis = coord.worldToCanvas(3, 0);
+				IsoVector yAxis = coord.worldToCanvas(0, 1);
 				game.line(0, 0, xAxis.x, xAxis.y);
 				game.line(0, 0, yAxis.x, yAxis.y);
 				game.popStyle();
@@ -129,7 +131,7 @@ public class TestStage extends Stage {
 			DebugRenderer.appendLine(1, "World Size " + (int)map_size.x + "x" + (int)map_size.y);
 
 			DebugRenderer.appendLine(2, game.getCamera().toString());
-			DebugRenderer.appendLine(2, "Camera World Pos: " + Coordinator.canvasToWorld(game.getCamera().getCanvasPos()).toCastedString2D());
+			DebugRenderer.appendLine(2, "Camera World Pos: " + coord.canvasToWorld(game.getCamera().getCanvasPos()).toCastedString2D());
 			DebugRenderer.appendLine(2, "Camera Zoom: " + game.getCamera().getZoom());
 
 			String[] activeKeys = Keyboard.getKeyList();

@@ -7,18 +7,20 @@ import lib.maths.IsoVector;
  * World -> Canvas -> Camera Buffer(aka Screen) -> Monitor(Camera + other buffers)
  */
 public class Coordinator {
-	private static final int TILE_WIDTH = 128;
-	private static final int TILE_HEIGHT = 64;
+	
+	private int tileWidth, tileHeight;
+	private int tileHalfWidth, tileHalfHeight;
 
-	private static final int HALF_TILE_WIDTH = TILE_WIDTH/2;
-	private static final int HALF_TILE_HEIGHT = TILE_HEIGHT/2;
+	private GameBase parent;
 
-	private static GameBase parent;
-
-	public static void setParent(GameBase p) {
+	public Coordinator(GameBase p, int tile_w, int tile_h) {
 		parent = p;
+		this.tileWidth = tile_w;
+		this.tileHeight = tile_h;
+		this.tileHalfWidth = tileWidth/2;
+		this.tileHalfHeight = tileHeight/2;
 	}
-
+	
 	/* Screen Parameterized */
 	
 	/**
@@ -28,7 +30,7 @@ public class Coordinator {
 	 * @param screenPos Screen position to be converted
 	 * @return Canvas position of given screen position according to the camera position and screen size.
 	 */
-	public static IsoVector screenToCanvas(Camera c, IsoVector screenPos) {
+	public IsoVector screenToCanvas(Camera c, IsoVector screenPos) {
 		int halfWidth=parent.width/2, halfHeight=parent.height/2; // size = 1/2*[w, h]
 		IsoVector deltaScreen = IsoVector.sub(screenPos, halfWidth, halfHeight); //  [Sx, Sy] - size = dS
 		return deltaScreen.div(c.getZoom()).add(c.getCanvasPos()); // 1/z*dS + [Px, Py]
@@ -42,11 +44,11 @@ public class Coordinator {
 	 * @param screenPos Screen coordinates to be converted.
 	 * @return World position of given screen position
 	 */
-	public static IsoVector screenToWorld(Camera c, IsoVector screenPos) {
+	public IsoVector screenToWorld(Camera c, IsoVector screenPos) {
 		IsoVector camPos = c.getCanvasPos();
 		// b = [(Px + 1/z*(Sx-w/2))/Tw, (Py + 1/z*(Sy-h/2)/Th)]
-		float bx = (camPos.x + (screenPos.x - parent.width/2)/c.getZoom()) / TILE_WIDTH;
-		float by = (camPos.y + (screenPos.y - parent.height/2)/c.getZoom()) / TILE_HEIGHT;
+		float bx = (camPos.x + (screenPos.x - parent.width/2)/c.getZoom()) / tileWidth;
+		float by = (camPos.y + (screenPos.y - parent.height/2)/c.getZoom()) / tileHeight;
 		return new IsoVector(Math.round(bx+by), Math.round(bx-by)); // W = [round(bx+by), round(bx-by)]
 	}
 
@@ -59,7 +61,7 @@ public class Coordinator {
 	 * @param canvasPos Canvas coordinates to be converted.
 	 * @return Screen position of given canvas position
 	 */
-	public static IsoVector canvasToScreen(Camera c, IsoVector canvasPos) {
+	public IsoVector canvasToScreen(Camera c, IsoVector canvasPos) {
 		int halfWidth=parent.width/2, halfHeight=parent.height/2; // size = 1/2*[w, h]
 		IsoVector deltaCanvas = IsoVector.sub(canvasPos, c.getCanvasPos()); // dC =  [Cx, Cy]-[Px, Py]
 		return deltaCanvas.mult(c.getZoom()).add(halfWidth, halfHeight); // dC*z + size
@@ -71,9 +73,9 @@ public class Coordinator {
 	 * @param canvasPos Canvas position to be converted
 	 * @return World position of given canvas position
 	 */
-	public static IsoVector canvasToWorld(IsoVector canvasPos) {
-		float bx = canvasPos.x / TILE_WIDTH;
-		float by = canvasPos.y / TILE_HEIGHT;
+	public IsoVector canvasToWorld(IsoVector canvasPos) {
+		float bx = canvasPos.x / tileWidth;
+		float by = canvasPos.y / tileHeight;
 		return new IsoVector(Math.round(bx+by), Math.round(bx-by)); // W = [round(bx+by), round(bx-by)]
 	}
 
@@ -83,9 +85,9 @@ public class Coordinator {
 	 * @param canvasPos Canvas position to be converted
 	 * @return Exact world position of given canvas position
 	 */
-	public static IsoVector canvasToWorldExact(IsoVector canvasPos) {
-		float bx = canvasPos.x / TILE_WIDTH;
-		float by = canvasPos.y / TILE_HEIGHT;
+	public IsoVector canvasToWorldExact(IsoVector canvasPos) {
+		float bx = canvasPos.x / tileWidth;
+		float by = canvasPos.y / tileHeight;
 		return new IsoVector(bx+by, bx-by);
 	}
 
@@ -97,7 +99,7 @@ public class Coordinator {
 	 * @param worldPos World position to be converted
 	 * @return Canvas position of given world position
 	 */
-	public static IsoVector worldToCanvas(IsoVector worldPos) {
+	public IsoVector worldToCanvas(IsoVector worldPos) {
 		return worldToCanvas(worldPos.x, worldPos.y);
 	}
 
@@ -108,9 +110,9 @@ public class Coordinator {
 	 * @param wy Y value of the world coordinate
 	 * @return Canvas position of given world position
 	 */
-	public static IsoVector worldToCanvas(float wx, float wy) {
-		float cx = (wx + wy) * HALF_TILE_WIDTH;
-		float cy = (wx - wy) * HALF_TILE_HEIGHT;
+	public IsoVector worldToCanvas(float wx, float wy) {
+		float cx = (wx + wy) * tileHalfWidth;
+		float cy = (wx - wy) * tileHalfHeight;
 		return new IsoVector(cx, cy);
 	}
 }
