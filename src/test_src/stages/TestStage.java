@@ -1,17 +1,20 @@
 package stages;
 
 import core.TestGame;
+import igoodie.utils.math.MathUtils;
 import lib.camera.Coordinator;
 import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
+import lib.input.mouse.Mouse;
+import lib.input.mouse.MouseListener;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
 import processing.core.PImage;
 
-public class TestStage extends Stage implements KeyboardListener {
+public class TestStage extends Stage implements KeyboardListener, MouseListener {
 
 	private IsoVector map_size = new IsoVector(30, 20);
 
@@ -27,6 +30,7 @@ public class TestStage extends Stage implements KeyboardListener {
 		test_tile_cursor = game.loadImage("cursor_tile.png");
 		
 		Keyboard.subscribe(this);
+		Mouse.subscribe(this);
 	}
 
 	@Override
@@ -62,8 +66,8 @@ public class TestStage extends Stage implements KeyboardListener {
 		int speed = 10; //tile per sec
 		velocity.len(speed * dt); // Normalize, then mult
 		velocity = velocity.toCanvas(coord); //World movement
-
-		if(game.mousePressed && game.mouseButton==TestGame.RIGHT) {
+		
+		if(Mouse.isButtonActive(Mouse.BTN_RIGHT)) {
 			velocity.set(game.width/2 - game.mouseX, game.height/2 - game.mouseY);
 			velocity.mult(5 * -dt);
 		}
@@ -147,7 +151,19 @@ public class TestStage extends Stage implements KeyboardListener {
 	}
 	
 	@Override
+	public void wheelMoved(float downCount) {
+		TestGame game = TestGame.getGame();
+		
+		float z = game.getCamera().getZoom() + downCount * -0.125f; //Form input
+		
+		z = MathUtils.resolveError(z, 3); //Remove error;
+		z = MathUtils.clamp(z, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
+		game.getCamera().zoomTo(z);
+	}
+	
+	@Override
 	public void dispose() {
 		Keyboard.unsubscribe(this);
+		Mouse.unsubscribe(this);
 	}
 }

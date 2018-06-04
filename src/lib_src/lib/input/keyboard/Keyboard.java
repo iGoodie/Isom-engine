@@ -125,6 +125,8 @@ public class Keyboard {
 	public static final KeyPair KEY_F = new KeyPair('F', 0x00000046);
 	public static final KeyPair KEY_E = new KeyPair('E', 0x00000045);
 
+	public static final KeyPair KEY_SPACE = new KeyPair(' ', 0x00000020);
+
 	public static final KeyPair KEY_SHIFT = new KeyPair('\uFFFF', 0x00000010);
 	public static final KeyPair KEY_CTRL = new KeyPair('\uFFFF', 0x00000011);
 	public static final KeyPair KEY_ALT = new KeyPair('\uFFFF', 0x00000012);

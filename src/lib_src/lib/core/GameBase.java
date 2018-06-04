@@ -5,12 +5,13 @@ import java.util.NoSuchElementException;
 
 import igoodie.utils.io.FileUtils;
 import igoodie.utils.log.ConsolePrinter;
-import igoodie.utils.math.MathUtils;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
+import lib.graphics.DebugRenderer;
 import lib.image.PivotImage;
 import lib.input.keyboard.Keyboard;
+import lib.input.mouse.Mouse;
 import lib.stage.Stage;
 import lib.util.time.DeltaTimer;
 import processing.core.PApplet;
@@ -61,6 +62,8 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 		update(dt);
 		render();
 		//input();
+		
+		DebugRenderer.appendLine("Pressed Count: " + Mouse.getActivePresses().size());
 	}
 	
 	/* Getter/Setter Methods */
@@ -146,13 +149,22 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 		/*IsoVector w2c = Coordinator.worldToCanvas(new IsoVector(0, 1));
 		System.out.println(w2c);*/
 	}
+	
+	@Override
+	public void mousePressed(MouseEvent event) {
+		Mouse.buttonActivated(event.getX(), event.getY(),
+				event.getCount(), event.getButton());
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		Mouse.buttonDeactivated(event.getX(), event.getY(),
+				event.getCount(), event.getButton());
+	}
 
 	@Override
 	public void mouseWheel(MouseEvent e) {
-		float z = getCamera().getZoom() + e.getCount() * -0.125f; //Form input
-		z = MathUtils.resolveError(z, 3); //Remove error;
-		z = MathUtils.clamp(z, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
-		getCamera().zoomTo(z);
+		Mouse.wheelMoved(e.getCount());
 	}
 
 	@Override
@@ -196,11 +208,13 @@ public abstract class GameBase extends PApplet implements Drawable, IsoConstants
 	@Override
 	public void focusLost() {
 		Keyboard.reset();
+		Mouse.reset();
 	}
 
 	@Override
 	public void focusGained() {
 		Keyboard.reset(); //TODO: Check validity
+		Mouse.reset();
 	}
 	
 	@Override

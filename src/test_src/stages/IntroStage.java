@@ -76,7 +76,7 @@ public class IntroStage extends Stage implements KeyboardListener {
 
 	@Override
 	public void keyPressed(KeyPair pair) {
-		if(pair.getKey() == ' ') {
+		if(pair.equals(Keyboard.KEY_SPACE)) {
 			if(transparencyAnim.isFinished() && !loader.isLoading()) {
 				TestGame game = TestGame.getGame();
 				game.changeStage(new TestStage());
@@ -85,7 +85,6 @@ public class IntroStage extends Stage implements KeyboardListener {
 		else if(pair.equals(Keyboard.KEY_F1)) {
 			transparencyAnim.reset();
 		}
-		
 	}
 
 	@Override

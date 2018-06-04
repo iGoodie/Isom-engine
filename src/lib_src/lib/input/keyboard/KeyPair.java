@@ -54,7 +54,7 @@ public class KeyPair {
 	
 	@Override
 	public String toString() {
-		return String.format("%c(\\u%s) | %d(0x%s)", 
+		return String.format("Key %c(\\u%s) | %d(0x%s)", 
 				key, Stringifier.asHex(key, 4), 
 				keyCode, Stringifier.asHex(keyCode, 8));
 	}
