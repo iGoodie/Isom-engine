@@ -18,7 +18,7 @@ Isom-engine is an isometric rendering engine (being) built on-top of Processing 
 * Processing extensions (including a new GameBase class)
 * Better input handling patterns
 
-:exclamation: **DISCLAIMER** :exclamation: The project started as a capstone project. The development before the pre-release is planned to continue a whole semester or more (6-8 months). The engine doesn't promise a highly optimal performance comparing to the other engines out there.
+:exclamation: **DISCLAIMER** :exclamation: *The project started as a capstone project. The development before the pre-release is planned to continue a whole semester or more (6-8 months). The engine doesn't promise a highly optimal performance comparing to the other engines out there.*
 
 <!--p><img height="60px" src="https://cdn.discordapp.com/attachments/414163950855389186/414426001146118165/preview.png"></p-->
 ## Preview
