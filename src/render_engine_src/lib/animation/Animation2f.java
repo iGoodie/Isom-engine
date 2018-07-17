@@ -44,6 +44,7 @@ public class Animation2f {
 	
 	public Easing2f easing = Easing2f.LINEAR;
 	
+	private IsoVector current;
 	public IsoVector from, to;
 	public float duration;
 	float toleranceSq;
@@ -56,8 +57,14 @@ public class Animation2f {
 		this(from, to, duration, 0);
 	}
 	
+	public Animation2f(IsoVector from, IsoVector to, float duration, Easing2f easing) {
+		this(from, to, duration);
+		this.easing = easing;
+	}
+	
 	public Animation2f(IsoVector from, IsoVector to, float duration, float tolerance) {
 		this.from = from;
+		this.current = new IsoVector(from);
 		this.to = to;
 		this.duration = duration;
 		this.toleranceSq = tolerance * tolerance;
@@ -66,11 +73,7 @@ public class Animation2f {
 	public void setTolerance(float toleranceSeconds) {
 		this.toleranceSq = toleranceSeconds * toleranceSeconds;
 	}
-	
-	public boolean isFinished() {
-		return time >= duration;
-	}
-	
+
 	public void finish() {
 		time = duration;
 	}
@@ -80,8 +83,20 @@ public class Animation2f {
 		if(isFinished()) return to;
 		
 		IsoVector distance = to.copy().sub(from);
-		if(distance.magSq() < toleranceSq) finish();
+		if(distance.magSq() < toleranceSq)
+			finish();
 		
-		return easing.interpolate(from, distance, time, duration);
+		current.set(easing.interpolate(from, distance, time, duration));
+		return current;
 	}
+
+	public IsoVector getValue() {
+		if(isFinished()) return to;
+		return current;
+	}
+	
+	public boolean isFinished() {
+		return time >= duration;
+	}
+	
 }

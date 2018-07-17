@@ -93,6 +93,12 @@ public class IsoVector {
 		super();
 	}
 
+	public IsoVector(IsoVector vector) {
+		this.x = vector.x;
+		this.y = vector.y;
+		this.z = vector.z;
+	}
+	
 	public IsoVector(float x, float y) {
 		this.x = x;
 		this.y = y;

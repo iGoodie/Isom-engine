@@ -15,10 +15,9 @@ import lib.stage.Stage;
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
 	PivotImage isomEngineLogo;
-	PivotImage logo;
+	PivotImage testGamelogo;
 
-	Animation1f transparencyAnim;
-	float transparency = 0;
+	Animation1f transparency;
 
 	ResourceLoader loader;
 
@@ -28,9 +27,8 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
 		// Load splash before resources
 		isomEngineLogo = new PivotImage(game.loadImage("logo.png"));
-		logo = new PivotImage(game.loadImage("testlogo.png"));
-		transparencyAnim = new Animation1f(0, 255, 1);
-		transparencyAnim.easing = Easing1f.SINE_IN;
+		testGamelogo = new PivotImage(game.loadImage("testlogo.png"));
+		transparency = new Animation1f(0, 255, 3, Easing1f.SINE_IN);
 
 		// Load resources sync
 		loader = new ResourceLoader() {
@@ -52,8 +50,13 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
 	@Override
 	public void update(float dt) {
-		transparency = transparencyAnim.proceed(dt);
-		DebugRenderer.appendLine(2, "Transparency: " + (int)transparency);
+		transparency.proceed(dt);
+		DebugRenderer.appendLine(2, "Transparency: " + (int)transparency.getValue());
+		
+		// Change stage if animation is done & resources are loaded
+		if(transparency.isFinished() && !loader.isLoading()) {
+			parent.changeStage(new TestStage(parent));
+		}
 	}
 
 	@Override
@@ -61,7 +64,12 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		parent.background(0xFF_ADDAC4);
 		
 		// Render test logo
-		parent.image(logo, parent.width/2f, parent.height/2f);
+		parent.pushStyle();
+		{
+			parent.tint(255, transparency.getValue());
+			parent.image(testGamelogo, parent.width/2f, parent.height/2f);
+		}
+		parent.popStyle();
 		
 		// Render "Powered by Isom-engine"; Quick and ugly test hardcode
 		parent.pushStyle();
@@ -106,12 +114,12 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 	@Override
 	public void keyPressed(KeyPair pair) {
 		if(pair.equals(Keyboard.KEY_SPACE)) {
-			if(transparencyAnim.isFinished() && !loader.isLoading()) {
+			if(transparency.isFinished() && !loader.isLoading()) {
 				parent.changeStage(new TestStage(parent));
 			}
 		}
 		else if(pair.equals(Keyboard.KEY_F1)) {
-			transparencyAnim.reset();
+			transparency.reset();
 		}
 	}
 

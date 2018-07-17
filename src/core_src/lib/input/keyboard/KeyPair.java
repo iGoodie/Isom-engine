@@ -28,20 +28,14 @@ public class KeyPair {
 		if(!(obj instanceof KeyPair)) return false;
 		
 		KeyPair k2 = (KeyPair) obj;
-		
-		if(k2.key == this.key) return true;
-		if(Character.toUpperCase(k2.key) == Character.toUpperCase(this.key)) return true;
-		if(k2.keyCode==this.keyCode) return true;
-		
-		return false;
+
+		return Character.toUpperCase(k2.key) == Character.toUpperCase(this.key)
+				&& k2.keyCode == this.keyCode;
 	}
 
 	public boolean equals(char key, int keyCode) {
-		if(key == this.key) return true;
-		if(Character.toUpperCase(key) == Character.toUpperCase(this.key)) return true;
-		if(keyCode==this.keyCode) return true;
-		
-		return false;
+		return Character.toUpperCase(key) == Character.toUpperCase(this.key)
+				&& keyCode == this.keyCode;
 	}
 	
 	public boolean isPrintable() {

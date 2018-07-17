@@ -34,6 +34,7 @@ public class Animation1f {
 	
 	public Easing1f easing = Easing1f.LINEAR;
 	
+	private float current;
 	public float from, to;
 	public float duration;
 	public float tolerance;
@@ -44,6 +45,11 @@ public class Animation1f {
 	
 	public Animation1f(float from, float to, float duration) {
 		this(from, to, duration, 0);
+	}
+	
+	public Animation1f(float from, float to, float duration, Easing1f easing) {
+		this(from, to, duration);
+		this.easing = easing;
 	}
 	
 	public Animation1f(float from, float to, float duration, float tolerance) {
@@ -57,10 +63,6 @@ public class Animation1f {
 		time = 0;
 	}
 	
-	public boolean isFinished() {
-		return time >= duration;
-	}
-	
 	public void finish() {
 		time = duration;
 	}
@@ -70,8 +72,20 @@ public class Animation1f {
 		if(isFinished()) return to;
 		
 		float distance = to-from;
-		if(distance < tolerance) finish();
+		if(distance < tolerance) 
+			finish();
 		
-		return easing.interpolate(from, distance, time, duration);
+		current = easing.interpolate(from, distance, time, duration);
+		return current;
 	}
+	
+	public float getValue() {
+		if(isFinished()) return to;
+		return current;
+	}
+	
+	public boolean isFinished() {
+		return time >= duration;
+	}
+	
 }

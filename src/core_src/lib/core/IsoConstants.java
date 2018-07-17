@@ -4,6 +4,7 @@ import igoodie.utils.io.FileUtils;
 
 public interface IsoConstants {
 	public static final String LIBRARY_NAME = "Isom-engine";
+	public static final boolean DEVELOPER_MODE = true;
 	
 	/*
 	 * 0=Alpha(a), 1=Beta(b), 2=Release Candidate(rc), 3=Commercial Distribution(r)

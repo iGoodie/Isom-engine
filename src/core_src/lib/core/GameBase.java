@@ -40,7 +40,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	private int selectedCam = 0;
 
 	/* Flags */
-	public boolean debugEnabled = true;
+	public boolean debugEnabled = DEVELOPER_MODE;
 
 	/* Constructors */
 	public GameBase() {
@@ -79,13 +79,11 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	public void render() {
 		background(0xFF_000000);
 
-		if(debugEnabled || true) { // Pre-debug rendering
-			DebugRenderer.appendLine("Stage: " + currentStage.name);
-		}
+		DebugRenderer.appendLine("Stage: " + currentStage.name);
 		
 		currentStage.render();
 		
-		if(debugEnabled) { // Post-debug rendering
+		if(debugEnabled) { // Render debug if enabled
 			DebugRenderer.render();
 		}
 	}
