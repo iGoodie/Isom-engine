@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import lib.core.GameBase;
 
 public class DebugRenderer {
+	private static final int TEXT_COLOR = 0xFF_FFFFFF;
+	private static final int OUTLINE_COLOR = 0xFF_000000;
+
 	private static final int GAP = 15; //px
 	
 	public static final int UPPER_LEFT=0;
@@ -39,19 +42,19 @@ public class DebugRenderer {
 			int placing = placings.get(i);
 			
 			if(placing == UPPER_LEFT) {
-				parent.textWithStroke(text, 10, 20 + ul*GAP);
+				parent.textWithStroke(text, 10, 20 + ul*GAP, TEXT_COLOR, OUTLINE_COLOR);
 				ul++;
 			}
 			else if(placing == UPPER_RIGHT) {
-				parent.textWithStroke(text, parent.width-parent.textWidth(text)-10, 20 + ur*GAP);
+				parent.textWithStroke(text, parent.width-parent.textWidth(text)-10, 20 + ur*GAP, TEXT_COLOR, OUTLINE_COLOR);
 				ur++;
 			}
 			else if(placing == LOWER_LEFT) {
-				parent.textWithStroke(text, 10, parent.height - 10 - ll*GAP);
+				parent.textWithStroke(text, 10, parent.height - 10 - ll*GAP, TEXT_COLOR, OUTLINE_COLOR);
 				ll++;
 			}
 			else if(placing == LOWER_RIGHT) {
-				parent.textWithStroke(text, parent.width-parent.textWidth(text)-10, parent.height - 10 - lr*GAP);
+				parent.textWithStroke(text, parent.width-parent.textWidth(text)-10, parent.height - 10 - lr*GAP, TEXT_COLOR, OUTLINE_COLOR);
 				lr++;
 			}
 		}

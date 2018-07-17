@@ -3,8 +3,8 @@ package lib.animation;
 import lib.maths.IsoVector;
 import processing.core.PApplet;
 
-public class Animation2v {
-	public static enum Easing2v {
+public class Animation2f {
+	public static enum Easing2f {
 		LINEAR {
 			@Override
 			public IsoVector interpolate(IsoVector from, IsoVector distance, float time, float duration) {
@@ -42,7 +42,7 @@ public class Animation2v {
 		public IsoVector interpolate(IsoVector from, IsoVector to, float time, float duration) { return null; }
 	}
 	
-	public Easing2v easing = Easing2v.LINEAR;
+	public Easing2f easing = Easing2f.LINEAR;
 	
 	public IsoVector from, to;
 	public float duration;
@@ -50,13 +50,13 @@ public class Animation2v {
 
 	float time = 0;
 	
-	public Animation2v() {}
+	public Animation2f() {}
 	
-	public Animation2v(IsoVector from, IsoVector to, float duration) {
+	public Animation2f(IsoVector from, IsoVector to, float duration) {
 		this(from, to, duration, 0);
 	}
 	
-	public Animation2v(IsoVector from, IsoVector to, float duration, float tolerance) {
+	public Animation2f(IsoVector from, IsoVector to, float duration, float tolerance) {
 		this.from = from;
 		this.to = to;
 		this.duration = duration;

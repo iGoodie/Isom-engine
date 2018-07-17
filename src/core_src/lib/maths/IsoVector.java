@@ -1,6 +1,6 @@
 package lib.maths;
 
-import igoodie.utils.math.MathUtils;
+import igoodie.utils.math.Randomizer;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import processing.core.PApplet;
@@ -10,6 +10,24 @@ import processing.core.PVector;
 public class IsoVector {
 	
 	public static final int SCREEN=0, CANVAS=1, WORLD=2;
+	
+	public static IsoVector createOnScreen(float x, float y) {
+		IsoVector vec = new IsoVector(x, y);
+		vec.plane = SCREEN;
+		return vec;
+	}
+	
+	public static IsoVector createOnCanvas(float x, float y) {
+		IsoVector vec = new IsoVector(x, y);
+		vec.plane = CANVAS;
+		return vec;
+	}
+	
+	public static IsoVector createOnWorld(float x, float y) {
+		IsoVector vec = new IsoVector(x, y);
+		vec.plane = WORLD;
+		return vec;
+	}
 	
 	public static IsoVector add(IsoVector v1, IsoVector v2) {
 		return new IsoVector(v1.x+v2.x, v1.y+v2.y);
@@ -129,12 +147,12 @@ public class IsoVector {
 	
 	/* Random 2D & 3D */
 	public IsoVector randomize2D() {
-		return normalizeWithAngle(MathUtils.randomFloat() * PConstants.PI * 2);
+		return normalizeWithAngle(Randomizer.randomFloat() * PConstants.PI * 2);
 	}
 
 	public IsoVector randomize3D() {
-		float angle = MathUtils.randomFloat() * PConstants.PI * 2;
-		float vz = MathUtils.randomFloat(-1, 1);
+		float angle = Randomizer.randomFloat() * PConstants.PI * 2;
+		float vz = Randomizer.randomFloat(-1, 1);
 		float vx = PApplet.sqrt(1-vz*vz) * PApplet.cos(angle);
 		float vy = PApplet.sqrt(1-vz*vz) * PApplet.sin(angle);
 		return set(vx, vy, vz);
@@ -233,7 +251,22 @@ public class IsoVector {
 		return this.x*x + this.y*y;
 	}
 
-	/* Cross TODO */
+	/* Cross */
+	public IsoVector cross(IsoVector v) {
+		return cross(v.x, v.y, v.z);
+	}
+	
+	public IsoVector cross(float x, float y) {
+		return cross(x, y, 0);
+	}
+	
+	public IsoVector cross(float x, float y, float z) {
+		float crossX = this.y * z - y * this.z;
+		float crossY = this.z * x - z * this.x;
+		float crossZ = this.x * y - x * this.y;
+		
+		return new IsoVector(crossX, crossY, crossZ);
+	}
 
 	/* Normalize & Limiters */
 	public IsoVector normalize() {

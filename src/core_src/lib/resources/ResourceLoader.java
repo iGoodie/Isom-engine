@@ -2,7 +2,7 @@ package lib.resources;
 
 import java.util.ArrayList;
 
-import igoodie.utils.math.MathUtils;
+import igoodie.utils.math.Randomizer;
 
 public class ResourceLoader implements Runnable {
 	
@@ -10,7 +10,7 @@ public class ResourceLoader implements Runnable {
 	
 	public static String randomLine() {
 		if(lines.size() == 0) return "Loading..";
-		int randi = MathUtils.randomInt(0, lines.size()-1);
+		int randi = Randomizer.randomInt(0, lines.size()-1);
 		return lines.get(randi);
 	}
 	
@@ -19,6 +19,7 @@ public class ResourceLoader implements Runnable {
 	}
 
 	protected String loadingInfo = "Fetching..";
+	protected float percentage = 0f;
 	protected boolean loading = true;
 	
 	@Override
@@ -26,6 +27,10 @@ public class ResourceLoader implements Runnable {
 	
 	public String getInfo() {
 		return loadingInfo;
+	}
+	
+	public float getPercentage() {
+		return percentage;
 	}
 	
 	public boolean isLoading() {

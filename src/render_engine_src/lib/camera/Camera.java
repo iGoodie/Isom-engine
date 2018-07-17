@@ -1,8 +1,8 @@
 package lib.camera;
 
 import core.TestGame;
-import lib.animation.Animation2v;
-import lib.animation.Animation2v.Easing2v;
+import lib.animation.Animation2f;
+import lib.animation.Animation2f.Easing2f;
 import lib.maths.IsoVector;
 
 public class Camera {
@@ -11,7 +11,7 @@ public class Camera {
 	String label;
 	IsoVector canvasPos = new IsoVector();
 	
-	Animation2v anim = null;
+	Animation2f anim = null;
 	
 	float width, height;
 	float zoom = 1f;
@@ -62,11 +62,11 @@ public class Camera {
 	}
 	
 	public void moveTo(float canvasX, float canvasY) {
-		anim = new Animation2v();
+		anim = new Animation2f();
 		anim.from = canvasPos;
 		anim.to = new IsoVector(canvasX, canvasY);
 		anim.duration = canvasPos.dist(anim.to) / EASING_PX_PER_SEC;
-		anim.easing = Easing2v.SINE_IN_OUT;
+		anim.easing = Easing2f.SINE_IN_OUT;
 		anim.setTolerance(1);
 	}
 
