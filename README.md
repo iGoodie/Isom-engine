@@ -9,6 +9,25 @@
 </p>
 
 ## What is Isom-engine?
+<<<<<<< HEAD
+=======
+
+Isom-engine is an isometric rendering engine (being) built on-top of Processing library. It provides some good utilities for isometric 2D game rendering programs such as;
+* 3 layered coordination map (Isometric World, Canvas, Screen planes)
+* Multi-threaded resource loading mechanism
+* Debug units (with [Goodieutils](https://github.com/iGoodie/Goodieutils) extensions)
+* LUA scripting port
+* Processing extensions (including a new GameBase class)
+* Better input handling patterns
+
+:exclamation: **DISCLAIMER** :exclamation: *The project started as a capstone project. The development before the pre-release is planned to continue a whole semester or more (6-8 months). The engine doesn't promise a highly optimal performance comparing to the other engines out there.*
+
+<!--p><img height="60px" src="https://cdn.discordapp.com/attachments/414163950855389186/414426001146118165/preview.png"></p-->
+## Preview
+
+<img width="640" src="https://cdn.discordapp.com/attachments/414215799851712512/414215960140972033/unknown.png">
+<img width="640" src="https://cdn.discordapp.com/attachments/414215799851712512/414217354415702017/unknown.png">
+>>>>>>> 7290588bedc8ca70dbe4a3bfd9a545bb59c10fc0
 
 Isom-engine is an isometric rendering engine (being) built on-top of Processing library. It provides some good utilities for isometric 2D game rendering programs such as;
 * 3 layered coordination map (Isometric World, Canvas, Screen planes)
