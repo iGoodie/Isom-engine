@@ -20,6 +20,14 @@ public class Coordinator {
 		this.tileHalfWidth = tileWidth/2;
 		this.tileHalfHeight = tileHeight/2;
 	}
+
+	public int getTileWidth() {
+		return tileWidth;
+	}
+	
+	public int getTileHeight() {
+		return tileHeight;
+	}
 	
 	/* Screen Parameterized */
 	

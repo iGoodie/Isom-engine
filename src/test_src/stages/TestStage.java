@@ -2,7 +2,6 @@ package stages;
 
 import core.TestGame;
 import igoodie.utils.math.MathUtils;
-import lib.camera.Coordinator;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
@@ -12,14 +11,12 @@ import lib.input.mouse.MouseListener;
 import lib.input.mouse.MousePress;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
-import processing.core.PImage;
+import map.Tile;
+import map.World;
 
 public class TestStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
-
-	private IsoVector map_size = new IsoVector(30, 20);
-
-	private PImage test_tile;
-	private PImage test_tile_cursor;
+	
+	private World world;
 	
 //	private IsoVector camGrabPoint;
 //	private IsoVector camBoundPos;
@@ -28,9 +25,16 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 		super(game);
 
 		name = "Test Stage";
-
-		test_tile = game.loadImage("test.png");
-		test_tile_cursor = game.loadImage("cursor_tile.png");
+		
+		world = new World(game, 100, 100);
+		for(int i=0; i<100; i++) {
+			for(int j=0; j<100; j++) {
+				world.groundLayer[i][j] = Tile.getByID(0);
+			}
+		}
+		
+		IsoVector mid = IsoVector.createOnWorld(50, 50).toCanvas(parent.getCoordinator(), parent.getCamera());
+		parent.getCamera().getCanvasPos().set(mid);
 		
 		Keyboard.subscribe(this);
 		Mouse.subscribe(this);
@@ -38,6 +42,10 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 
 	@Override
 	public void update(float dt) {
+		updateOld(dt);
+	}
+	
+	private void updateOld(float dt) {
 //		Coordinator coord = parent.getCoordinator();
 //
 //		/*//Boundary Cursor Test
@@ -91,79 +99,26 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 
 	@Override
 	public void render() {
-		Coordinator coord = parent.getCoordinator();
-
-		//Pre debug
-		if(parent.debugEnabled) {
-			//Draw grid
-			parent.grid(20, 0xFF_303030);
-		}
-
-		parent.getCamera().attachCamera(); //Render by camera options
-		{
-			parent.pushMatrix();
-			parent.translate(-64, -32); //-Tw/2, Th/2
-			for(int i=0; i<map_size.x; i++) for(int j=0; j<map_size.y; j++) {
-				IsoVector canvasPos = coord.worldToCanvas(i, j); //W(i, j) -> Canvas
-				parent.image(test_tile, canvasPos.x, canvasPos.y);
-			}
-
-			{ //Draw tile cursor on the mouse position
-				IsoVector mousePos = new IsoVector(parent.mouseX, parent.mouseY);
-				mousePos = coord.screenToWorld(parent.getCamera(), mousePos);
-				mousePos = coord.worldToCanvas(mousePos);
-				parent.image(test_tile_cursor, mousePos.x, mousePos.y);
-
-				mousePos = coord.canvasToScreen(parent.getCamera(), mousePos);
-				//DebugRenderer.appendLine(3, mousePos.toCastedString2D());
-			}
-			parent.popMatrix();
-			{ //Draw X and Y axises for debug 
-				parent.pushStyle();
-				parent.stroke(255);
-				IsoVector xAxis = coord.worldToCanvas(3, 0);
-				IsoVector yAxis = coord.worldToCanvas(0, 1);
-				parent.line(0, 0, xAxis.x, xAxis.y);
-				parent.line(0, 0, yAxis.x, yAxis.y);
-				parent.popStyle();
-			}			
-		}
-		parent.getCamera().deattachCamera();
-
-		//Post debug
-		if(parent.debugEnabled) {
-			//Midpoint
-			parent.ellipse(parent.width/2, parent.height/2, 10, 10);
-
-			//Debug
-			DebugRenderer.appendLine("FPS: " + (int)parent.frameRate);
-			DebugRenderer.appendLine("FC: " + parent.frameCount);
-
-			DebugRenderer.appendLine(1, "World Size " + (int)map_size.x + "x" + (int)map_size.y);
-
-			DebugRenderer.appendLine(2, parent.getCamera().toString());
-			DebugRenderer.appendLine(2, "Camera World Pos: " + coord.canvasToWorld(parent.getCamera().getCanvasPos()).toCastedString2D());
-			DebugRenderer.appendLine(2, "Camera Zoom: " + parent.getCamera().getZoom());
-
-			String[] activeKeys = Keyboard.getKeyList();
-			for(String k : activeKeys) DebugRenderer.appendLine(3, k);
-		}
+		world.render();
+		
+		DebugRenderer.appendLine("FPS: " + (int)parent.frameRate);
+		
+		DebugRenderer.appendLine(DebugRenderer.LOWER_LEFT, parent.getCamera().toString());
 	}
 
 	@Override
 	public void keyPressed(KeyPair pair) {
-		TestGame game = TestGame.getGame();
-
 		if(pair.equals(Keyboard.KEY_F11)) {	//Debug Toggler	
-			game.debugEnabled = !game.debugEnabled;
+			parent.debugEnabled = !parent.debugEnabled;
 		}
 		else if(pair.getKey() == '.') { // Reset camera pos
-			game.getCamera().moveTo(0, 0);
+			parent.getCamera().moveTo(0, 0);
 		}
 	}
 	
 	@Override
 	public void mousePressed(MousePress pressed) {
+		parent.getCamera().move(5, 5);
 //		if(pressed.getButton() == Mouse.BTN_RIGHT) {
 //			camGrabPoint = new IsoVector(pressed.getX(), pressed.getY());
 //			camBoundPos = parent.getCamera().getCanvasPos().copy();
@@ -180,13 +135,11 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 	
 	@Override
 	public void wheelMoved(float downCount) {
-		TestGame game = TestGame.getGame();
-		
-		float zoom = game.getCamera().getZoom() + downCount * -0.125f; //Form input
-		
+		float zoom = parent.getCamera().getZoom() + downCount * -0.125f; //Form input
 		zoom = MathUtils.resolveError(zoom, 3); //Remove error;
 		zoom = MathUtils.clamp(zoom, 0.25f, 2f); //Clamping bw [0.5 , 2.0]
-		game.getCamera().zoomTo(zoom);
+	
+		parent.getCamera().zoomTo(zoom);
 	}
 	
 	@Override

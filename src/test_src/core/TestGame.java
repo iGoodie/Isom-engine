@@ -5,10 +5,9 @@ import igoodie.utils.log.ConsolePrinter;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.core.GameBase;
-import lib.font.Fonts;
 import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
-import lib.resources.ResourceLoader;
+import lib.graphics.Fonts;
 import processing.opengl.PJOGL;
 import stages.IntroStage;
 
@@ -27,11 +26,12 @@ public class TestGame extends GameBase implements TestConstants {
 		game = this;
 
 		size(ST_WIDTH, ST_HEIGHT, P2D);
-		PJOGL.setIcon( "icons/icon16.png",
+		
+		PJOGL.setIcon("icons/icon16.png", //set default favicons
 				"icons/icon32.png",
 				"icons/icon48.png",
 				"icons/icon128.png",
-				"icons/icon256.png"); //favicons
+				"icons/icon256.png");
 	}
 
 	@Override
@@ -45,15 +45,10 @@ public class TestGame extends GameBase implements TestConstants {
 		selectCamera(0);
 		getCamera().resize(ST_WIDTH, ST_HEIGHT);
 
-		// Load lines for ResourceLoader
-		for(String line : loadStrings("resourceloader_lines.txt")) {
-			ResourceLoader.submitLine(line);
-		}
-
 		// Set Parents
 		DebugRenderer.setParent(this);
 		CursorRenderer.setParent(this);
-
+		
 		// Load Default Fonts
 		textFont(Fonts.DEFAULT_FONT);
 		Fonts.pushFont("intro-f1", createFont("fonts/Freshman.ttf", 40, true));

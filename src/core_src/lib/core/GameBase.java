@@ -18,6 +18,7 @@ import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
+// TODO Fix start timeout
 public abstract class GameBase extends AppletBase implements Drawable, IsoConstants {
 
 	public static void main(LaunchBuilder lb) {
@@ -31,9 +32,9 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	/* Elements */
+	protected Stage<? extends GameBase> currentStage;
 	protected DeltaTimer deltaTimer = new DeltaTimer();
 	protected Coordinator coordinator;
-	protected Stage<? extends GameBase> currentStage;
 
 	/* Cameras */
 	private Camera[] cameras = new Camera[STD_CAMERA_COUNT];
@@ -47,7 +48,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		for(int i=0; i<cameras.length; i++) // Init cameras
 			cameras[i] = new Camera("Cam#"+i, 0, 0);
 	}
-
+	
 	/* Game-loop */
 	@Override
 	public void draw() {
@@ -198,8 +199,16 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	@Override
+	public void dispose() {
+		currentStage.dispose();
+		ConsolePrinter.debug("Terminating the game...");
+		super.dispose();
+	}
+	
+	@Override
 	public void exit() {
 		currentStage.dispose();
+		ConsolePrinter.debug("Terminating the game...");
 		super.exit();
 	}
 }

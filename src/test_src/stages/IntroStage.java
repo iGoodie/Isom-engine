@@ -3,14 +3,15 @@ package stages;
 import core.TestGame;
 import lib.animation.Animation1f;
 import lib.animation.Animation1f.Easing1f;
-import lib.font.Fonts;
 import lib.graphics.DebugRenderer;
+import lib.graphics.Fonts;
 import lib.image.PivotImage;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
 import lib.resources.ResourceLoader;
 import lib.stage.Stage;
+import map.Tile;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
@@ -28,7 +29,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		// Load splash before resources
 		isomEngineLogo = new PivotImage(game.loadImage("logo.png"));
 		testGamelogo = new PivotImage(game.loadImage("testlogo.png"));
-		transparency = new Animation1f(0, 255, 3, Easing1f.SINE_IN);
+		transparency = new Animation1f(0, 255, 2, Easing1f.SINE_IN);
 
 		// Load resources sync
 		loader = new ResourceLoader() {
@@ -36,8 +37,17 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 			public void run() {
 				this.loadingInfo = randomLine();
 
-				// Load resources here
+				// Load lines for ResourceLoader
+				this.loadingInfo = "Loading resource loader...";
+				for(String line : parent.loadStrings("resourceloader_lines.txt")) {
+					ResourceLoader.submitLine(line);
+				}
+				
+				// Load tiles
+				this.loadingInfo = "Loading tiles...";
+				Tile.generateTile(game.loadImage("test.png"));
 
+				// Loading done
 				this.loadingInfo = "Loading done!";
 				this.loading = false;
 			}
@@ -68,6 +78,15 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		{
 			parent.tint(255, transparency.getValue());
 			parent.image(testGamelogo, parent.width/2f, parent.height/2f);
+		}
+		parent.popStyle();
+		
+		// Render loading info
+		parent.pushStyle();
+		{
+			parent.textAlign(TestGame.CENTER);
+			parent.fill(0xFF_000000);
+			parent.text(loader.getInfo(), parent.width/2f, (parent.height+testGamelogo.height)/2f + 40);
 		}
 		parent.popStyle();
 		

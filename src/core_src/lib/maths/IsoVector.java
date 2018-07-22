@@ -397,12 +397,12 @@ public class IsoVector {
 		return canvas;
 	}
 	
-	public IsoVector toWorld(Coordinator coord, Camera...c) {
+	public IsoVector toWorld(Coordinator coord, Camera c) {
 		IsoVector world;
 		
 		if(plane == CANVAS) world = coord.canvasToWorld(this);
 		else if(plane == WORLD) world = this.copy();
-		else world = coord.canvasToWorld(coord.screenToCanvas(c[0], this));
+		else world = coord.canvasToWorld(coord.screenToCanvas(c, this));
 		
 		world.plane = WORLD;
 		return world;

@@ -9,7 +9,7 @@ public class Camera {
 	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 
 	
 	String label;
-	IsoVector canvasPos = new IsoVector();
+	IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
 	
 	Animation2f anim = null;
 	
@@ -98,6 +98,10 @@ public class Camera {
 	
 	public IsoVector getCanvasPos() {
 		return canvasPos;
+	}
+	
+	public IsoVector getWorldPos() {
+		return canvasPos.toWorld(TestGame.getGame().getCoordinator(), this);
 	}
 
 	public float getRotation() {
