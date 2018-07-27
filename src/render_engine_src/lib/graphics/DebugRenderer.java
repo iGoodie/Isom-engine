@@ -34,6 +34,7 @@ public class DebugRenderer {
 
 	public static void appendLine(int placing, String line) {
 		if(!parent.debugEnabled) return;
+		
 		if(placing > LOWER_RIGHT) throw new IllegalArgumentException("Given placing enum is not defined!");
 		
 		switch(placing) {
@@ -44,7 +45,33 @@ public class DebugRenderer {
 		}
 	}
 
+	public static void appendLineUL(String line) {
+		if(!parent.debugEnabled) return;
+		
+		leftTopLines.add(line);
+	}
+	
+	public static void appendLineLL(String line) {
+		if(!parent.debugEnabled) return;
+		
+		leftBottomLines.add(line);
+	}
+	
+	public static void appendLineUR(String line) {
+		if(!parent.debugEnabled) return;
+		
+		rightTopLines.add(line);
+	}
+	
+	public static void appendLineLR(String line) {
+		if(!parent.debugEnabled) return;
+		
+		rightBottomLines.add(line);
+	}
+	
 	public static void render() {
+		if(!parent.debugEnabled) return;
+		
 		float maxWidth, textHeight = parent.textHeight();
 		float sw=parent.width, sh=parent.height;
 		int size;

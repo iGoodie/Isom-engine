@@ -130,5 +130,7 @@ public class Keyboard {
 	public static final KeyPair KEY_SHIFT = new KeyPair('\uFFFF', 0x00000010);
 	public static final KeyPair KEY_CTRL = new KeyPair('\uFFFF', 0x00000011);
 	public static final KeyPair KEY_ALT = new KeyPair('\uFFFF', 0x00000012);
-
+	
+	public static final KeyPair KEY_WIN_ENTER = new KeyPair('\n', 0x0000000A);
+	public static final KeyPair KEY_WIN_BACKSPACE = new KeyPair('\u0008', 0x00000008);
 }

@@ -12,10 +12,16 @@ public class Prop {
 		return props.get(id);
 	}
 	
+	public static Prop generateProp(PivotImage sprite) {
+		Prop prop = new Prop(sprite);
+		props.add(prop);
+		return prop;
+	}
+	
 	private int id;
 	private PivotImage sprite;
 	
-	public Prop(PivotImage sprite) {
+	private Prop(PivotImage sprite) {
 		this.id = props.size();
 		this.sprite = sprite;
 		props.add(this);
@@ -24,7 +30,7 @@ public class Prop {
 	public int getID() {
 		return id;
 	}
-	
+
 	public PivotImage getSprite() {
 		return sprite;
 	}

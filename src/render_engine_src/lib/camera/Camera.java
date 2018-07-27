@@ -3,36 +3,40 @@ package lib.camera;
 import core.TestGame;
 import lib.animation.Animation2f;
 import lib.animation.Animation2f.Easing2f;
+import lib.core.GameBase;
+import lib.core.Updatable;
 import lib.maths.IsoVector;
 
-public class Camera {
+public class Camera implements Updatable {
 	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 
 	
-	String label;
-	IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
+	private GameBase parent;
 	
-	Animation2f anim = null;
+	private String label;
+	private IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
+	
+	private Animation2f anim = null;
 	
 	float width, height;
 	float zoom = 1f;
 	float rotation = 0f;
 
-	public Camera(String label, float width, float height) {
+	public Camera(String label, GameBase parent, float width, float height) {
 		this.width = width;
 		this.height = height;
 		this.label = label;
+		this.parent = parent;
 	}
 	
-	/**/
+	/* Update and render helpers */
 	public void attachCamera() { //TODO test : https://gamedev.stackexchange.com/questions/74007/generating-transformation-matrix-for-2d-camera-with-pan-zoom-rotate
-		TestGame g = TestGame.getGame();
-		float centerX = g.width/(2*zoom);
-		float centerY = g.height/(2*zoom);
-		g.pushMatrix();
-		g.scale(zoom);
-		g.translate(centerX, centerY);
-		g.rotate(rotation);
-		g.translate(-canvasPos.x, -canvasPos.y);
+		float centerX = parent.width/(2*zoom);
+		float centerY = parent.height/(2*zoom);
+		parent.pushMatrix();
+		parent.scale(zoom);
+		parent.translate(centerX, centerY);
+		parent.rotate(rotation);
+		parent.translate(-canvasPos.x, -canvasPos.y);
 	}
 	
 	public void discardRotation() {
@@ -55,16 +59,21 @@ public class Camera {
 		}
 	}
 	
-	/**/
+	/* Transformation methods */
 	public void resize(float w, float h) {
 		width = w;
 		height = h;
 	}
 	
+	public void moveTo(float canvasX, float canvasY, float duration) {
+		anim = new Animation2f(canvasPos, IsoVector.createOnCanvas(canvasX, canvasY));
+		anim.duration = duration;
+		anim.easing = Easing2f.SINE_IN_OUT;
+		anim.setTolerance(1);
+	}
+	
 	public void moveTo(float canvasX, float canvasY) {
-		anim = new Animation2f();
-		anim.from = canvasPos;
-		anim.to = new IsoVector(canvasX, canvasY);
+		anim = new Animation2f(canvasPos, IsoVector.createOnCanvas(canvasX, canvasY));
 		anim.duration = canvasPos.dist(anim.to) / EASING_PX_PER_SEC;
 		anim.easing = Easing2f.SINE_IN_OUT;
 		anim.setTolerance(1);
@@ -91,7 +100,7 @@ public class Camera {
 		rotation += deltaRotation;
 	}
 	
-	/**/
+	/* Getters */
 	public String getLabel() {
 		return label;
 	}
@@ -112,7 +121,7 @@ public class Camera {
 		return zoom;
 	}
 	
-	/**/
+	/* Special methods */
 	public String toString() {
 		return String.format("Camera Canvas Pos:{%.0f, %.0f}", canvasPos.x, canvasPos.y);
 	}

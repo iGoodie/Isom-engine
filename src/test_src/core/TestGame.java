@@ -1,5 +1,6 @@
 package core;
 
+import console.GameConsole;
 import igoodie.utils.benchmark.Performance;
 import igoodie.utils.log.ConsolePrinter;
 import lib.camera.Coordinator;
@@ -20,6 +21,9 @@ public class TestGame extends GameBase implements TestConstants {
 		return game;
 	}
 
+	/* Fields */
+	public GameConsole console;
+	
 	/* Mechanic Methods */
 	@Override
 	public void settings() {
@@ -44,6 +48,8 @@ public class TestGame extends GameBase implements TestConstants {
 		smooth();
 		selectCamera(0);
 		getCamera().resize(ST_WIDTH, ST_HEIGHT);
+		
+		console = new GameConsole(this);
 
 		// Set Parents
 		DebugRenderer.setParent(this);
@@ -52,12 +58,29 @@ public class TestGame extends GameBase implements TestConstants {
 		// Load Default Fonts
 		textFont(Fonts.DEFAULT_FONT);
 		Fonts.pushFont("intro-f1", createFont("fonts/Freshman.ttf", 40, true));
+		Fonts.pushFont("console", createFont("fonts/Modes.ttf", 12, true));
 
 		coordinator = new Coordinator(this, 128, 64);
 		currentStage = new IntroStage(this);
 		deltaTimer.reset(); //Ignore blackscreen dt before gameloop
 	}
 
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+		
+		if(console.enabled)
+			console.update(dt);
+	}
+	
+	@Override
+	public void render() {
+		super.render();
+		
+		if(console.enabled)
+			console.render();
+	}
+	
 	/* Unique Main Method */
 	public static void main(String[] args) {
 		if(Performance.getOS() != "windows") { // Check OS compatibility

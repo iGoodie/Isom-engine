@@ -46,7 +46,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	/* Constructors */
 	public GameBase() {
 		for(int i=0; i<cameras.length; i++) // Init cameras
-			cameras[i] = new Camera("Cam#"+i, 0, 0);
+			cameras[i] = new Camera("Cam#"+i, this, 0, 0);
 	}
 	
 	/* Game-loop */

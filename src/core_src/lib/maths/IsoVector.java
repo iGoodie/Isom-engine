@@ -97,6 +97,7 @@ public class IsoVector {
 		this.x = vector.x;
 		this.y = vector.y;
 		this.z = vector.z;
+		this.space = vector.space;
 	}
 	
 	public IsoVector(float x, float y) {

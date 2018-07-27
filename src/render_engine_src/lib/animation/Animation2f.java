@@ -51,7 +51,9 @@ public class Animation2f {
 
 	float time = 0;
 	
-	public Animation2f() {}
+	public Animation2f(IsoVector from, IsoVector to) {
+		this(from, to, 0, 0);
+	}
 	
 	public Animation2f(IsoVector from, IsoVector to, float duration) {
 		this(from, to, duration, 0);
