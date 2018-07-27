@@ -13,19 +13,19 @@ public class IsoVector {
 	
 	public static IsoVector createOnScreen(float x, float y) {
 		IsoVector vec = new IsoVector(x, y);
-		vec.plane = SCREEN;
+		vec.space = SCREEN;
 		return vec;
 	}
 	
 	public static IsoVector createOnCanvas(float x, float y) {
 		IsoVector vec = new IsoVector(x, y);
-		vec.plane = CANVAS;
+		vec.space = CANVAS;
 		return vec;
 	}
 	
 	public static IsoVector createOnWorld(float x, float y) {
 		IsoVector vec = new IsoVector(x, y);
-		vec.plane = WORLD;
+		vec.space = WORLD;
 		return vec;
 	}
 	
@@ -85,7 +85,7 @@ public class IsoVector {
 		return (float) Math.acos(amt);
 	}
 
-	public int plane = SCREEN;
+	public int space = SCREEN;
 	public float x, y, z;
 
 	/* Constructors */
@@ -378,44 +378,44 @@ public class IsoVector {
 	public IsoVector toScreen(Coordinator coord, Camera c) {
 		IsoVector screen;
 		
-		if(plane == CANVAS) screen = coord.canvasToScreen(c, this);
-		else if(plane == WORLD) screen = coord.canvasToScreen(c, coord.worldToCanvas(this));
+		if(space == CANVAS) screen = coord.canvasToScreen(c, this);
+		else if(space == WORLD) screen = coord.canvasToScreen(c, coord.worldToCanvas(this));
 		else screen = this.copy();
 		
-		screen.plane = SCREEN;
+		screen.space = SCREEN;
 		return screen;
 	}
 	
 	public IsoVector toCanvas(Coordinator coord, Camera...c) {
 		IsoVector canvas;
 		
-		if(plane == CANVAS) canvas = this.copy();
-		else if(plane == WORLD) canvas = coord.worldToCanvas(this);
+		if(space == CANVAS) canvas = this.copy();
+		else if(space == WORLD) canvas = coord.worldToCanvas(this);
 		else canvas = coord.screenToCanvas(c[0], this);
 		
-		canvas.plane = CANVAS;
+		canvas.space = CANVAS;
 		return canvas;
 	}
 	
 	public IsoVector toWorld(Coordinator coord, Camera c) {
 		IsoVector world;
 		
-		if(plane == CANVAS) world = coord.canvasToWorld(this);
-		else if(plane == WORLD) world = this.copy();
+		if(space == CANVAS) world = coord.canvasToWorld(this);
+		else if(space == WORLD) world = this.copy();
 		else world = coord.canvasToWorld(coord.screenToCanvas(c, this));
 		
-		world.plane = WORLD;
+		world.space = WORLD;
 		return world;
 	}
 	
 	public IsoVector toWorldExact(Coordinator coord, Camera...c) {
 		IsoVector world;
 		
-		if(plane == CANVAS) world = coord.canvasToWorldExact(this);
-		else if(plane == WORLD) world = this.copy();
+		if(space == CANVAS) world = coord.canvasToWorldExact(this);
+		else if(space == WORLD) world = this.copy();
 		else world = coord.canvasToWorldExact(coord.screenToCanvas(c[0], this));
 		
-		world.plane = WORLD;
+		world.space = WORLD;
 		return world;
 	}
 }

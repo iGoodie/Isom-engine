@@ -17,9 +17,6 @@ import map.World;
 public class TestStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
 	
 	private World world;
-	
-//	private IsoVector camGrabPoint;
-//	private IsoVector camBoundPos;
 
 	public TestStage(TestGame game) {
 		super(game);
@@ -41,61 +38,7 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 	}
 
 	@Override
-	public void update(float dt) {
-		updateOld(dt);
-	}
-	
-	private void updateOld(float dt) {
-//		Coordinator coord = parent.getCoordinator();
-//
-//		/*//Boundary Cursor Test
-//		IsoVector mousePos = new IsoVector(game.mouseX, game.mouseY);
-//		mousePos = mousePos.toCanvas(coord, game.getCamera()).toWorld(coord);
-//		DebugRenderer.appendLine(3, "Mouse World Pos: " + mousePos.toCastedString2D());
-//		if((mousePos.x >= 0 && mousePos.x < map_size.x) && (mousePos.y >= 0 && mousePos.y < map_size.y)) {
-//			CursorRenderer.setCursor("map");
-//		}*/
-//
-//		//Keyboard Input Handler
-//		IsoVector velocity = IsoVector.createOnWorld(0, 0);
-//		if(Keyboard.isKeyActive(Keyboard.KEY_W)) {
-//			velocity.add(0, 1);
-//		}
-//		if(Keyboard.isKeyActive(Keyboard.KEY_S)) {
-//			velocity.add(0, -1);
-//		}
-//		if(Keyboard.isKeyActive(Keyboard.KEY_D)) {
-//			velocity.add(1, 0);
-//		}
-//		if(Keyboard.isKeyActive(Keyboard.KEY_A)) {
-//			velocity.add(-1, 0);
-//		}
-//		DebugRenderer.appendLine(1, "W-Velocity Unit: " + velocity.toCastedString2D());
-//		velocity.rotate(TestGame.QUARTER_PI);
-//		int speed = 10; //tile per sec
-//		velocity.len(speed * dt); // Normalize, then mult
-//		velocity = velocity.toCanvas(coord); //World movement
-//		DebugRenderer.appendLine(1, "C-Velocity: " + velocity.toCastedString2D());
-//		
-//		/*if(Mouse.isButtonActive(Mouse.BTN_RIGHT)) {
-//			velocity.set(parent.width/2 - parent.mouseX, parent.height/2 - parent.mouseY);
-//			velocity.mult(5 * -dt);
-//		}*/
-//		
-//		// if camera grabbed
-//		if(camGrabPoint != null) {
-//			IsoVector curPos = IsoVector.createOnScreen(parent.mouseX, parent.mouseY);
-//			curPos = curPos.toCanvas(parent.getCoordinator(), parent.getCamera());
-//			
-//			IsoVector diff = IsoVector.sub(camGrabPoint, curPos); // dp = p0 - p1;
-//			diff.add(camBoundPos); // c0 + dp
-//			
-//			parent.getCamera().getCanvasPos().set(diff);
-//		}
-//		else {
-//			parent.getCamera().move(velocity.x, velocity.y);
-//		}
-	}
+	public void update(float dt) {}
 
 	@Override
 	public void render() {
@@ -117,21 +60,10 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 	}
 	
 	@Override
-	public void mousePressed(MousePress pressed) {
-		parent.getCamera().move(5, 5);
-//		if(pressed.getButton() == Mouse.BTN_RIGHT) {
-//			camGrabPoint = new IsoVector(pressed.getX(), pressed.getY());
-//			camBoundPos = parent.getCamera().getCanvasPos().copy();
-//		}
-	}
+	public void mousePressed(MousePress pressed) {}
 	
 	@Override
-	public void mouseReleased(MousePress released) {
-//		if(released.getButton() == Mouse.BTN_RIGHT) {
-//			camGrabPoint = null;
-//			camBoundPos = null;
-//		}
-	}
+	public void mouseReleased(MousePress released) {}
 	
 	@Override
 	public void wheelMoved(float downCount) {

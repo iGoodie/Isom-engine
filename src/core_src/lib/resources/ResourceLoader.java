@@ -38,6 +38,6 @@ public class ResourceLoader implements Runnable {
 	}
 
 	public void start() {
-		new Thread(this).start();
+		new Thread(this, "Resource Loader").start();
 	}
 }

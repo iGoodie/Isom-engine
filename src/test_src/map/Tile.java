@@ -15,6 +15,15 @@ public class Tile {
 		return tile;
 	}
 	
+	public static Tile generateTile(int id, PImage sprite) {
+		if(id >= tiles.size()) {
+			throw new IllegalArgumentException("Cannot override a non-existing tile id(" + id + ")");
+		}
+		Tile tile = new Tile(sprite);
+		tiles.set(id, tile);
+		return tile;
+	}
+	
 	public static Tile getByID(int id) {
 		return tiles.get(id);
 	}
