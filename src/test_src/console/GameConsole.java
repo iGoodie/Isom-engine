@@ -119,10 +119,12 @@ public class GameConsole implements Drawable {
 		float A_GAP = 30;
 		float B_GAP = 5;
 		
+		parent.fill(0xFF_FFFFFF);
 		parent.text(inputBuffer.toString(), 
 				A_GAP, 
 				mid_y - A_GAP);
 		
+		parent.fill(0xFF_AAAAAA);
 		for(int i=size-1; i>=0; i--) {
 			String line = cmdHistory.get(i);
 			parent.text(line, 
