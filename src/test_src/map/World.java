@@ -52,7 +52,8 @@ public class World implements Drawable {
 		Coordinator coord = parent.getCoordinator(); // Fetch coordinator
 		IsoVector camPos = c.getWorldPos();
 		
-		int radius = (int) (10 / c.getZoom());
+		//TODO: Parametrize even better, pls :D
+		int radius = (int) (((3f*parent.width)/(2f*coord.getTileWidth())) / c.getZoom());
 
 		parent.grid(20, 0xFF_303030);
 
@@ -70,8 +71,10 @@ public class World implements Drawable {
 				if(radius*radius < (camPos.x-x)*(camPos.x-x) + (camPos.y-y)*(camPos.y-y)) continue;
 				
 				IsoVector tileCanvasPos = coord.worldToCanvas(x, y);
-				parent.image(groundLayer[x][y].getSprite(), tileCanvasPos.x, tileCanvasPos.y);
-				if(parent.debugEnabled) parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
+				parent.imageOnPivot(groundLayer[x][y].getSprite(), tileCanvasPos.x, tileCanvasPos.y);
+				
+				//XXX: Costs a lot to render: if(parent.debugEnabled) parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
+				
 				frustrumCount++;
 			}
 		}

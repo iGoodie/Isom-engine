@@ -77,7 +77,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		parent.pushStyle();
 		{
 			parent.tint(255, transparency.getValue());
-			parent.image(testGamelogo, parent.width/2f, parent.height/2f);
+			parent.imageOnPivot(testGamelogo, parent.width/2f, parent.height/2f);
 		}
 		parent.popStyle();
 		
@@ -97,7 +97,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 			float scl = .4f;
 			parent.translate(parent.width-isomEngineLogo.width/2f*scl-20, parent.height-isomEngineLogo.height/2f*scl-15);
 			parent.scale(scl);
-			parent.image(isomEngineLogo, 0, 0);
+			parent.imageOnPivot(isomEngineLogo, 0, 0);
 			parent.textFont(Fonts.getFont("intro-f1"));
 			parent.textSize(35f);
 			parent.textWithStroke("Powered by", 

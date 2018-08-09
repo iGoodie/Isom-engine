@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import lib.core.GameBase;
 
-public class DebugRenderer {
+public final class DebugRenderer {
 	private static final int TEXT_COLOR = 0xFF_FFFFFF;
 	private static final int OUTLINE_COLOR = 0xFF_000000;
 
@@ -29,6 +29,8 @@ public class DebugRenderer {
 	}
 
 	public static void appendLine(String line) {
+		if(!parent.debugEnabled) return;
+		
 		leftTopLines.add(line);
 	}
 

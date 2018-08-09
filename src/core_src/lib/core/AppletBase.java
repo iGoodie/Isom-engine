@@ -55,8 +55,8 @@ public class AppletBase extends PApplet {
 		popStyle();
 	}
 
-	public void image(PivotImage img, float x, float y) {
-		image((PImage)img, x-img.pivot.x, y-img.pivot.y);
+	public void imageOnPivot(PivotImage img, float x, float y) {
+		image(img, x-img.pivot.x, y-img.pivot.y);
 	}
 
 	public PivotImage loadImage(String filename, float x, float y) {
