@@ -14,17 +14,21 @@ public class CommandTerminal extends Command {
 	}
 
 	@Override
-	public String execute(String[] args) {
-		if(args.length != 2) {
-			return getUsage();
-		}
-		
-		switch(args[0]) { // Terminal cmd type
-		case "p": ConsolePrinter.info(args[1]); break;
+	public String execute(String[] cmdArgs) {		
+		switch(cmdArgs[0]) { // Terminal cmd type
+		case "p": return subPrint(cmdArgs);
 		default: return getUsage();
 		}
+	}
+	
+	private String subPrint(String[] cmdArgs) {
+		if(cmdArgs.length <= 2) return getUsage();
+		
+		// Build string with given arguments
+		String[] msgArgs = new String[cmdArgs.length-1];
+		System.arraycopy(cmdArgs, 1, msgArgs, 0, msgArgs.length);
+		ConsolePrinter.info(String.join(" ", msgArgs));
 		
 		return null;
 	}
-	
 }

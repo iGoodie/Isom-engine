@@ -44,8 +44,6 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 	public void render() {
 		world.render();
 		
-		DebugRenderer.appendLine("FPS: " + (int)parent.frameRate);
-		
 		DebugRenderer.appendLine(DebugRenderer.LOWER_LEFT, parent.getCamera().toString());
 	}
 

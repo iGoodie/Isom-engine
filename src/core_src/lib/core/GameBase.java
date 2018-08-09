@@ -81,6 +81,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		background(0xFF_000000);
 
 		DebugRenderer.appendLine("Stage: " + currentStage.name);
+		DebugRenderer.appendLine("FPS: " + (int)frameRate);
 		
 		currentStage.render();
 		

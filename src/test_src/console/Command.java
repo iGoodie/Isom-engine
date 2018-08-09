@@ -4,14 +4,14 @@ public abstract class Command {
 
 	protected GameConsole console;
 	
-	public String preword;
+	public String name;
 	
-	public Command(GameConsole console, String preword) {
+	public Command(GameConsole console, String name) {
 		this.console = console;
-		this.preword = preword;
+		this.name = name;
 	}
 	
-	public abstract String execute(String[] args);
+	public abstract String execute(String[] cmdArgs);
 	
 	public abstract String getUsage();
 }

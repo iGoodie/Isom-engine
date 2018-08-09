@@ -14,18 +14,18 @@ public class CommandMoveCam extends Command {
 	}
 	
 	@Override
-	public String execute(String[] args) {
-		if(args.length != 2 && args.length != 3) {
+	public String execute(String[] cmdArgs) {
+		if(cmdArgs.length != 2 && cmdArgs.length != 3) {
 			return getUsage();
 		}
 		
 		try {
-			float x = Float.parseFloat(args[0]);
-			float y = Float.parseFloat(args[1]);
+			float x = Float.parseFloat(cmdArgs[0]);
+			float y = Float.parseFloat(cmdArgs[1]);
 			
-			if(args.length == 3) {
+			if(cmdArgs.length == 3) {
 				IsoVector vec2f = new IsoVector(x, y);
-				switch(args[2]) {
+				switch(cmdArgs[2]) {
 				case "w": vec2f.space = IsoVector.WORLD; break;
 				case "c": vec2f.space = IsoVector.CANVAS; break;
 				default: return getUsage();

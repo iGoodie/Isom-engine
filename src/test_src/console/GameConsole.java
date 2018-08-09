@@ -1,6 +1,7 @@
 package console;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import lib.core.Drawable;
 import lib.core.GameBase;
@@ -10,21 +11,25 @@ public class GameConsole implements Drawable {
 	
 	public static int CMD_HISTORY_LINE_LIMIT = 50;
 	
+	private static HashMap<String, Command> commandList = new HashMap<>(); {
+		registerCommand(new CommandMoveCam(this));
+		registerCommand(new CommandTerminal(this));
+	}
+
 	protected GameBase parent;
-	
 	public boolean enabled = false;
 	public StringBuffer inputBuffer = new StringBuffer("> ");
 	private ArrayList<String> cmdHistory = new ArrayList<>();
-	private ArrayList<Command> commandList = new ArrayList<>(); {
-		commandList.add(new CommandMoveCam(this));
-		commandList.add(new CommandTerminal(this));
-		
-		cmdHistory.add("< Command line initialized.");
-		cmdHistory.add("< Command line is ready to execute commands.");
-	}
 	
 	public GameConsole(GameBase parent) {
 		this.parent = parent;
+		
+		print("< Command line initialized.");
+		print("< Command line is ready to execute commands.");
+	}
+	
+	public void registerCommand(Command cmd) {
+		commandList.put(cmd.name, cmd);
 	}
 	
 	public void print(String line) {
@@ -36,31 +41,31 @@ public class GameConsole implements Drawable {
 	}
 	
 	public void parseAndExecute(String input) {
-		int prewordIndex = input.indexOf(' ');
-		String preword;
-		String[] args;
+		int argsIndex = input.indexOf(' ');
+		String cmdName, cmdArgs[];
+
+		print("> " + input); // Indicate executed input
 		
-		if(prewordIndex != -1) {			
-			preword = input.substring(0, input.indexOf(' '));
-			args = input.substring(input.indexOf(' ')+1).split(" ");
+		// Parse cmd name and args
+		if(argsIndex != -1) {			
+			cmdName = input.substring(0, input.indexOf(' '));
+			cmdArgs = input.substring(input.indexOf(' ')+1).split(" ");
 		}
 		else {
-			preword = input;
-			args = new String[0];
+			cmdName = input;
+			cmdArgs = new String[0];
 		}
 		
-		Command cmd = findCommand(preword);
-		
-		print("> " + input);
-		
+		// Search and execute command
+		Command cmd = commandList.get(cmdName);
 		if(cmd == null) {
-			print(String.format("< Cannot find command '%s'", preword));
+			print(String.format("< Cannot find command '%s'", cmdName));
 			return;
 		}
 		
-		String info = cmd.execute(args);
-		if(info != null)
-			print("< " + info);
+		// Print
+		String info = cmd.execute(cmdArgs);
+		if(info != null) print("< " + info);
 	}
 	
 	public void parseAndExecute() {
@@ -68,16 +73,6 @@ public class GameConsole implements Drawable {
 		
 		inputBuffer.setLength(0);
 		inputBuffer.append("> ");
-	}
-	
-	private Command findCommand(String preword) {
-		for(Command c : commandList) {
-			if(c.preword.equals(preword)) {
-				return c;
-			}
-		}
-		
-		return null;
 	}
 
 	public void toggle() {
@@ -93,6 +88,7 @@ public class GameConsole implements Drawable {
 		inputBuffer.append("> ");
 	}
 	
+	/* Drawables */
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
