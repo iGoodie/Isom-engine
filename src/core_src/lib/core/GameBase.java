@@ -3,6 +3,7 @@ package lib.core;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import entity.Entity;
 import igoodie.utils.io.FileUtils;
 import igoodie.utils.log.ConsolePrinter;
 import lib.camera.Camera;
@@ -12,6 +13,7 @@ import lib.graphics.CursorRenderer;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.Keyboard;
 import lib.input.mouse.Mouse;
+import lib.maths.IsoVector;
 import lib.stage.Stage;
 import lib.util.time.DeltaTimer;
 import processing.core.PApplet;
@@ -118,7 +120,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		}
 		throw new NoSuchElementException("There is no cam with the label: " + label);
 	}
-
+	
 	/* Overriding Methods */
 	@Override
 	public void mousePressed() {

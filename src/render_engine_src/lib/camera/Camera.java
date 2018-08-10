@@ -1,10 +1,12 @@
 package lib.camera;
 
 import core.TestGame;
+import entity.PropEntity;
 import lib.animation.Animation2f;
 import lib.animation.Animation2f.Easing2f;
 import lib.core.GameBase;
 import lib.core.Updatable;
+import lib.image.PivotImage;
 import lib.maths.IsoVector;
 
 public class Camera implements Updatable {
@@ -98,6 +100,16 @@ public class Camera implements Updatable {
 	
 	public void rotate(float deltaRotation) {
 		rotation += deltaRotation;
+	}
+	
+	/* Coordination */
+	public boolean propOnScreen(PropEntity e) {
+		IsoVector screenPos = e.getCanvasPos().toScreen(parent.getCoordinator(), this);
+		PivotImage sprite = e.prop.getSprite();
+		return !(screenPos.x < -(sprite.width-sprite.pivot.x)
+				|| screenPos.x > parent.width+sprite.pivot.x
+				|| screenPos.y < -(sprite.height-sprite.pivot.y)
+				|| screenPos.y > parent.height+sprite.pivot.y);
 	}
 	
 	/* Getters */

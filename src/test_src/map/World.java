@@ -1,7 +1,11 @@
 package map;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import core.TestGame;
 import entity.Entity;
+import entity.PropEntity;
 import igoodie.utils.math.MathUtils;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
@@ -19,13 +23,14 @@ public class World implements Drawable {
 		return null; // TODO
 	}
 
-	public int width, height;
 	public String name;
+	public int width, height;
 
 	public TestGame parent;
 
 	public Tile[][] groundLayer;
-	public Entity[] entities;
+	
+	public ArrayList<Entity> entities;
 
 	public World(TestGame parent, int width, int height) {
 		this.parent = parent;
@@ -33,6 +38,7 @@ public class World implements Drawable {
 		this.height = height;
 
 		this.groundLayer = new Tile[width][height];
+		this.entities = new ArrayList<>();
 	}
 
 	@Override
@@ -45,26 +51,44 @@ public class World implements Drawable {
 	@Override
 	public void render() {
 		renderTileLayer();
+		renderEntities();
+	}
+
+	private void renderEntities() {
+		Collections.sort(entities);
+		
+		int frustumCount = 0;
+		
+		parent.getCamera().attachCamera();
+		for(Entity e : entities) {
+			if(e instanceof PropEntity && parent.getCamera().propOnScreen((PropEntity)e)) {
+				e.render();
+				frustumCount++;
+			}
+		}
+		parent.getCamera().deattachCamera();
+
+		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Rendered Props: " + frustumCount);
 	}
 
 	private void renderTileLayer() {
-		Camera c = parent.getCamera(); // Fetch current cam
+		Camera cam = parent.getCamera(); // Fetch current cam
 		Coordinator coord = parent.getCoordinator(); // Fetch coordinator
-		IsoVector camPos = c.getWorldPos();
+		IsoVector camPos = cam.getWorldPos();
 		
 		//TODO: Parametrize even better, pls :D
-		int radius = (int) (((3f*parent.width)/(2f*coord.getTileWidth())) / c.getZoom());
+		int radius = (int) (((2.4f*parent.width)/(2f*coord.getTileWidth())) / cam.getZoom());
 
-		parent.grid(20, 0xFF_303030);
+		if(parent.debugEnabled) parent.grid(20, 0xFF_303030);
 
 		int ax = (int) (camPos.x - radius);
 		int ay = (int) (camPos.y - radius);
 		int bx = (int) (camPos.x + radius);
 		int by = (int) (camPos.y + radius);
 		
-		int frustrumCount = 0;
+		int frustumCount = 0;
 		
-		c.attachCamera();
+		cam.attachCamera();
 		for(int x=MathUtils.clamp(ax, 0, width), lx=MathUtils.clamp(bx, 0, width); x<lx; x++) { 
 			for(int y=MathUtils.clamp(ay, 0, height), ly=MathUtils.clamp(by, 0, height); y<ly; y++) {
 				// Continue if tile is not in range
@@ -75,13 +99,13 @@ public class World implements Drawable {
 				
 				//XXX: Costs a lot to render: if(parent.debugEnabled) parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
 				
-				frustrumCount++;
+				frustumCount++;
 			}
 		}
-		c.deattachCamera();
+		cam.deattachCamera();
 		
 		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Radius: " + radius);
 		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Cam World Pos: " + camPos);
-		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Rendered Tiles: " + frustrumCount);
+		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Rendered Tiles: " + frustumCount);
 	}
 }

@@ -11,6 +11,7 @@ import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
 import lib.resources.ResourceLoader;
 import lib.stage.Stage;
+import map.Prop;
 import map.Tile;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
@@ -43,9 +44,11 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 					ResourceLoader.submitLine(line);
 				}
 				
-				// Load tiles
+				// Load tiles & props
 				this.loadingInfo = "Loading tiles...";
 				Tile.generateTile(game.loadImage("test.png"));
+				Prop.generateProp(game.loadImage("tree.png", 80, 200));
+				System.out.println(Prop.getByID(0));
 
 				// Loading done
 				this.loadingInfo = "Loading done!";
