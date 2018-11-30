@@ -10,6 +10,7 @@ public class Stringifier {
 	public static String asHex(int value, int digits) {
 		String hex = asHex(value);
 		
+		// Fill zeros
 		if(digits < 0) return hex;
 		
 		int length = hex.length();

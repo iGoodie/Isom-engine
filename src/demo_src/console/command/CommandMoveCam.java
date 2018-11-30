@@ -1,5 +1,6 @@
-package console;
+package console.command;
 
+import console.GameConsole;
 import lib.maths.IsoVector;
 
 public class CommandMoveCam extends Command {
@@ -18,7 +19,7 @@ public class CommandMoveCam extends Command {
 		if(cmdArgs.length != 2 && cmdArgs.length != 3) {
 			return getUsage();
 		}
-		
+			
 		try {
 			float x = Float.parseFloat(cmdArgs[0]);
 			float y = Float.parseFloat(cmdArgs[1]);
@@ -35,7 +36,7 @@ public class CommandMoveCam extends Command {
 				y = vec2f.y;
 			}
 			
-			console.parent.getCamera().moveTo(x, y, 1);
+			console.parent.getCamera().moveTo(x, y, 0);
 			
 			return null; // No info msg to be shown
 		}

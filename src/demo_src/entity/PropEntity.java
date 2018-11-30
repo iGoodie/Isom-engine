@@ -28,6 +28,10 @@ public class PropEntity extends Entity implements Comparable<Entity> {
 		return canvasPos;
 	}
 	
+	/**
+	 * Compares entities with their canvas y-coordinations <br>
+	 * In order to sort them for proper rendering order.
+	 */
 	@Override
 	public int compareTo(Entity o) {
 		if(o instanceof PropEntity) {
@@ -41,5 +45,6 @@ public class PropEntity extends Entity implements Comparable<Entity> {
 		if(canvasPos.y > this.canvasPos.y) return -1;
 		else if(canvasPos.y < this.canvasPos.y) return 1;
 		else return 0;
-	}	
+	}
+
 }

@@ -1,6 +1,6 @@
 package lib.core;
 
-import igoodie.utils.io.FileUtils;
+import com.programmer.igoodie.utils.io.FileUtils;
 
 public interface IsoConstants {
 	public static final String LIBRARY_NAME = "Isom-engine";
@@ -8,7 +8,8 @@ public interface IsoConstants {
 	
 	/*
 	 * 0=Alpha(a), 1=Beta(b), 2=Release Candidate(rc), 3=Commercial Distribution(r)
-	 * 2.1.3.2 == 2.1-r2, 3.2.1 == 3.2a
+	 * 2.1.3.2 == 2.1-r2
+	 * 3.2.1 == 3.2a
 	 */
 	public static final String VERSION_MAJOR = 		"0"; // UI || OS changes
 	public static final String VERSION_MINOR = 		"0"; // New features

@@ -2,8 +2,9 @@ package lib.resources;
 
 import java.util.ArrayList;
 
-import igoodie.utils.math.Randomizer;
+import com.programmer.igoodie.utils.math.Randomizer;
 
+// TODO Put sub task classes for percentage info
 public class ResourceLoader implements Runnable {
 	
 	private static ArrayList<String> lines = new ArrayList<>();

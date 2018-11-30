@@ -3,6 +3,9 @@ package console;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import console.command.Command;
+import console.command.CommandMoveCam;
+import console.command.CommandTerminal;
 import lib.core.Drawable;
 import lib.core.GameBase;
 import lib.graphics.Fonts;
@@ -16,7 +19,7 @@ public class GameConsole implements Drawable {
 		registerCommand(new CommandTerminal(this));
 	}
 
-	protected GameBase parent;
+	public GameBase parent;
 	public boolean enabled = false;
 	public StringBuffer inputBuffer = new StringBuffer("> ");
 	private ArrayList<String> cmdHistory = new ArrayList<>();

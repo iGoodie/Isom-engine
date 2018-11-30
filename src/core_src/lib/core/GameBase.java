@@ -3,24 +3,21 @@ package lib.core;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import entity.Entity;
-import igoodie.utils.io.FileUtils;
-import igoodie.utils.log.ConsolePrinter;
+import com.programmer.igoodie.utils.io.FileUtils;
+import com.programmer.igoodie.utils.log.ConsolePrinter;
+
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
-import lib.graphics.CursorRenderer;
+import lib.graphics.Cursors;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.Keyboard;
 import lib.input.mouse.Mouse;
-import lib.maths.IsoVector;
 import lib.stage.Stage;
 import lib.util.time.DeltaTimer;
-import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-// TODO Fix start timeout
 public abstract class GameBase extends AppletBase implements Drawable, IsoConstants {
 
 	public static void main(LaunchBuilder lb) {
@@ -30,7 +27,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
 
-		PApplet.main(args);
+		AppletBase.main(args);
 	}
 
 	/* Elements */
@@ -45,10 +42,16 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	/* Flags */
 	public boolean debugEnabled = DEVELOPER_MODE;
 
-	/* Constructors */
+	/* Initializers */
 	public GameBase() {
 		for(int i=0; i<cameras.length; i++) // Init cameras
 			cameras[i] = new Camera("Cam#"+i, this, 0, 0);
+	}
+	
+	@Override
+	public void settings() {
+		// TODO Auto-generated method stub
+		super.settings();
 	}
 	
 	/* Game-loop */
@@ -64,7 +67,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	@Override
 	public void update(float dt) {
-		CursorRenderer.setDefaultCursor();
+		cursor(Cursors.getDefaultCursor());
 
 		if(Keyboard.isKeyActive(Keyboard.KEY_ALT, Keyboard.KEY_F4)) { //ALT+F4 to exit
 			exit();

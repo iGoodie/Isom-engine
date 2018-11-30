@@ -3,7 +3,7 @@ package lib.camera;
 import core.TestGame;
 import entity.PropEntity;
 import lib.animation.Animation2f;
-import lib.animation.Animation2f.Easing2f;
+import lib.animation.Easing2f;
 import lib.core.GameBase;
 import lib.core.Updatable;
 import lib.image.PivotImage;
@@ -131,6 +131,10 @@ public class Camera implements Updatable {
 	
 	public float getZoom() {
 		return zoom;
+	}
+	
+	public boolean inMotion() {
+		return anim!=null && !anim.isFinished();
 	}
 	
 	/* Special methods */

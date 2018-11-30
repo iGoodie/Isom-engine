@@ -2,6 +2,8 @@ package map;
 
 import java.util.ArrayList;
 
+import com.programmer.igoodie.utils.log.ConsolePrinter;
+
 import lib.image.PivotImage;
 
 public class Prop {
@@ -15,6 +17,7 @@ public class Prop {
 	public static Prop generateProp(PivotImage sprite) {
 		Prop prop = new Prop(sprite);
 		props.add(prop);
+		ConsolePrinter.info("Prop#%d registered. (%s)", prop.id, prop);
 		return prop;
 	}
 	
@@ -24,7 +27,6 @@ public class Prop {
 	private Prop(PivotImage sprite) {
 		this.id = props.size();
 		this.sprite = sprite;
-		props.add(this);
 	}
 	
 	public int getID() {
@@ -33,5 +35,11 @@ public class Prop {
 
 	public PivotImage getSprite() {
 		return sprite;
+	}
+	
+	@Override
+	public String toString() {
+		String sizeString = String.format("{w:%d, h:%d}", sprite.width, sprite.height);
+		return super.toString() + " " + sizeString;
 	}
 }

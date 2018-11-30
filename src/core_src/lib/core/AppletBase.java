@@ -1,8 +1,9 @@
 package lib.core;
 
+import lib.config.CommandLineArgs;
 import lib.image.PivotImage;
 import processing.core.PApplet;
-import processing.core.PImage;
+import processing.opengl.PShader;
 
 /**
  * A wrapper class that contains
@@ -11,6 +12,24 @@ import processing.core.PImage;
  * @author iGoodie
  */
 public class AppletBase extends PApplet {
+	
+	protected CommandLineArgs cmdLineArgs;
+	
+	public CommandLineArgs getCmdLineArgs() {
+		return cmdLineArgs;
+	}
+	
+	/* Overrides */
+	@Override
+	public void settings() {
+		cmdLineArgs = new CommandLineArgs(args==null ? new String[0] : args);
+	}
+	
+	@Override
+	public void filter(PShader shader) { // A Processing bug
+		super.filter(shader);
+		blendMode(BLEND);
+	}
 	
 	/* Text-related methods */
 	public void text(Object o, float x, float y) {
@@ -63,4 +82,10 @@ public class AppletBase extends PApplet {
 		return new PivotImage(loadImage(filename), x, y);
 	}
 
+	public void cursor(PivotImage cursor) {
+		if(cursor!=null) 
+			cursor(cursor, (int)cursor.pivot.x, (int)cursor.pivot.x);
+		else
+			noClip();
+	}
 }

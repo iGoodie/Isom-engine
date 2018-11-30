@@ -1,36 +1,6 @@
 package lib.animation;
 
-import processing.core.PApplet;
-
 public class Animation1f {
-	public static enum Easing1f {
-		LINEAR {
-			@Override
-			public float interpolate(float from, float distance, float time, float duration) {
-				return distance * (time / duration) + from;
-			}
-		},
-		SINE_OUT {
-			@Override
-			public float interpolate(float from, float distance, float time, float duration) {
-				return distance * PApplet.sin(PApplet.HALF_PI * time/duration) + from;
-			}
-		},
-		SINE_IN {
-			@Override
-			public float interpolate(float from, float distance, float time, float duration) {
-				return distance * (1 - PApplet.cos(PApplet.HALF_PI * time/duration)) + from;
-			}
-		},
-		SINE_IN_OUT {
-			@Override
-			public float interpolate(float from, float distance, float time, float duration) {
-				return -distance/2 * (PApplet.cos(PApplet.PI * time/duration) - 1) + from;
-			}
-		};
-		
-		public float interpolate(float from, float to, float time, float duration) { return 0; }
-	}
 	
 	public Easing1f easing = Easing1f.LINEAR;
 	

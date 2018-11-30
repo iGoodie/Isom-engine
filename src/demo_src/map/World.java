@@ -3,10 +3,11 @@ package map;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.programmer.igoodie.utils.math.MathUtils;
+
 import core.TestGame;
 import entity.Entity;
 import entity.PropEntity;
-import igoodie.utils.math.MathUtils;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.core.Drawable;
@@ -16,11 +17,11 @@ import lib.maths.IsoVector;
 public class World implements Drawable {
 
 	public static byte[] serializeWorld() {
-		return null; // TODO
+		return null; // TODO serialize world
 	}
 
-	public static World deserializeMap() {
-		return null; // TODO
+	public static World deserializeMap(byte[] serial_data) {
+		return null; // TODO deserialize map
 	}
 
 	public String name;
@@ -71,15 +72,16 @@ public class World implements Drawable {
 		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Rendered Props: " + frustumCount);
 	}
 
-	private void renderTileLayer() {
+	private void renderTileLayer() { // TODO: Optimize latency caused by Processing's image callback
 		Camera cam = parent.getCamera(); // Fetch current cam
 		Coordinator coord = parent.getCoordinator(); // Fetch coordinator
 		IsoVector camPos = cam.getWorldPos();
 		
-		//TODO: Parametrize even better, pls :D
+		//TODO: Parametrize even better, pls :D For also a better performance
 		int radius = (int) (((2.4f*parent.width)/(2f*coord.getTileWidth())) / cam.getZoom());
 
-		if(parent.debugEnabled) parent.grid(20, 0xFF_303030);
+		if(parent.debugEnabled)
+			parent.grid(20, 0xFF_303030);
 
 		int ax = (int) (camPos.x - radius);
 		int ay = (int) (camPos.y - radius);

@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="lib" path="/Goodieutils/bin" sourcepath="/Goodieutils/src"/>
-	<classpathentry kind="src" path="src/test_src"/>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src/demo_src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src/core_src"/>
 	<classpathentry kind="src" path="src/render_engine_src"/>
 	<classpathentry kind="src" path="src/physics_engine_src"/>
 	<classpathentry kind="src" path="src/network_src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-jse-3.0.1.jar" sourcepath="E:/eclipse/workspace/Isom-engine/lib/luaj-3.0.1/lib/luaj-sources-3.0.1.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/core.jar" sourcepath="E:/eclipse/processing/processing-master.zip"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-aarch64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-armv6hf.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/gluegen-rt-natives-windows-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-linux-aarch64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-linux-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-linux-armv6hf.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-linux-i586.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-macosx-universal.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="E:/eclipse/workspace/Isom-engine/lib/processing-3.3.6/core/library/jogl-all-natives-windows-i586.jar"/>
-	<classpathentry kind="output" path="client/bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/processing3.4/core.jar" sourcepath="lib/processing-master.zip"/>
+	<classpathentry kind="lib" path="lib/processing3.4/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/processing3.4/jogl-all.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

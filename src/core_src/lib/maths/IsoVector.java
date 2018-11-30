@@ -1,6 +1,7 @@
 package lib.maths;
 
-import igoodie.utils.math.Randomizer;
+import com.programmer.igoodie.utils.math.Randomizer;
+
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import processing.core.PApplet;

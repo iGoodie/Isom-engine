@@ -29,7 +29,7 @@ public class Coordinator {
 		return tileHeight;
 	}
 	
-	/* Screen Parameterized */
+	/* Screen Parameterized TODO: parametrize rotation as well */
 	
 	/**
 	 * Converts screen coordinates into canvas coordinates.

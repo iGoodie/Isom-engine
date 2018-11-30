@@ -1,6 +1,8 @@
-package console;
+package console.command;
 
-import igoodie.utils.log.ConsolePrinter;
+import com.programmer.igoodie.utils.log.ConsolePrinter;
+
+import console.GameConsole;
 
 public class CommandTerminal extends Command {
 

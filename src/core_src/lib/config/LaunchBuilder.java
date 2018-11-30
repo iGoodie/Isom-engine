@@ -139,4 +139,8 @@ public class LaunchBuilder {
 		build = ArrayUtils.merge(build, userArgs);
 		return build;
 	}
+
+	public String[] getOptionalArgs() {
+		return userArgs;
+	}
 }

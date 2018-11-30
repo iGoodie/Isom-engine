@@ -8,12 +8,13 @@ import java.util.HashMap;
 
 import processing.core.PFont;
 
-// TODO
 public final class Fonts {
-	
-	public static final PFont DEFAULT_FONT = new PFont(Font.decode("Arial"), true);
 
 	private static HashMap<String, PFont> fonts = new HashMap<>();
+	
+	static {
+		pushFont("default", new PFont(Font.decode("Arial"), true));
+	}
 	
 	public static void pushFont(String name, PFont font) {
 		fonts.put(name, font);
@@ -22,7 +23,8 @@ public final class Fonts {
 	public static void pushFont(String name, File fontFile) {
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-			fonts.put(name, new PFont(font, true));
+			PFont pfont = new PFont(font, true);
+			fonts.put(name, pfont);
 		}
 		catch (FontFormatException e) {
 			// TODO Auto-generated catch block
@@ -36,5 +38,9 @@ public final class Fonts {
 	
 	public static PFont getFont(String name) {
 		return fonts.get(name);
+	}
+
+	public static PFont getDefaultFont() {
+		return getFont("default");
 	}
 }

@@ -2,6 +2,8 @@ package map;
 
 import java.util.ArrayList;
 
+import com.programmer.igoodie.utils.log.ConsolePrinter;
+
 import lib.image.PivotImage;
 import processing.core.PImage;
 
@@ -12,6 +14,7 @@ public class Tile {
 	public static Tile generateTile(PImage sprite) {
 		Tile tile = new Tile(sprite);
 		tiles.add(tile);
+		ConsolePrinter.info("Tile#%d registered. (%s)", tile.id, tile);
 		return tile;
 	}
 	

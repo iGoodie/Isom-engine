@@ -1,4 +1,12 @@
+# Eclipse Artifacts
+.settings
+.project
+
+# Development Data
 /build
 /client/bin
-/lib
 /media
+
+# Libraries
+/lib
+/target/

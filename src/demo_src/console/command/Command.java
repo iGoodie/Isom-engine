@@ -1,4 +1,6 @@
-package console;
+package console.command;
+
+import console.GameConsole;
 
 public abstract class Command {
 

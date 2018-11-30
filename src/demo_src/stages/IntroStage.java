@@ -2,7 +2,7 @@ package stages;
 
 import core.TestGame;
 import lib.animation.Animation1f;
-import lib.animation.Animation1f.Easing1f;
+import lib.animation.Easing1f;
 import lib.graphics.DebugRenderer;
 import lib.graphics.Fonts;
 import lib.image.PivotImage;
@@ -48,7 +48,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 				this.loadingInfo = "Loading tiles...";
 				Tile.generateTile(game.loadImage("test.png"));
 				Prop.generateProp(game.loadImage("tree.png", 80, 200));
-				System.out.println(Prop.getByID(0));
+				Prop.generateProp(game.loadImage("tree2.png", 80, 200));
 
 				// Loading done
 				this.loadingInfo = "Loading done!";
