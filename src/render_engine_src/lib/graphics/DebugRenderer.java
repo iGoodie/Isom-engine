@@ -7,6 +7,7 @@ import lib.core.GameBase;
 public final class DebugRenderer {
 	private static final int TEXT_COLOR = 0xFF_FFFFFF;
 	private static final int OUTLINE_COLOR = 0xFF_000000;
+	private static final int CONTAINER_COLOR = 0xFF_000000;
 
 	private static final int A_GAP = 10; //px
 	private static final int B_GAP = 5; //px
@@ -35,10 +36,13 @@ public final class DebugRenderer {
 	}
 
 	public static void appendLine(int placing, String line) {
-		if(!parent.debugEnabled) return;
+		if(!parent.debugEnabled) return; // Do not append, if debug mode is off
 		
-		if(placing > LOWER_RIGHT) throw new IllegalArgumentException("Given placing enum is not defined!");
+		// If placing enum is out of bounds, throw exception since it's an internal module
+		if(placing > LOWER_RIGHT || placing < UPPER_LEFT)
+			throw new IllegalArgumentException("Given placing enum is not defined!");
 		
+		// Now match placing enum, and append accordingly
 		switch(placing) {
 		case UPPER_RIGHT: rightTopLines.add(line); break;
 		case LOWER_RIGHT: rightBottomLines.add(line); break;
@@ -79,12 +83,12 @@ public final class DebugRenderer {
 		int size;
 		
 		// Render top left
-		if(!leftTopLines.isEmpty()) {
+		if(!leftTopLines.isEmpty()) {		
 			maxWidth = maxWidth(leftTopLines);
 			size = leftTopLines.size();
 			parent.pushStyle();
 			parent.noStroke();
-			parent.fill(0xFF_000000, 100);
+			parent.fill(CONTAINER_COLOR, 100);
 			parent.rect(A_GAP, A_GAP, maxWidth+2*B_GAP, size*textHeight+B_GAP);
 			parent.popStyle();
 			

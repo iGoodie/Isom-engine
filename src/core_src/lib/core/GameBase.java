@@ -74,7 +74,8 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		}
 
 		//Testing 20 tick updates
-		if(frameCount % 20 == 0) currentStage.updateTick();
+		if(frameCount % 20 == 0) 
+			currentStage.updateTick();
 
 		//Updates
 		getCamera().update(dt);
@@ -96,6 +97,10 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	/* Getter/Setter Methods */
+	public Stage<? extends GameBase> getCurrentStage() {
+		return currentStage;
+	}
+	
 	public Camera getCamera() {
 		return this.cameras[selectedCam];
 	}

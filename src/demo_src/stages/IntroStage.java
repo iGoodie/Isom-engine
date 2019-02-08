@@ -11,8 +11,8 @@ import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
 import lib.resources.ResourceLoader;
 import lib.stage.Stage;
+import lib.world.Tile;
 import map.Prop;
-import map.Tile;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 

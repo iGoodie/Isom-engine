@@ -20,11 +20,14 @@ public class ResourceLoader implements Runnable {
 	}
 
 	protected String loadingInfo = "Fetching..";
-	protected float percentage = 0f;
+	protected float percentage = 0f; // interval: [0,1]
 	protected boolean loading = true;
 	
 	@Override
-	public void run() {}
+	public void run() {
+		percentage = 1f;
+		loading = false;
+	}
 	
 	public String getInfo() {
 		return loadingInfo;

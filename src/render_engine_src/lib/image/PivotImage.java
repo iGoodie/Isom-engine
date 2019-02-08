@@ -6,6 +6,7 @@ import lib.maths.IsoVector;
 import processing.core.PImage;
 
 public class PivotImage extends PImage {
+	
 	public IsoVector pivot;
 
 	public PivotImage(Image img, float x, float y) {

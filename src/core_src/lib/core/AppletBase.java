@@ -1,5 +1,7 @@
 package lib.core;
 
+import java.awt.Point;
+
 import lib.config.CommandLineArgs;
 import lib.image.PivotImage;
 import processing.core.PApplet;
@@ -29,6 +31,11 @@ public class AppletBase extends PApplet {
 	public void filter(PShader shader) { // A Processing bug
 		super.filter(shader);
 		blendMode(BLEND);
+	}
+	
+	/* Screen related methods */
+	public Point getLocation() {
+		return frame.getLocationOnScreen();
 	}
 	
 	/* Text-related methods */

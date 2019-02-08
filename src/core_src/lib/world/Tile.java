@@ -1,4 +1,4 @@
-package map;
+package lib.world;
 
 import java.util.ArrayList;
 

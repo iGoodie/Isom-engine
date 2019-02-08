@@ -3,6 +3,11 @@ package map;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Vector2;
+
 import com.programmer.igoodie.utils.math.MathUtils;
 
 import core.TestGame;
@@ -13,17 +18,18 @@ import lib.camera.Coordinator;
 import lib.core.Drawable;
 import lib.graphics.DebugRenderer;
 import lib.maths.IsoVector;
+import lib.world.Tile;
 
-public class World implements Drawable {
+public class WorldOld implements Drawable {
 
 	public static byte[] serializeWorld() {
 		return null; // TODO serialize world
 	}
 
-	public static World deserializeMap(byte[] serial_data) {
+	public static WorldOld deserializeMap(byte[] serial_data) {
 		return null; // TODO deserialize map
 	}
-
+	
 	public String name;
 	public int width, height;
 
@@ -33,7 +39,7 @@ public class World implements Drawable {
 	
 	public ArrayList<Entity> entities;
 
-	public World(TestGame parent, int width, int height) {
+	public WorldOld(TestGame parent, int width, int height) {
 		this.parent = parent;
 		this.width = width;
 		this.height = height;
@@ -42,8 +48,19 @@ public class World implements Drawable {
 		this.entities = new ArrayList<>();
 	}
 
+	org.dyn4j.dynamics.World w = new org.dyn4j.dynamics.World(); {
+		w.setGravity(new Vector2());
+		Body b = new Body();
+		b.addFixture(Geometry.createCircle(15));
+		b.translate(1, 0);
+		b.setMass(MassType.NORMAL);
+		w.addBody(b);
+	}
+	
 	@Override
 	public void update(float dt) {
+		w.step(1, dt);
+		System.out.println(w.getBodies().get(0).getWorldCenter());
 		for(Entity e : entities) {
 			e.update(dt);
 		}
@@ -56,6 +73,12 @@ public class World implements Drawable {
 	}
 
 	private void renderEntities() {
+		/*
+		 * TODO: Optimization on y-sorting
+		 * 1 - Query props on frustum
+		 * 2 - Sort only queries entities.
+		 * 3 - Render them
+		 */
 		Collections.sort(entities);
 		
 		int frustumCount = 0;
@@ -96,8 +119,10 @@ public class World implements Drawable {
 				// Continue if tile is not in range
 				if(radius*radius < (camPos.x-x)*(camPos.x-x) + (camPos.y-y)*(camPos.y-y)) continue;
 				
+				// TODO: Optimize PApplet::image ?
 				IsoVector tileCanvasPos = coord.worldToCanvas(x, y);
 				parent.imageOnPivot(groundLayer[x][y].getSprite(), tileCanvasPos.x, tileCanvasPos.y);
+				//parent.image(IMG, tileCanvasPos.x, tileCanvasPos.y);
 				
 				//XXX: Costs a lot to render: if(parent.debugEnabled) parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
 				
@@ -110,4 +135,8 @@ public class World implements Drawable {
 		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Cam World Pos: " + camPos);
 		DebugRenderer.appendLine(DebugRenderer.UPPER_RIGHT, "Rendered Tiles: " + frustumCount);
 	}
+	
+	/*private static final PivotImage IMG = new PivotImage(new PImage(1,1)); {
+		IMG.pixels[0] = 0xFF_FFFFFF;
+	}*/
 }
