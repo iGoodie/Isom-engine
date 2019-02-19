@@ -60,7 +60,7 @@ public class WorldOld implements Drawable {
 	@Override
 	public void update(float dt) {
 		w.step(1, dt);
-		System.out.println(w.getBodies().get(0).getWorldCenter());
+		//System.out.println(w.getBodies().get(0).getWorldCenter());
 		for(Entity e : entities) {
 			e.update(dt);
 		}

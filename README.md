@@ -23,7 +23,8 @@ Isom-engine is an isometric rendering engine (being) built on-top of Processing 
 <!--p><img height="60px" src="https://cdn.discordapp.com/attachments/414163950855389186/414426001146118165/preview.png"></p-->
 ## Preview
 
-<img width="640" src="https://cdn.discordapp.com/attachments/414215799851712512/414215960140972033/unknown.png">
-<img width="640" src="https://cdn.discordapp.com/attachments/414215799851712512/414217354415702017/unknown.png">
-
-## To be edited..
+![Intro Stage](preview/p1.png?raw=true)
+![Tiles and Props](preview/p2.png?raw=true)
+![Console and Commands](preview/p3.png?raw=true)
+![Frustum Test](preview/p4.png?raw=true)
+![Prop Optimization Test](preview/p5.png?raw=true)

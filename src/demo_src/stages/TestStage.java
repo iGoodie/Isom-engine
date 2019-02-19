@@ -75,7 +75,7 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 		}
 
 		// parent.filter(blurShader);
-		parent.filter(vignetteShader);
+		//parent.filter(vignetteShader);
 		// parent.filter(nullShader);
 
 		DebugRenderer.appendLine(DebugRenderer.LOWER_LEFT, parent.getCamera().toString());
