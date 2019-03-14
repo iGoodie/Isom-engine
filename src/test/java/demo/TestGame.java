@@ -98,7 +98,7 @@ public class TestGame extends GameBase implements TestConstants {
 		builder.argDisplayPrimaryMonitor();
 		builder.argWindowColor(0xFF_000000);
 
-		GameBase.main(builder); //Continues on other thread (async)
+		GameBase.main(TestGame.class, builder); //Continues on other thread (async)
 	}
 
 }

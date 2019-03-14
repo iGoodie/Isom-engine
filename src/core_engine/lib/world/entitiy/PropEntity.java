@@ -1,6 +1,5 @@
-package lib.entity;
+package lib.world.entitiy;
 
-import entity.Entity;
 import lib.core.GameBase;
 import lib.maths.IsoVector;
 

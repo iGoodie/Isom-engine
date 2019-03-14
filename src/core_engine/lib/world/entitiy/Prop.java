@@ -1,4 +1,4 @@
-package lib.entity;
+package lib.world.entitiy;
 
 import java.util.ArrayList;
 

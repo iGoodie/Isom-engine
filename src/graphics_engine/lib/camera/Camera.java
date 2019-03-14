@@ -4,9 +4,9 @@ import lib.animation.Animation2f;
 import lib.animation.Easing2f;
 import lib.core.GameBase;
 import lib.core.Updatable;
-import lib.entity.PropEntity;
 import lib.image.PivotImage;
 import lib.maths.IsoVector;
+import lib.world.entitiy.PropEntity;
 
 public class Camera implements Updatable {
 	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 

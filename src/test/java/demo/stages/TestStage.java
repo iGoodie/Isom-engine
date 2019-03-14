@@ -7,7 +7,6 @@ import demo.TestGame;
 import demo.map.WorldOld;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
-import lib.entity.PropEntity;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
@@ -18,6 +17,7 @@ import lib.input.mouse.MousePress;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
 import lib.world.Tile;
+import lib.world.entitiy.PropEntity;
 import processing.opengl.PShader;
 
 public class TestStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
@@ -37,6 +37,7 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 				world.groundLayer[i][j] = Tile.getByID(0);
 			}
 		}
+		
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(0, 0)));
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(1, 1)));
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(2, 2)));

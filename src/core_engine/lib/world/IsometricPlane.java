@@ -9,6 +9,7 @@ public class IsometricPlane extends World implements Drawable {
 	
 	private int mapId;
 	private GameBase parent;
+	
 	private Tile[][] tiles;
 
 	public IsometricPlane(GameBase parent) {

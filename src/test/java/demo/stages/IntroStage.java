@@ -3,16 +3,16 @@ package demo.stages;
 import demo.TestGame;
 import lib.animation.Animation1f;
 import lib.animation.Easing1f;
-import lib.entity.Prop;
 import lib.graphics.DebugRenderer;
 import lib.graphics.Fonts;
 import lib.image.PivotImage;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
-import lib.resources.ResourceLoader;
+import lib.resource.ResourceLoader;
 import lib.stage.Stage;
 import lib.world.Tile;
+import lib.world.entitiy.Prop;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 

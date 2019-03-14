@@ -20,14 +20,14 @@ import processing.event.MouseEvent;
 
 public abstract class GameBase extends AppletBase implements Drawable, IsoConstants {
 
-	public static void main(LaunchBuilder lb) {
+	public static void main(Class<?> clss, LaunchBuilder lb) {
 		FileUtils.setExternalDataPath(IsoConstants.EXTERNAL_DATA_PATH);
 
 		String[] args = lb.build(); // Build with given builder
 
 		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
 
-		AppletBase.main(args);
+		AppletBase.main(clss, args);
 	}
 
 	/* Elements */

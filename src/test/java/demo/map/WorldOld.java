@@ -11,14 +11,14 @@ import org.dyn4j.geometry.Vector2;
 import com.programmer.igoodie.utils.math.MathUtils;
 
 import demo.TestGame;
-import entity.Entity;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.core.Drawable;
-import lib.entity.PropEntity;
 import lib.graphics.DebugRenderer;
 import lib.maths.IsoVector;
 import lib.world.Tile;
+import lib.world.entitiy.Entity;
+import lib.world.entitiy.PropEntity;
 
 public class WorldOld implements Drawable {
 
@@ -47,19 +47,9 @@ public class WorldOld implements Drawable {
 		this.groundLayer = new Tile[width][height];
 		this.entities = new ArrayList<>();
 	}
-
-	org.dyn4j.dynamics.World w = new org.dyn4j.dynamics.World(); {
-		w.setGravity(new Vector2());
-		Body b = new Body();
-		b.addFixture(Geometry.createCircle(15));
-		b.translate(1, 0);
-		b.setMass(MassType.NORMAL);
-		w.addBody(b);
-	}
 	
 	@Override
 	public void update(float dt) {
-		w.step(1, dt);
 		//System.out.println(w.getBodies().get(0).getWorldCenter());
 		for(Entity e : entities) {
 			e.update(dt);
