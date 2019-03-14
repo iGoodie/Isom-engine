@@ -1,6 +1,6 @@
-package console.command;
+package demo.console.command;
 
-import console.GameConsole;
+import demo.console.GameConsole;
 
 public abstract class Command {
 

@@ -1,4 +1,4 @@
-package map;
+package demo.map;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,12 +10,12 @@ import org.dyn4j.geometry.Vector2;
 
 import com.programmer.igoodie.utils.math.MathUtils;
 
-import core.TestGame;
+import demo.TestGame;
 import entity.Entity;
-import entity.PropEntity;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.core.Drawable;
+import lib.entity.PropEntity;
 import lib.graphics.DebugRenderer;
 import lib.maths.IsoVector;
 import lib.world.Tile;

@@ -1,8 +1,9 @@
-package stages;
+package demo.stages;
 
-import core.TestGame;
+import demo.TestGame;
 import lib.animation.Animation1f;
 import lib.animation.Easing1f;
+import lib.entity.Prop;
 import lib.graphics.DebugRenderer;
 import lib.graphics.Fonts;
 import lib.image.PivotImage;
@@ -12,7 +13,6 @@ import lib.input.keyboard.KeyboardListener;
 import lib.resources.ResourceLoader;
 import lib.stage.Stage;
 import lib.world.Tile;
-import map.Prop;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 

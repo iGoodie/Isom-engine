@@ -1,12 +1,13 @@
-package stages;
+package demo.stages;
 
 import com.programmer.igoodie.utils.math.MathUtils;
 import com.programmer.igoodie.utils.math.Randomizer;
 
-import core.TestGame;
-import entity.PropEntity;
+import demo.TestGame;
+import demo.map.WorldOld;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
+import lib.entity.PropEntity;
 import lib.graphics.DebugRenderer;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
@@ -17,7 +18,6 @@ import lib.input.mouse.MousePress;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
 import lib.world.Tile;
-import map.WorldOld;
 import processing.opengl.PShader;
 
 public class TestStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
@@ -68,14 +68,14 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 	public void render() {
 		world.render();
 
-		if (parent.getCamera().inMotion()) {
+		/*if (parent.getCamera().inMotion()) {
 			blurShader.set("blurSize", (int) parent.random(9));
 			blurShader.set("sigma", parent.random(5f));
 			parent.filter(blurShader);
-		}
+		}*/
 
 		// parent.filter(blurShader);
-		//parent.filter(vignetteShader);
+		parent.filter(vignetteShader);
 		// parent.filter(nullShader);
 
 		DebugRenderer.appendLine(DebugRenderer.LOWER_LEFT, parent.getCamera().toString());

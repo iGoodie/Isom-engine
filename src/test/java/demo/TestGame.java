@@ -1,16 +1,16 @@
-package core;
+package demo;
 
 import com.programmer.igoodie.utils.benchmark.Performance;
 import com.programmer.igoodie.utils.log.ConsolePrinter;
 
-import console.GameConsole;
+import demo.console.GameConsole;
+import demo.stages.IntroStage;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.core.GameBase;
 import lib.graphics.DebugRenderer;
 import lib.graphics.Fonts;
 import processing.opengl.PJOGL;
-import stages.IntroStage;
 
 public class TestGame extends GameBase implements TestConstants {
 
@@ -100,4 +100,5 @@ public class TestGame extends GameBase implements TestConstants {
 
 		GameBase.main(builder); //Continues on other thread (async)
 	}
+
 }

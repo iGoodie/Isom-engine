@@ -1,8 +1,8 @@
-package console.command;
+package demo.console.command;
 
 import com.programmer.igoodie.utils.log.ConsolePrinter;
 
-import console.GameConsole;
+import demo.console.GameConsole;
 
 public class CommandTerminal extends Command {
 

@@ -5,7 +5,7 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
-import core.TestGame;
+import demo.TestGame;
 import lib.config.CommandLineArgs;
 import lib.maths.IsoVector;
 

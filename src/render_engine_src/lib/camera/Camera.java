@@ -1,11 +1,10 @@
 package lib.camera;
 
-import core.TestGame;
-import entity.PropEntity;
 import lib.animation.Animation2f;
 import lib.animation.Easing2f;
 import lib.core.GameBase;
 import lib.core.Updatable;
+import lib.entity.PropEntity;
 import lib.image.PivotImage;
 import lib.maths.IsoVector;
 
@@ -42,15 +41,15 @@ public class Camera implements Updatable {
 	}
 	
 	public void discardRotation() {
-		TestGame.getGame().rotate(-rotation);
+		parent.rotate(-rotation);
 	}
 	
 	public void discardZoom() {
-		TestGame.getGame().scale(1f/rotation);		
+		parent.scale(1f/rotation);		
 	}
 	
 	public void deattachCamera() {
-		TestGame.getGame().popMatrix();
+		parent.popMatrix();
 	}
 	
 	public void update(float dt) {
@@ -122,7 +121,7 @@ public class Camera implements Updatable {
 	}
 	
 	public IsoVector getWorldPos() {
-		return canvasPos.toWorld(TestGame.getGame().getCoordinator(), this);
+		return canvasPos.toWorld(parent.getCoordinator(), this);
 	}
 
 	public float getRotation() {

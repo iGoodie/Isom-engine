@@ -1,8 +1,8 @@
-package entity;
+package lib.entity;
 
+import entity.Entity;
 import lib.core.GameBase;
 import lib.maths.IsoVector;
-import map.Prop;
 
 public class PropEntity extends Entity implements Comparable<Entity> {
 	

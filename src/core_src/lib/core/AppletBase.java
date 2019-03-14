@@ -65,10 +65,6 @@ public class AppletBase extends PApplet {
 	}
 
 	/* Extension to Processing methods */
-	public void circle(float x, float y, float r) {
-		ellipse(x, y, r, r);
-	}
-
 	public void grid(int offset, int strokeColor) {
 		pushStyle();
 		stroke(strokeColor);

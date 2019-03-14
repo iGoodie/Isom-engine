@@ -2,16 +2,16 @@ package lib.world;
 
 import org.dyn4j.dynamics.World;
 
-import core.TestGame;
 import lib.core.Drawable;
+import lib.core.GameBase;
 
 public class IsometricPlane extends World implements Drawable {
 	
 	private int mapId;
-	private TestGame parent;
+	private GameBase parent;
 	private Tile[][] tiles;
 
-	public IsometricPlane(TestGame parent) {
+	public IsometricPlane(GameBase parent) {
 		super();
 		this.parent = parent;
 		setGravity(ZERO_GRAVITY);

@@ -1,4 +1,4 @@
-package map;
+package lib.entity;
 
 import java.util.ArrayList;
 

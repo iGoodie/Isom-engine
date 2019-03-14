@@ -1,11 +1,11 @@
-package console;
+package demo.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import console.command.Command;
-import console.command.CommandMoveCam;
-import console.command.CommandTerminal;
+import demo.console.command.Command;
+import demo.console.command.CommandMoveCam;
+import demo.console.command.CommandTerminal;
 import lib.core.Drawable;
 import lib.core.GameBase;
 import lib.graphics.Fonts;
