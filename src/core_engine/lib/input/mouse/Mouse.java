@@ -1,6 +1,8 @@
 package lib.input.mouse;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Mouse {
 
@@ -22,13 +24,10 @@ public class Mouse {
 		else { // Else add it in
 			activePresses.add(press);			
 		}
-
+		
 		// Notify every listener about this activation
-		for(int i=registeredListeners.size()-1; i>=0; i--) {
-			MouseListener listener = registeredListeners.get(i);
-
-			listener.mousePressed(press);
-		}
+		var tmpPress = press;
+		registeredListeners.forEach(l -> l.mousePressed(tmpPress));
 	}
 
 	public static void buttonDeactivated(int x, int y, int count, int button) {
@@ -37,19 +36,12 @@ public class Mouse {
 		activePresses.remove(press);
 
 		// Notify every listener about this activation
-		for(int i=registeredListeners.size()-1; i>=0; i--) {
-			MouseListener listener = registeredListeners.get(i);
-
-			listener.mouseReleased(press);
-		}
+		var tmpPress = press;
+		registeredListeners.forEach(l -> l.mouseReleased(tmpPress));
 	}
 
 	public static void wheelMoved(float downCount) {
-		for(int i=registeredListeners.size()-1; i>=0; i--) {
-			MouseListener listener = registeredListeners.get(i);
-
-			listener.wheelMoved(downCount);
-		}
+		registeredListeners.forEach(l -> l.wheelMoved(downCount));
 	}
 
 	public static void subscribe(MouseListener listener) {
@@ -66,12 +58,8 @@ public class Mouse {
 
 	/* Checkers */
 	public static boolean isButtonActive(int button) {
-		for(int i=0; i<activePresses.size(); i++) {
-			if(activePresses.get(i).button == button) {
-				return true;
-			}
-		}
-		return false;
+		return activePresses.stream()
+				.anyMatch(press -> press.button == button);
 	}
 
 	public static boolean isButtonActive(MousePress press) {
@@ -83,15 +71,10 @@ public class Mouse {
 		return activePresses;
 	}
 
-	public static String[] getPressList() {
-		String[] list = new String[activePresses.size()];
-
-		for(int i=0; i<list.length; i++) {
-			MousePress pair = activePresses.get(i);
-			list[i] = pair.toString();
-		}
-
-		return list;
+	public static List<String> getPressList() {
+		return activePresses.stream()
+				.map(key -> key.toString())
+				.collect(Collectors.toList());
 	}
 
 	/* Buttons */

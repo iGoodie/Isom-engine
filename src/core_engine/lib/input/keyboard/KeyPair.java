@@ -52,4 +52,5 @@ public class KeyPair {
 				key, Stringifier.asHex(key, 4), 
 				keyCode, Stringifier.asHex(keyCode, 8));
 	}
+	
 }

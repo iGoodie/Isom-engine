@@ -174,7 +174,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 			}
 		}
 
-		Keyboard.keyActivated(key, keyCode);
+		Keyboard.activateKey(key, keyCode);
 
 		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
 			key = (char) (keyCode = 0); //Reset signal
@@ -194,7 +194,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 			}
 		}
 
-		Keyboard.keyDeactivated(key, keyCode);
+		Keyboard.deactivateKey(key, keyCode);
 	}
 
 	@Override

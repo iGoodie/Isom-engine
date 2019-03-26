@@ -1,14 +1,18 @@
 package lib.input.keyboard;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import lombok.Getter;
 
 public class Keyboard {
 
 	private static ArrayList<KeyboardListener> registeredListeners = new ArrayList<>();
 
-	private static ArrayList<KeyPair> activeKeys = new ArrayList<>();
+	private @Getter static ArrayList<KeyPair> activeKeys = new ArrayList<>();
 
-	public static void keyActivated(char key, int keyCode) {
+	public static void activateKey(char key, int keyCode) {
 		KeyPair pair = new KeyPair(key, keyCode);
 
 		if(activeKeys.contains(pair)) return;
@@ -16,27 +20,21 @@ public class Keyboard {
 		activeKeys.add(pair);
 
 		// Notify listeners about that activation
-		for(int i=registeredListeners.size()-1; i>=0; i--) {
-			KeyboardListener listener = registeredListeners.get(i);
+		registeredListeners.forEach(l -> {
+			l.keyPressed(pair);
 			
-			listener.keyPressed(pair);
-
 			if(pair.isPrintable())
-				listener.keyTyped(pair);
-		}
+				l.keyTyped(pair);			
+		});
 	}
 
-	public static void keyDeactivated(char key, int keyCode) {
+	public static void deactivateKey(char key, int keyCode) {
 		KeyPair pair = new KeyPair(key, keyCode);
 
 		activeKeys.remove(pair);
 		
 		// Notify listeners about that deactivation
-		for(int i=registeredListeners.size()-1; i>=0; i--) {
-			KeyboardListener listener = registeredListeners.get(i);
-			
-			listener.keyReleased(pair);
-		}
+		registeredListeners.forEach(l -> l.keyReleased(pair));
 	}
 
 	public static void subscribe(KeyboardListener listener) {
@@ -57,15 +55,13 @@ public class Keyboard {
 	}
 
 	public static boolean isKeyActive(char key) {
-		if(key == '\uFFFF') throw new IllegalArgumentException("Coded key flag can't be passed as an argument.");
+		if(key == '\uFFFF') 
+			throw new IllegalArgumentException("Coded key flag can't be passed as an argument.");
 
-		key = Character.toUpperCase(key);
-
-		for(KeyPair pair : activeKeys) {
-			if(pair.key == key) return true;
-		}
-
-		return false;
+		char keyUpper = Character.toUpperCase(key);
+		
+		return activeKeys.stream()
+				.anyMatch(pair -> pair.key == keyUpper);
 	}
 
 	public static boolean isKeyActive(KeyPair pair) {
@@ -82,19 +78,10 @@ public class Keyboard {
 	}
 	
 	/* Getters */
-	public static ArrayList<KeyPair> getActiveKeys() {
-		return activeKeys;
-	}
-
-	public static String[] getKeyList() {
-		String[] list = new String[activeKeys.size()];
-
-		for(int i=0; i<list.length; i++) {
-			KeyPair pair = activeKeys.get(i);
-			list[i] = pair.toString();
-		}
-
-		return list;
+	public static List<String> getKeyList() {
+		return activeKeys.stream()
+				.map(key -> key.toString())
+				.collect(Collectors.toList());
 	}
 
 	/* Keys */
@@ -133,4 +120,5 @@ public class Keyboard {
 	
 	public static final KeyPair KEY_WIN_ENTER = new KeyPair('\n', 0x0000000A);
 	public static final KeyPair KEY_WIN_BACKSPACE = new KeyPair('\u0008', 0x00000008);
+
 }
