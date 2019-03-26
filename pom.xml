@@ -15,17 +15,6 @@
 	</repositories>
 
 	<build>
-		<sourceDirectory>src/demo_src</sourceDirectory>
-
-		<resources>
-			<resource>
-				<directory>src/demo_src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -46,24 +35,27 @@
 			<artifactId>luaj-jse</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.igoodie</groupId>
 			<artifactId>goodieutils</artifactId>
 			<version>1.1.0.5</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.dyn4j</groupId>
 			<artifactId>dyn4j</artifactId>
 			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

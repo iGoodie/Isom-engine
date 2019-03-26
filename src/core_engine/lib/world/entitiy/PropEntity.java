@@ -2,12 +2,14 @@ package lib.world.entitiy;
 
 import lib.core.GameBase;
 import lib.maths.IsoVector;
+import lombok.Getter;
+import lombok.Setter;
 
 public class PropEntity extends Entity implements Comparable<Entity> {
 	
-	public Prop prop;
+	private @Getter @Setter Prop prop;
 	
-	private IsoVector canvasPos;
+	private @Getter IsoVector canvasPos;
 	
 	public PropEntity(GameBase parent, int propId, IsoVector worldPos) {
 		super(parent, worldPos);
@@ -22,10 +24,6 @@ public class PropEntity extends Entity implements Comparable<Entity> {
 
 	@Override
 	public void update(float dt) {}
-
-	public IsoVector getCanvasPos() {
-		return canvasPos;
-	}
 	
 	/**
 	 * Compares entities with their canvas y-coordinations <br>

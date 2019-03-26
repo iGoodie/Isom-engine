@@ -20,15 +20,15 @@ import lib.world.Tile;
 import lib.world.entitiy.PropEntity;
 import processing.opengl.PShader;
 
-public class TestStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
+public class IngameStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
 
 	private WorldOld world;
 	private PShader blurShader, vignetteShader, nullShader; // Test shaders
 
-	public TestStage(TestGame game) {
+	public IngameStage(TestGame game) {
 		super(game);
 
-		name = "Test Stage";
+		name = "In-game Stage";
 
 		// Prepare test world
 		world = new WorldOld(game, 1000, 1000);
@@ -41,6 +41,7 @@ public class TestStage extends Stage<TestGame> implements KeyboardListener, Mous
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(0, 0)));
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(1, 1)));
 		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(2, 2)));
+		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnCanvas(3.123f, 15.1233f)));
 		for (int i = 0; i < 10_000; i++) {
 			int propId = Randomizer.randomInt(0, 1);
 			world.entities.add(

@@ -104,7 +104,7 @@ public class Camera implements Updatable {
 	/* Coordination */
 	public boolean propOnScreen(PropEntity e) {
 		IsoVector screenPos = e.getCanvasPos().toScreen(parent.getCoordinator(), this);
-		PivotImage sprite = e.prop.getSprite();
+		PivotImage sprite = e.getProp().getSprite();
 		return !(screenPos.x < -(sprite.width-sprite.pivot.x)
 				|| screenPos.x > parent.width+sprite.pivot.x
 				|| screenPos.y < -(sprite.height-sprite.pivot.y)

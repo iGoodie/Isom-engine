@@ -68,7 +68,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		
 		// Change stage if animation is done & resources are loaded
 		if(transparency.isFinished() && !loader.isLoading()) {
-			parent.changeStage(new TestStage(parent));
+			parent.changeStage(new IngameStage(parent));
 		}
 	}
 
@@ -89,7 +89,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		{
 			parent.textAlign(TestGame.CENTER);
 			parent.fill(0xFF_000000);
-			parent.text(loader.getInfo(), parent.width/2f, (parent.height+testGamelogo.height)/2f + 40);
+			parent.text(loader.getLoadingInfo(), parent.width/2f, (parent.height+testGamelogo.height)/2f + 40);
 		}
 		parent.popStyle();
 		
@@ -137,7 +137,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 	public void keyPressed(KeyPair pair) {
 		if(pair.equals(Keyboard.KEY_SPACE)) {
 			if(transparency.isFinished() && !loader.isLoading()) {
-				parent.changeStage(new TestStage(parent));
+				parent.changeStage(new IngameStage(parent));
 			}
 		}
 		else if(pair.equals(Keyboard.KEY_F1)) {
