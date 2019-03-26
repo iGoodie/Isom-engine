@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import demo.TestGame;
-import lib.config.CommandLineArgs;
+import lib.config.commandline.CommandLine;
 import lib.maths.IsoVector;
 
 public class LaunchBuilderTest {
@@ -18,6 +18,7 @@ public class LaunchBuilderTest {
 
 	@Test
 	public void launcherShouldParseCmdLineArgs() {
+		// TODO TEST: validate parsing
 		String cmdLineArgs = "--fullscreen -username=admin --testFlag";
 
 		// Initiate the game loop
@@ -27,13 +28,13 @@ public class LaunchBuilderTest {
 		waitWhile(second -> TestGame.getGame().getCurrentStage() == null);
 
 		// Fetch the command line args prototype
-		CommandLineArgs cla = TestGame.getGame().getCmdLineArgs();
+		CommandLine cla = TestGame.getGame().getCmdLineArgs();
 
 		// Assert parsed parts
-		Assert.assertTrue("Username argument should exist", cla.containsArgument("username"));
+		Assert.assertTrue("Username argument should exist", cla.containsKey("username"));
 		Assert.assertTrue("Fullscreen flag should exist", cla.containsFlag("fullscreen"));
 		Assert.assertTrue("TestFlag flag should exist", cla.containsFlag("testFlag"));
-		Assert.assertEquals("Username arg should be 'admin'", cla.getArgument("username"), "admin");
+		Assert.assertEquals("Username arg should be 'admin'", cla.getValue("username"), "admin");
 	}
 
 	@Test
