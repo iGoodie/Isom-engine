@@ -13,13 +13,16 @@ public class LaunchBuilderTest {
 
 	public static void waitWhile(Function<Integer, Boolean> evaluativeFunc) {
 		long start = System.currentTimeMillis();
-		while(evaluativeFunc.apply((int)((System.currentTimeMillis()-start)/1000))) {}
+		while (evaluativeFunc.apply((int) ((System.currentTimeMillis() - start) / 1000))) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {}
+		}
 	}
 
 	@Test
 	public void launcherShouldParseCmdLineArgs() {
-		// TODO TEST: validate parsing
-		String cmdLineArgs = "--fullscreen -username=admin --testFlag";
+		String cmdLineArgs = "--fullscreen -username:admin --testFlag";
 
 		// Initiate the game loop
 		TestGame.main(cmdLineArgs.split("\\s+"));
@@ -42,7 +45,7 @@ public class LaunchBuilderTest {
 
 	@Test
 	public void gameConsoleShouldParseCorrectly() {
-		String cmdLineArgs = "-username=admin --testFlag";
+		String cmdLineArgs = "-username:admin --testFlag";
 
 		// Initiate the game loop
 		TestGame.main(cmdLineArgs.split("\\s+"));
@@ -56,17 +59,17 @@ public class LaunchBuilderTest {
 
 		// Select the camera at index 0
 		game.selectCamera(0);
-		
+
 		// Execute movecam command on the console
 		String worldMovingCommand = "movecam 11 22 w";
 		game.console.parseAndExecute(worldMovingCommand);
-		
+
 		// Wait the camera to complete it's animation
-		waitWhile(second -> second<1 || game.getCamera().inMotion());
-		
+		waitWhile(second -> second < 1 || game.getCamera().inMotion());
+
 		// Assert the new location
-		Assert.assertEquals("Came should've been moved to (11,22) on World Space",
-				game.getCamera().getWorldPos(), new IsoVector(11, 22));
+		Assert.assertEquals("Came should've been moved to (11,22) on World Space", game.getCamera().getWorldPos(),
+				new IsoVector(11, 22));
 	}
 
 }
