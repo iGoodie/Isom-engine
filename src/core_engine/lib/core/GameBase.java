@@ -44,17 +44,23 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	/* Initializers */
 	public GameBase() {
-		for(int i=0; i<cameras.length; i++) // Init cameras
-			cameras[i] = new Camera("Cam#"+i, this, 0, 0);
+		DebugRenderer.setParent(this);
+		
+		for (int i = 0; i < cameras.length; i++) // Init cameras
+			cameras[i] = new Camera("Cam#" + i, this, 0, 0);
 	}
-	
+
 	@Override
 	public void settings() {
 		// TODO Auto-generated method stub
 		super.settings();
 	}
-	
+
 	/* Game-loop */
+	/**
+	 * Do not override this method. </br>
+	 * Use <b>update(dt:float)</b> and <b>render()</b> instead.
+	 */
 	@Override
 	public void draw() {
 		deltaTimer.update();
@@ -62,36 +68,36 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 		update(dt);
 		render();
-		//input();
+		// input();
 	}
 
 	@Override
 	public void update(float dt) {
 		cursor(Cursors.getDefaultCursor());
 
-		if(Keyboard.isKeyActive(Keyboard.KEY_ALT, Keyboard.KEY_F4)) { //ALT+F4 to exit
+		if (Keyboard.isKeyActive(Keyboard.KEY_ALT, Keyboard.KEY_F4)) { // ALT+F4 to exit
 			exit();
 		}
 
-		//Testing 20 tick updates
-		if(frameCount % 20 == 0) 
+		// Testing 20 tick updates
+		if (frameCount % 20 == 0)
 			currentStage.updateTick();
 
-		//Updates
+		// Updates
 		getCamera().update(dt);
 		currentStage.update(dt);
 	}
-	
+
 	@Override
 	public void render() {
 		background(0xFF_000000);
 
 		DebugRenderer.appendLine("Stage: " + currentStage.name);
-		DebugRenderer.appendLine("FPS: " + (int)frameRate);
-		
+		DebugRenderer.appendLine("FPS: " + (int) frameRate);
+
 		currentStage.render();
-		
-		if(debugEnabled) { // Render debug if enabled
+
+		if (debugEnabled) { // Render debug if enabled
 			DebugRenderer.render();
 		}
 	}
@@ -100,7 +106,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	public Stage<? extends GameBase> getCurrentStage() {
 		return currentStage;
 	}
-	
+
 	public Camera getCamera() {
 		return this.cameras[selectedCam];
 	}
@@ -120,36 +126,40 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	public void selectCamera(String label) {
-		for(int i=0; i<cameras.length; i++) {
-			if(cameras[i].getLabel().equals(label)) {
+		for (int i = 0; i < cameras.length; i++) {
+			if (cameras[i].getLabel().equals(label)) {
 				this.selectedCam = i;
 				return;
 			}
 		}
 		throw new NoSuchElementException("There is no cam with the label: " + label);
 	}
-	
+
 	/* Overriding Methods */
 	@Override
 	public void mousePressed() {
-		/*IsoVector c = Coordinator.screen2Camera(getCamera(), mouseX, mouseY);
-		System.out.println(c);*/
-		/*IsoVector s2c = Coordinator.screenToCanvas(getCamera(), new IsoVector(mouseX, mouseY));
-		System.out.println(s2c);*/
-		/*IsoVector w2c = Coordinator.worldToCanvas(new IsoVector(0, 1));
-		System.out.println(w2c);*/
+		/*
+		 * IsoVector c = Coordinator.screen2Camera(getCamera(), mouseX, mouseY);
+		 * System.out.println(c);
+		 */
+		/*
+		 * IsoVector s2c = Coordinator.screenToCanvas(getCamera(), new IsoVector(mouseX,
+		 * mouseY)); System.out.println(s2c);
+		 */
+		/*
+		 * IsoVector w2c = Coordinator.worldToCanvas(new IsoVector(0, 1));
+		 * System.out.println(w2c);
+		 */
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		Mouse.buttonActivated(event.getX(), event.getY(),
-				event.getCount(), event.getButton());
+		Mouse.buttonActivated(event.getX(), event.getY(), event.getCount(), event.getButton());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		Mouse.buttonDeactivated(event.getX(), event.getY(),
-				event.getCount(), event.getButton());
+		Mouse.buttonDeactivated(event.getX(), event.getY(), event.getCount(), event.getButton());
 	}
 
 	@Override
@@ -159,16 +169,19 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		//String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!? _^~-+/\\*=()[]{}<>$₺@£#%½&'\";`";
-		//ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode), printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
-		//ConsoleLogger.debug(event.getModifiers());
-		//ConsoleLogger.debug(event.getNative());
-		//ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
+		// String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!?
+		// _^~-+/\\*=()[]{}<>$₺@£#%½&'\";`";
+		// ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode),
+		// printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
+		// ConsoleLogger.debug(event.getModifiers());
+		// ConsoleLogger.debug(event.getNative());
+		// ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
 
-		//If a meta is on. TODO: regulate this
-		if(event.getModifiers()!=0) {
-			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
-				if(key!='\uFFFF' && key!='\u0000') {
+		// If a meta is on. TODO: regulate this
+		if (event.getModifiers() != 0) {
+			if (keyCode != 0x00000010 && keyCode != 0x00000011 && keyCode != 0x00000012) { // And it's not CTRL, ALT or
+																							// SHIFT
+				if (key != '\uFFFF' && key != '\u0000') {
 					key = (char) keyCode;
 				}
 			}
@@ -176,19 +189,21 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 		Keyboard.activateKey(key, keyCode);
 
-		if(Keyboard.KEY_ESC.equals(key, keyCode)) { //ESC pressed
-			key = (char) (keyCode = 0); //Reset signal
+		if (Keyboard.KEY_ESC.equals(key, keyCode)) { // ESC pressed
+			key = (char) (keyCode = 0); // Reset signal
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		//ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode)); //Log released key
+		// ConsoleLogger.debug("KeyReleased: %s", Keyboard.getKeyString(key, keyCode));
+		// //Log released key
 
-		//If a meta is on. TODO: regulate this
-		if(event.getModifiers()!=0) {
-			if(keyCode!=0x00000010 && keyCode!=0x00000011 && keyCode!=0x00000012) { //And it's not CTRL, ALT or SHIFT
-				if(key!='\uFFFF' && key!='\u0000') {
+		// If a meta is on. TODO: regulate this
+		if (event.getModifiers() != 0) {
+			if (keyCode != 0x00000010 && keyCode != 0x00000011 && keyCode != 0x00000012) { // And it's not CTRL, ALT or
+																							// SHIFT
+				if (key != '\uFFFF' && key != '\u0000') {
 					key = (char) keyCode;
 				}
 			}
@@ -205,7 +220,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	@Override
 	public void focusGained() {
-		Keyboard.reset(); //TODO: Check validity
+		Keyboard.reset(); // TODO: Check validity
 		Mouse.reset();
 	}
 
@@ -215,7 +230,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		ConsolePrinter.debug("Terminating the game...");
 		super.dispose();
 	}
-	
+
 	@Override
 	public void exit() {
 		currentStage.dispose();
@@ -223,4 +238,3 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 		super.exit();
 	}
 }
-

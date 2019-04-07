@@ -57,9 +57,6 @@ public class TestGame extends GameBase implements TestConstants {
 
 		console = new GameConsole(this);
 
-		// Set Parents
-		DebugRenderer.setParent(this);
-
 		// Load Default Fonts
 		textFont(Fonts.getFont("default"));
 		Fonts.pushFont("intro-f1", createFont("fonts/Freshman.ttf", 40, true));
