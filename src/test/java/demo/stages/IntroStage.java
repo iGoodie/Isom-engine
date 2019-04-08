@@ -9,10 +9,10 @@ import lib.image.PivotImage;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
+import lib.registry.SpriteRegistry;
 import lib.resource.ResourceLoader;
 import lib.stage.Stage;
 import lib.world.Tile;
-import lib.world.entitiy.Prop;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
@@ -47,8 +47,8 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 				// Load tiles & props
 				this.loadingInfo = "Loading tiles...";
 				Tile.generateTile(game.loadImage("test.png"));
-				Prop.generateProp(game.loadImage("tree.png", 80, 200));
-				Prop.generateProp(game.loadImage("tree2.png", 80, 200));
+				SpriteRegistry.registerSprite(game.loadImage("tree.png", 80, 200));
+				SpriteRegistry.registerSprite(game.loadImage("tree2.png", 80, 200));
 
 				// Loading done
 				this.loadingInfo = "Loading done!";
@@ -68,7 +68,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 		
 		// Change stage if animation is done & resources are loaded
 		if(transparency.isFinished() && !loader.isLoading()) {
-			parent.changeStage(new IngameStage(parent));
+			parent.changeStage(new YetAnotherWorldStage(parent));
 		}
 	}
 
@@ -137,7 +137,7 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 	public void keyPressed(KeyPair pair) {
 		if(pair.equals(Keyboard.KEY_SPACE)) {
 			if(transparency.isFinished() && !loader.isLoading()) {
-				parent.changeStage(new IngameStage(parent));
+				parent.changeStage(new YetAnotherWorldStage(parent));
 			}
 		}
 		else if(pair.equals(Keyboard.KEY_F1)) {

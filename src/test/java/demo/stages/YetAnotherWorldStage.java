@@ -1,10 +1,8 @@
 package demo.stages;
 
 import com.programmer.igoodie.utils.math.MathUtils;
-import com.programmer.igoodie.utils.math.Randomizer;
 
 import demo.TestGame;
-import demo.map.WorldOld;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.graphics.DebugRenderer;
@@ -16,73 +14,23 @@ import lib.input.mouse.MouseListener;
 import lib.input.mouse.MousePress;
 import lib.maths.IsoVector;
 import lib.stage.Stage;
-import lib.world.Tile;
-import lib.world.entitiy.PropEntity;
-import processing.opengl.PShader;
+import lib.world.IsometricWorld;
 
-public class IngameStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
+public class YetAnotherWorldStage extends Stage<TestGame> implements KeyboardListener, MouseListener {
 
-	private WorldOld world;
-	private PShader blurShader, vignetteShader, nullShader; // Test shaders
+	protected IsometricWorld map;
 
-	public IngameStage(TestGame game) {
-		super(game);
-
-		name = "In-game Stage";
-
-		// Prepare test world
-		world = new WorldOld(game, 1000, 1000);
-		for (int i = 0; i < world.width; i++) {
-			for (int j = 0; j < world.height; j++) {
-				world.groundLayer[i][j] = Tile.getByID(0);
-			}
-		}
+	public YetAnotherWorldStage(TestGame parent) {
+		super(parent);
 		
-		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(0, 0)));
-		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(1, 1)));
-		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnWorld(2, 2)));
-		world.entities.add(new PropEntity(parent, 0, IsoVector.createOnCanvas(3.123f, 15.1233f)));
-		for (int i = 0; i < 10_000; i++) {
-			int propId = Randomizer.randomInt(0, 1);
-			world.entities.add(
-					new PropEntity(parent, propId, IsoVector.createOnWorld(parent.random(1000), parent.random(1000))));
-		}
-
-		IsoVector mid = IsoVector.createOnWorld(50, 50).toCanvas(parent.getCoordinator(), parent.getCamera());
-		parent.getCamera().getCanvasPos().set(mid);
-
-		// Load Test shaders
-		blurShader = game.loadShader("shaders/blur.glsl");
-		vignetteShader = game.loadShader("shaders/vignette.fsh");
-		nullShader = game.loadShader("shaders/nullfilter.fsh");
-		nullShader.set("percent", 0.91f);
-
+		name = "Yet Another World Stage";
+		
+		map = IsometricWorld.loadWorld(parent, parent.dataFile("pseudo_mapfile.map"));
+		
 		Keyboard.subscribe(this);
 		Mouse.subscribe(this);
 	}
-
-	@Override
-	public void update(float dt) {
-		world.update(dt);
-	}
-
-	@Override
-	public void render() {
-		world.render();
-
-		/*if (parent.getCamera().inMotion()) {
-			blurShader.set("blurSize", (int) parent.random(9));
-			blurShader.set("sigma", parent.random(5f));
-			parent.filter(blurShader);
-		}*/
-
-		// parent.filter(blurShader);
-		parent.filter(vignetteShader);
-		// parent.filter(nullShader);
-
-		DebugRenderer.appendLine(DebugRenderer.LOWER_LEFT, parent.getCamera().toString());
-	}
-
+	
 	@Override
 	public void keyPressed(KeyPair pair) {
 		// Temporary console solution. TODO: Impl layered handler for GUI
@@ -111,7 +59,7 @@ public class IngameStage extends Stage<TestGame> implements KeyboardListener, Mo
 			parent.getCamera().moveTo(0, 0);
 		}
 	}
-
+	
 	@Override
 	public void mousePressed(MousePress pressed) {
 		Camera cam = parent.getCamera();
@@ -122,11 +70,7 @@ public class IngameStage extends Stage<TestGame> implements KeyboardListener, Mo
 		clickedPos = clickedPos.toCanvas(coord, cam);
 		cam.moveTo(clickedPos.x, clickedPos.y, 0.1f);
 	}
-
-	@Override
-	public void mouseReleased(MousePress released) {
-	}
-
+	
 	@Override
 	public void wheelMoved(float downCount) {
 		float zoom = parent.getCamera().getZoom() + downCount * -0.125f; // Form input
@@ -137,8 +81,31 @@ public class IngameStage extends Stage<TestGame> implements KeyboardListener, Mo
 	}
 
 	@Override
+	public void update(float dt) {
+		map.update(dt);
+	}
+
+	@Override
+	public void render() {
+		parent.grid(20, 0xFF_303030);
+		map.render();
+		
+		DebugRenderer.appendLine(map.getName());
+		
+		IsoVector origin = IsoVector.createOnWorld(0, 0).toScreen(parent.getCoordinator(), parent.getCamera());
+		IsoVector xAxis = IsoVector.createOnWorld(2, 0).toScreen(parent.getCoordinator(), parent.getCamera());
+		IsoVector yAxis = IsoVector.createOnWorld(0, 1).toScreen(parent.getCoordinator(), parent.getCamera());
+		parent.stroke(255);
+		parent.line(origin.x, origin.y, xAxis.x, xAxis.y);
+		parent.line(origin.x, origin.y, yAxis.x, yAxis.y);
+		parent.textWithStroke("X-axis", xAxis.x, xAxis.y, 255, 0);
+		parent.textWithStroke("Y-axis", yAxis.x, yAxis.y, 255, 0);
+	}
+	
+	@Override
 	public void dispose() {
 		Keyboard.unsubscribe(this);
 		Mouse.unsubscribe(this);
 	}
+
 }

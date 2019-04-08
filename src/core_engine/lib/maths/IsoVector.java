@@ -95,9 +95,7 @@ public class IsoVector {
 	public float x, y, z;
 
 	/* Constructors */
-	public IsoVector() {
-		super();
-	}
+	public IsoVector() {}
 
 	public IsoVector(IsoVector vector) {
 		this.x = vector.x;
