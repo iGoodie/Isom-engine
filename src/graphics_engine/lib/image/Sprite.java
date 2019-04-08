@@ -1,23 +1,19 @@
-package lib.graphics;
+package lib.image;
 
-import lib.image.PivotImage;
 import lib.registry.SpriteRegistry;
 import lombok.Getter;
 
 public class Sprite {
 	
 	public static Sprite generateSprite(PivotImage image) {
-		Sprite sprite = new Sprite(image);
+		Sprite sprite = new Sprite();
+		sprite.image = image;
 		sprite.id = SpriteRegistry.spriteCount();
 		return sprite;
 	}
 	
 	private @Getter int id;
 	private @Getter PivotImage image;
-	
-	private Sprite(PivotImage image) {
-		this.image = image;
-	}
 	
 	@Override
 	public String toString() {

@@ -1,7 +1,7 @@
 package lib.world.entitiy;
 
 import lib.core.GameBase;
-import lib.graphics.Sprite;
+import lib.image.Sprite;
 import lib.maths.IsoVector;
 import lib.registry.SpriteRegistry;
 import lombok.Getter;

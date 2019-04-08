@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.programmer.igoodie.utils.log.ConsolePrinter;
 
-import lib.graphics.Sprite;
 import lib.image.PivotImage;
+import lib.image.Sprite;
 
 public class SpriteRegistry {
 

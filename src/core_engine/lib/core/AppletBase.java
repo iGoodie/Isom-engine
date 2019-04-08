@@ -6,7 +6,6 @@ import lib.config.commandline.CommandLine;
 import lib.image.PivotImage;
 import lombok.Getter;
 import processing.core.PApplet;
-import processing.opengl.PShader;
 
 /**
  * A wrapper class that contains rendering extensions to Processing and some
@@ -25,12 +24,6 @@ public class AppletBase extends PApplet {
 				.options("a", new String[] { "b", "c" })
 				.options("c", new String[] { "b", "c" })
 				.parse(args == null ? new String[0] : args);
-	}
-
-	@Override
-	public void filter(PShader shader) { // A Processing bug
-		super.filter(shader);
-		blendMode(BLEND);
 	}
 
 	/* Screen related methods */

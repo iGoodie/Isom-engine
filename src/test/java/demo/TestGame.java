@@ -8,11 +8,13 @@ import demo.stages.IntroStage;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
 import lib.core.GameBase;
-import lib.graphics.DebugRenderer;
 import lib.graphics.Fonts;
+import lib.input.keyboard.KeyPair;
+import lib.input.keyboard.Keyboard;
+import lib.input.keyboard.KeyboardListener;
 import processing.opengl.PJOGL;
 
-public class TestGame extends GameBase implements TestConstants {
+public class TestGame extends GameBase implements TestConstants, KeyboardListener {
 
 	/* Singleton */
 	private static TestGame game;
@@ -30,10 +32,12 @@ public class TestGame extends GameBase implements TestConstants {
 		super.settings(); // TODO: Find less-ugly way to handle
 
 		game = this;
+		
+		Keyboard.subscribe(this);
 
 		size(ST_WIDTH, ST_HEIGHT, P2D);
 
-		PJOGL.setIcon("icons/icon16.png", //set default favicons
+		PJOGL.setIcon("icons/icon16.png", // set default favicons
 				"icons/icon32.png",
 				"icons/icon48.png",
 				"icons/icon128.png",
@@ -43,11 +47,7 @@ public class TestGame extends GameBase implements TestConstants {
 	@Override
 	public void setup() {
 		surface.setTitle(WINDOW_TITLE);
-		surface.setResizable(false);
-
-		// Maximize window
-		//		GLWindow w = (GLWindow) surface.getNative();
-		//		w.setMaximized(true, false);
+		surface.setResizable(true);
 
 		// Render related options
 		frameRate(ST_FPS_LIMIT);
@@ -64,14 +64,14 @@ public class TestGame extends GameBase implements TestConstants {
 
 		coordinator = new Coordinator(this, 128, 64);
 		currentStage = new IntroStage(this);
-		deltaTimer.reset(); //Ignore blackscreen dt before gameloop
+		deltaTimer.reset(); // Ignore blackscreen dt before gameloop
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		if(console.enabled)
+		if (console.enabled)
 			console.update(dt);
 	}
 
@@ -79,13 +79,43 @@ public class TestGame extends GameBase implements TestConstants {
 	public void render() {
 		super.render();
 
-		if(console.enabled)
+		if (console.enabled)
 			console.render();
+	}
+
+	@Override
+	public void keyPressed(KeyPair pair) {
+		if (pair.equals(Keyboard.KEY_F12)) // Console Toggler
+			console.toggle();
+
+		if (console.enabled) {
+			StringBuffer inputBuffer = console.inputBuffer;
+			if (pair.equals(Keyboard.KEY_WIN_ENTER)) {
+				console.parseAndExecute();
+
+			} else if (pair.equals(Keyboard.KEY_WIN_BACKSPACE)) {
+				if (inputBuffer.length() > "> ".length())
+					inputBuffer.deleteCharAt(inputBuffer.length() - 1);
+
+			} else if (pair.equals(Keyboard.KEY_ESC)) {
+				console.close();
+
+			} else {
+				if (pair.isPrintable())
+					inputBuffer.append(pair.getKey());
+			}
+		}
+	}
+
+	@Override
+	public void dispose() {
+		Keyboard.unsubscribe(this);
+		super.dispose();
 	}
 
 	/* Unique Main Method */
 	public static void main(String[] args) {
-		if(!Performance.getOS().equals("windows")) { // Check OS compatibility
+		if (!Performance.getOS().equals("windows")) { // Check OS compatibility
 			ConsolePrinter.error(GAME_NAME + " only supports Windows OS.");
 			return;
 		}
@@ -95,7 +125,7 @@ public class TestGame extends GameBase implements TestConstants {
 		builder.argDisplayPrimaryMonitor();
 		builder.argWindowColor(0xFF_000000);
 
-		GameBase.main(TestGame.class, builder); //Continues on other thread (async)
+		GameBase.main(TestGame.class, builder); // Continues on other thread (async)
 	}
 
 }

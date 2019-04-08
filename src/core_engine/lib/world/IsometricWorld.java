@@ -11,6 +11,7 @@ import lib.core.Drawable;
 import lib.core.GameBase;
 import lib.graphics.DebugRenderer;
 import lib.maths.IsoVector;
+import lib.registry.TileRegistry;
 import lib.world.entitiy.Entity;
 import lib.world.entitiy.PropEntity;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class IsometricWorld implements Drawable {
 		// TODO: Load tiles from file
 		for (int i = 0; i < world.width; i++)
 			for (int j = 0; j < world.height; j++)
-				world.tiles[i][j] = Tile.getByID(0);
+				world.tiles[i][j] = TileRegistry.getTileByID(Randomizer.randomInt(1, 3));
 
 		// TODO: Load entities from file
 		world.spawnEntity(0, new PropEntity(parent, 0, IsoVector.createOnWorld(0, 0)));
@@ -59,7 +60,7 @@ public class IsometricWorld implements Drawable {
 		this.width = width;
 		this.height = height;
 		this.tiles = new Tile[width][height];
-		
+
 		this.layers = new IsometricLayer[layerCount];
 		for (int i = 0; i < layerCount; i++)
 			this.layers[i] = new IsometricLayer(this, 20, 20);
@@ -83,8 +84,8 @@ public class IsometricWorld implements Drawable {
 	public void render() {
 		// TODO Auto-generated method stub
 		renderTileLayer();
-		
-		for(IsometricLayer layer : layers)
+
+		for (IsometricLayer layer : layers)
 			layer.render();
 	}
 
@@ -115,11 +116,12 @@ public class IsometricWorld implements Drawable {
 
 				// TODO: Optimize PApplet::image ?
 				IsoVector tileCanvasPos = coord.worldToCanvas(x, y);
-				parent.imageOnPivot(tiles[x][y].getSprite(), tileCanvasPos.x, tileCanvasPos.y);
+				parent.imageOnPivot(tiles[x][y].getImage(), tileCanvasPos.x, tileCanvasPos.y);
 				// parent.image(IMG, tileCanvasPos.x, tileCanvasPos.y);
 
-				// XXX: Costs a lot to render: if(parent.debugEnabled)
-				// parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
+				// XXX: Costs a lot to render:
+//				if (parent.debugEnabled)
+//					parent.circle(tileCanvasPos.x, tileCanvasPos.y, 10);
 
 				frustumCount++;
 			}

@@ -10,9 +10,9 @@ import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
 import lib.registry.SpriteRegistry;
+import lib.registry.TileRegistry;
 import lib.resource.ResourceLoader;
 import lib.stage.Stage;
-import lib.world.Tile;
 
 public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
@@ -40,15 +40,20 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 
 				// Load lines for ResourceLoader
 				this.loadingInfo = "Loading resource loader...";
-				for(String line : parent.loadStrings("resourceloader_lines.txt")) {
+				for (String line : parent.loadStrings("resourceloader_lines.txt")) {
 					ResourceLoader.submitLine(line);
 				}
-				
+
 				// Load tiles & props
 				this.loadingInfo = "Loading tiles...";
-				Tile.generateTile(game.loadImage("test.png"));
-				SpriteRegistry.registerSprite(game.loadImage("tree.png", 80, 200));
-				SpriteRegistry.registerSprite(game.loadImage("tree2.png", 80, 200));
+				TileRegistry.registerTile(game.loadImage("tiles/default.png"));
+				TileRegistry.registerTile(game.loadImage("tiles/grass1.png"));
+				TileRegistry.registerTile(game.loadImage("tiles/grass2.png"));
+				TileRegistry.registerTile(game.loadImage("tiles/grass3.png"));
+				SpriteRegistry.registerSprite(game.loadImage("props/tree1.png", 155, 290));
+				SpriteRegistry.registerSprite(game.loadImage("props/tree2.png", 155, 290));
+				SpriteRegistry.registerSprite(game.loadImage("props/toon_tree1.png", 80, 200));
+				SpriteRegistry.registerSprite(game.loadImage("props/toon_tree2.png", 80, 200));
 
 				// Loading done
 				this.loadingInfo = "Loading done!";
@@ -64,10 +69,10 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 	@Override
 	public void update(float dt) {
 		transparency.proceed(dt);
-		DebugRenderer.appendLine(2, "Transparency: " + (int)transparency.getValue());
-		
+		DebugRenderer.appendLine(2, "Transparency: " + (int) transparency.getValue());
+
 		// Change stage if animation is done & resources are loaded
-		if(transparency.isFinished() && !loader.isLoading()) {
+		if (transparency.isFinished() && !loader.isLoading()) {
 			parent.changeStage(new YetAnotherWorldStage(parent));
 		}
 	}
@@ -75,41 +80,42 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 	@Override
 	public void render() {
 		parent.background(0xFF_ADDAC4);
-		
+
 		// Render test logo
 		parent.pushStyle();
 		{
 			parent.tint(255, transparency.getValue());
-			parent.imageOnPivot(testGamelogo, parent.width/2f, parent.height/2f);
+			parent.imageOnPivot(testGamelogo, parent.width / 2f, parent.height / 2f);
 		}
 		parent.popStyle();
-		
+
 		// Render loading info
 		parent.pushStyle();
 		{
 			parent.textAlign(TestGame.CENTER);
 			parent.fill(0xFF_000000);
-			parent.text(loader.getLoadingInfo(), parent.width/2f, (parent.height+testGamelogo.height)/2f + 40);
+			parent.text(loader.getLoadingInfo(), parent.width / 2f, (parent.height + testGamelogo.height) / 2f + 40);
 		}
 		parent.popStyle();
-		
+
 		// Render "Powered by Isom-engine"; Quick and ugly test hardcode
 		parent.pushStyle();
-		parent.pushMatrix(); 
+		parent.pushMatrix();
 		{
 			float scl = .4f;
-			parent.translate(parent.width-isomEngineLogo.width/2f*scl-20, parent.height-isomEngineLogo.height/2f*scl-15);
+			parent.translate(parent.width - isomEngineLogo.width / 2f * scl - 20,
+					parent.height - isomEngineLogo.height / 2f * scl - 15);
 			parent.scale(scl);
 			parent.imageOnPivot(isomEngineLogo, 0, 0);
 			parent.textFont(Fonts.getFont("intro-f1"));
 			parent.textSize(35f);
-			parent.textWithStroke("Powered by", 
-					-isomEngineLogo.width*scl, -isomEngineLogo.height*scl,
+			parent.textWithStroke("Powered by",
+					-isomEngineLogo.width * scl, -isomEngineLogo.height * scl,
 					0xFF_D4EEE1, 0xFF_000000);
 		}
 		parent.popMatrix();
 		parent.popStyle();
-		
+
 		// TODO : Render loading progress
 //		parent.pushStyle();
 //		{
@@ -118,29 +124,25 @@ public class IntroStage extends Stage<TestGame> implements KeyboardListener {
 //		}
 //		parent.popStyle();
 
-		/*parent.pushStyle();
-		{
-			parent.tint(255, transparency);
-			parent.image(logo, parent.width/2f, parent.height * (0.5f - 0.1f));
-
-			String text = (transparencyAnim.isFinished() && !loader.isLoading()) ? "Press space to continue.." : loader.getInfo();
-			parent.textFont(Fonts.getFont("intro-f1"));
-			parent.textWithStroke(text,
-					(parent.width/2f - parent.textWidth(text)/2f), 
-					parent.height * (0.5f + 0.3f),
-					0xFF_D4EEE1, 0xFF_000000);
-		}
-		parent.popStyle();*/
+		/*
+		 * parent.pushStyle(); { parent.tint(255, transparency); parent.image(logo,
+		 * parent.width/2f, parent.height * (0.5f - 0.1f));
+		 * 
+		 * String text = (transparencyAnim.isFinished() && !loader.isLoading()) ?
+		 * "Press space to continue.." : loader.getInfo();
+		 * parent.textFont(Fonts.getFont("intro-f1")); parent.textWithStroke(text,
+		 * (parent.width/2f - parent.textWidth(text)/2f), parent.height * (0.5f + 0.3f),
+		 * 0xFF_D4EEE1, 0xFF_000000); } parent.popStyle();
+		 */
 	}
 
 	@Override
 	public void keyPressed(KeyPair pair) {
-		if(pair.equals(Keyboard.KEY_SPACE)) {
-			if(transparency.isFinished() && !loader.isLoading()) {
+		if (pair.equals(Keyboard.KEY_SPACE)) {
+			if (transparency.isFinished() && !loader.isLoading()) {
 				parent.changeStage(new YetAnotherWorldStage(parent));
 			}
-		}
-		else if(pair.equals(Keyboard.KEY_F1)) {
+		} else if (pair.equals(Keyboard.KEY_F1)) {
 			transparency.reset();
 		}
 	}
