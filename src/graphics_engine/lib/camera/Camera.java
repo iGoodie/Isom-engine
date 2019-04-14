@@ -9,15 +9,15 @@ import lib.maths.IsoVector;
 import lib.world.entitiy.PropEntity;
 
 public class Camera implements Updatable {
-	private static final float EASING_PX_PER_SEC = 400f; //canvas pixels 
-	
+	private static final float EASING_PX_PER_SEC = 400f; // canvas pixels
+
 	private GameBase parent;
-	
+
 	private String label;
 	private IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
-	
+
 	private Animation2f anim = null;
-	
+
 	float width, height;
 	float zoom = 1f;
 	float rotation = 0f;
@@ -28,51 +28,53 @@ public class Camera implements Updatable {
 		this.label = label;
 		this.parent = parent;
 	}
-	
+
 	/* Update and render helpers */
-	public void attachCamera() { //TODO test : https://gamedev.stackexchange.com/questions/74007/generating-transformation-matrix-for-2d-camera-with-pan-zoom-rotate
-		float centerX = parent.width/(2*zoom);
-		float centerY = parent.height/(2*zoom);
+	public void attachCamera() { // TODO test :
+									// https://gamedev.stackexchange.com/questions/74007/generating-transformation-matrix-for-2d-camera-with-pan-zoom-rotate
+		float centerX = parent.width / (2 * zoom);
+		float centerY = parent.height / (2 * zoom);
 		parent.pushMatrix();
 		parent.scale(zoom);
 		parent.translate(centerX, centerY);
 		parent.rotate(rotation);
 		parent.translate(-canvasPos.x, -canvasPos.y);
 	}
-	
+
 	public void discardRotation() {
 		parent.rotate(-rotation);
 	}
-	
+
 	public void discardZoom() {
-		parent.scale(1f/rotation);		
+		parent.scale(1f / rotation);
 	}
-	
+
 	public void deattachCamera() {
 		parent.popMatrix();
 	}
-	
+
 	public void update(float dt) {
-		if(anim != null) {			
+		if (anim != null) {
 			canvasPos.set(anim.proceed(dt));
-			if(anim.isFinished()) anim = null;
+			if (anim.isFinished())
+				anim = null;
 			return;
 		}
 	}
-	
+
 	/* Transformation methods */
 	public void resize(float w, float h) {
 		width = w;
 		height = h;
 	}
-	
+
 	public void moveTo(float canvasX, float canvasY, float duration) {
 		anim = new Animation2f(canvasPos, IsoVector.createOnCanvas(canvasX, canvasY));
 		anim.duration = duration;
 		anim.easing = Easing2f.SINE_IN_OUT;
 		anim.setTolerance(1);
 	}
-	
+
 	public void moveTo(float canvasX, float canvasY) {
 		anim = new Animation2f(canvasPos, IsoVector.createOnCanvas(canvasX, canvasY));
 		anim.duration = canvasPos.dist(anim.to) / EASING_PX_PER_SEC;
@@ -81,45 +83,53 @@ public class Camera implements Updatable {
 	}
 
 	public void move(float dx, float dy) {
-		if(anim != null) return;
+		if (anim != null)
+			return;
 		canvasPos.add(dx, dy);
 	}
-	
+
 	public void zoomTo(float scale) {
 		zoom = scale;
 	}
-	
+
 	public void zoom(float deltaScale) {
 		zoom += deltaScale;
 	}
-	
+
 	public void rotateTo(float rotate) {
 		rotation = rotate;
 	}
-	
+
 	public void rotate(float deltaRotation) {
 		rotation += deltaRotation;
 	}
-	
+
 	/* Coordination */
 	public boolean propOnScreen(PropEntity e) {
 		IsoVector screenPos = e.getCanvasPos().toScreen(parent.getCoordinator(), this);
 		PivotImage sprite = e.getSprite().getImage();
-		return !(screenPos.x < -(sprite.width-sprite.pivot.x)
-				|| screenPos.x > parent.width+sprite.pivot.x
-				|| screenPos.y < -(sprite.height-sprite.pivot.y)
-				|| screenPos.y > parent.height+sprite.pivot.y);
+		return !(screenPos.x < -(sprite.width - sprite.pivot.x)
+				|| screenPos.x > parent.width + sprite.pivot.x
+				|| screenPos.y < -(sprite.height - sprite.pivot.y)
+				|| screenPos.y > parent.height + sprite.pivot.y);
 	}
-	
+
+	public boolean inRadius(float x, float y, float radius) {
+		IsoVector worldPos = getWorldPos();
+		float dx = worldPos.x - x;
+		float dy = worldPos.y - y;
+		return radius * radius >= dx * dx + dy * dy;
+	}
+
 	/* Getters */
 	public String getLabel() {
 		return label;
 	}
-	
+
 	public IsoVector getCanvasPos() {
 		return canvasPos;
 	}
-	
+
 	public IsoVector getWorldPos() {
 		return canvasPos.toWorld(parent.getCoordinator(), this);
 	}
@@ -127,15 +137,15 @@ public class Camera implements Updatable {
 	public float getRotation() {
 		return rotation;
 	}
-	
+
 	public float getZoom() {
 		return zoom;
 	}
-	
+
 	public boolean inMotion() {
-		return anim!=null && !anim.isFinished();
+		return anim != null && !anim.isFinished();
 	}
-	
+
 	/* Special methods */
 	public String toString() {
 		return String.format("Camera Canvas Pos:{%.0f, %.0f}", canvasPos.x, canvasPos.y);

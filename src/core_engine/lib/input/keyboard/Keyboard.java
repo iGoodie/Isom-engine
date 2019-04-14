@@ -20,11 +20,11 @@ public class Keyboard {
 		activeKeys.add(pair);
 
 		// Notify listeners about that activation
-		registeredListeners.forEach(l -> {
-			l.keyPressed(pair);
+		registeredListeners.forEach(listener -> {
+			listener.keyPressed(pair);
 			
 			if(pair.isPrintable())
-				l.keyTyped(pair);			
+				listener.keyTyped(pair);			
 		});
 	}
 
@@ -34,7 +34,7 @@ public class Keyboard {
 		activeKeys.remove(pair);
 		
 		// Notify listeners about that deactivation
-		registeredListeners.forEach(l -> l.keyReleased(pair));
+		registeredListeners.forEach(listener -> listener.keyReleased(pair));
 	}
 
 	public static void subscribe(KeyboardListener listener) {

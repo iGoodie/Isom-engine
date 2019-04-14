@@ -8,7 +8,7 @@ public interface MouseListener {
 	
 	/**
 	 * Callbacked from the class when wheel is moved
-	 * @param amount Negative for down, positive for up
+	 * @param downCount Negative for down, positive for up
 	 */
 	public default void wheelMoved(float downCount) {};
 }

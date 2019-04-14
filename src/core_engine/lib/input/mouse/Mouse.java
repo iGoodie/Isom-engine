@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+
 public class Mouse {
 
-	private static ArrayList<MouseListener> registeredListeners = new ArrayList<>();
+	private static List<MouseListener> registeredListeners = new ArrayList<>();
 
-	private static ArrayList<MousePress> activePresses = new ArrayList<>();
+	@Getter
+	private static List<MousePress> activePresses = new ArrayList<>();
 
 	public static void buttonActivated(int x, int y, int count, int button) {
 		MousePress press = new MousePress(x, y, count, button);
@@ -26,8 +29,8 @@ public class Mouse {
 		}
 		
 		// Notify every listener about this activation
-		var tmpPress = press;
-		registeredListeners.forEach(l -> l.mousePressed(tmpPress));
+		final var tmpPress = press;
+		registeredListeners.forEach(listener -> listener.mousePressed(tmpPress));
 	}
 
 	public static void buttonDeactivated(int x, int y, int count, int button) {
@@ -37,11 +40,11 @@ public class Mouse {
 
 		// Notify every listener about this activation
 		var tmpPress = press;
-		registeredListeners.forEach(l -> l.mouseReleased(tmpPress));
+		registeredListeners.forEach(listener -> listener.mouseReleased(tmpPress));
 	}
 
 	public static void wheelMoved(float downCount) {
-		registeredListeners.forEach(l -> l.wheelMoved(downCount));
+		registeredListeners.forEach(listener -> listener.wheelMoved(downCount));
 	}
 
 	public static void subscribe(MouseListener listener) {
@@ -67,10 +70,6 @@ public class Mouse {
 	}
 
 	/* Getters */
-	public static ArrayList<MousePress> getActivePresses() {
-		return activePresses;
-	}
-
 	public static List<String> getPressList() {
 		return activePresses.stream()
 				.map(key -> key.toString())
@@ -81,4 +80,5 @@ public class Mouse {
 	public static final int BTN_RIGHT = 39;
 	public static final int BTN_LEFT = 37;
 	public static final int BTN_MID = 3;
+
 }

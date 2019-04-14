@@ -62,7 +62,7 @@ public class LaunchBuilderTest {
 
 		// Execute movecam command on the console
 		String worldMovingCommand = "movecam 11 22 w";
-		game.console.parseAndExecute(worldMovingCommand);
+		game.console.getKernel().parseAndExecute(worldMovingCommand);
 
 		// Wait the camera to complete it's animation
 		waitWhile(second -> second < 1 || game.getCamera().inMotion());

@@ -89,16 +89,16 @@ public class TestGame extends GameBase implements TestConstants, KeyboardListene
 			console.toggle();
 
 		if (console.enabled) {
-			StringBuffer inputBuffer = console.inputBuffer;
+			StringBuffer inputBuffer = console.getKernel().getInputBuffer();
 			if (pair.equals(Keyboard.KEY_WIN_ENTER)) {
-				console.parseAndExecute();
+				console.getKernel().parseAndExecute();
 
 			} else if (pair.equals(Keyboard.KEY_WIN_BACKSPACE)) {
 				if (inputBuffer.length() > "> ".length())
 					inputBuffer.deleteCharAt(inputBuffer.length() - 1);
 
 			} else if (pair.equals(Keyboard.KEY_ESC)) {
-				console.close();
+				console.setEnabled(false);
 
 			} else {
 				if (pair.isPrintable())

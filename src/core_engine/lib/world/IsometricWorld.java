@@ -85,8 +85,8 @@ public class IsometricWorld implements Drawable {
 		// TODO Auto-generated method stub
 		renderTileLayer();
 
-		for (IsometricLayer layer : layers)
-			layer.render();
+//		for (IsometricLayer layer : layers)
+//			layer.render();
 	}
 
 	private void renderTileLayer() { // TODO: Optimize latency caused by Processing's image callback
@@ -110,8 +110,8 @@ public class IsometricWorld implements Drawable {
 		cam.attachCamera();
 		for (int x = MathUtils.clamp(ax, 0, width), lx = MathUtils.clamp(bx, 0, width); x < lx; x++) {
 			for (int y = MathUtils.clamp(ay, 0, height), ly = MathUtils.clamp(by, 0, height); y < ly; y++) {
-				// Continue if tile is not in range
-				if (radius * radius < (camPos.x - x) * (camPos.x - x) + (camPos.y - y) * (camPos.y - y))
+//				if (radius * radius < (camPos.x - x) * (camPos.x - x) + (camPos.y - y) * (camPos.y - y))
+				if(!cam.inRadius(x, y, radius))	
 					continue;
 
 				// TODO: Optimize PApplet::image ?

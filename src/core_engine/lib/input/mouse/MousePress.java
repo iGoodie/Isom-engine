@@ -2,7 +2,9 @@ package lib.input.mouse;
 
 import lib.maths.IsoVector;
 import lib.util.Stringifier;
+import lombok.Getter;
 
+@Getter
 public class MousePress {
 	
 	int x, y;
@@ -19,29 +21,14 @@ public class MousePress {
 	public IsoVector getPos() {
 		return new IsoVector(x, y);
 	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	public int getCount() {
-		return count;
-	}
-	
-	public int getButton() {
-		return button;
-	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof MousePress)) return false;
 		
-		MousePress m2 = (MousePress) obj;
-		return m2.button == this.button;
+		MousePress other = (MousePress) obj;
+		
+		return equals(other.button);
 	}
 	
 	public boolean equals(int button) {
@@ -54,4 +41,5 @@ public class MousePress {
 				button, Stringifier.asHex(button, 4),
 				count);
 	}
+
 }

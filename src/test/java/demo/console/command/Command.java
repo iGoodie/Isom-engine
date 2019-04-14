@@ -1,19 +1,16 @@
 package demo.console.command;
 
-import demo.console.GameConsole;
+import lib.core.GameBase;
 
 public abstract class Command {
 
-	protected GameConsole console;
-	
 	public String name;
 	
-	public Command(GameConsole console, String name) {
-		this.console = console;
+	public Command(String name) {
 		this.name = name;
 	}
 	
-	public abstract String execute(String[] cmdArgs);
+	public abstract String execute(GameBase game, String[] cmdArgs);
 	
 	public abstract String getUsage();
 }
