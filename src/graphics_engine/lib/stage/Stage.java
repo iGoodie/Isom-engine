@@ -1,9 +1,9 @@
 package lib.stage;
 
 import lib.core.Drawable;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 
-public abstract class Stage<P extends GameBase> implements Drawable {
+public abstract class Stage<P extends IsomApp> implements Drawable {
 	
 	public P parent;
 	

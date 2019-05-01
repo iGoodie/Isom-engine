@@ -2,34 +2,43 @@ package lib.camera;
 
 import lib.animation.Animation2f;
 import lib.animation.Easing2f;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.core.Updatable;
 import lib.image.PivotImage;
 import lib.maths.IsoVector;
-import lib.world.entitiy.PropEntity;
+import lib.world.entity.PropEntity;
+import lombok.Getter;
 
 public class Camera implements Updatable {
 	private static final float EASING_PX_PER_SEC = 400f; // canvas pixels
 
-	private GameBase parent;
+	private IsomApp parent;
 
-	private String label;
-	private IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
+	private @Getter String label;
+	private @Getter IsoVector canvasPos = IsoVector.createOnCanvas(0, 0);
 
 	private Animation2f anim = null;
 
-	float width, height;
-	float zoom = 1f;
-	float rotation = 0f;
+	private @Getter float width, height;
+	private @Getter float zoom = 1f;
+	private @Getter float rotation = 0f;
 
-	public Camera(String label, GameBase parent, float width, float height) {
+	public Camera(String label, IsomApp parent, float width, float height) {
 		this.width = width;
 		this.height = height;
 		this.label = label;
 		this.parent = parent;
 	}
 
-	/* Update and render helpers */
+	public void update(float dt) {
+		if (anim != null) {
+			canvasPos.set(anim.proceed(dt));
+			if (anim.isFinished())
+				anim = null;
+			return;
+		}
+	}
+
 	public void attachCamera() { // TODO test :
 									// https://gamedev.stackexchange.com/questions/74007/generating-transformation-matrix-for-2d-camera-with-pan-zoom-rotate
 		float centerX = parent.width / (2 * zoom);
@@ -53,16 +62,6 @@ public class Camera implements Updatable {
 		parent.popMatrix();
 	}
 
-	public void update(float dt) {
-		if (anim != null) {
-			canvasPos.set(anim.proceed(dt));
-			if (anim.isFinished())
-				anim = null;
-			return;
-		}
-	}
-
-	/* Transformation methods */
 	public void resize(float w, float h) {
 		width = w;
 		height = h;
@@ -104,8 +103,7 @@ public class Camera implements Updatable {
 		rotation += deltaRotation;
 	}
 
-	/* Coordination */
-	public boolean propOnScreen(PropEntity e) {
+	public boolean isPropInFrustum(PropEntity e) {
 		IsoVector screenPos = e.getCanvasPos().toScreen(parent.getCoordinator(), this);
 		PivotImage sprite = e.getSprite().getImage();
 		return !(screenPos.x < -(sprite.width - sprite.pivot.x)
@@ -121,33 +119,16 @@ public class Camera implements Updatable {
 		return radius * radius >= dx * dx + dy * dy;
 	}
 
-	/* Getters */
-	public String getLabel() {
-		return label;
-	}
-
-	public IsoVector getCanvasPos() {
-		return canvasPos;
-	}
-
 	public IsoVector getWorldPos() {
 		return canvasPos.toWorld(parent.getCoordinator(), this);
-	}
-
-	public float getRotation() {
-		return rotation;
-	}
-
-	public float getZoom() {
-		return zoom;
 	}
 
 	public boolean inMotion() {
 		return anim != null && !anim.isFinished();
 	}
 
-	/* Special methods */
 	public String toString() {
 		return String.format("Camera Canvas Pos:{%.0f, %.0f}", canvasPos.x, canvasPos.y);
 	}
+
 }

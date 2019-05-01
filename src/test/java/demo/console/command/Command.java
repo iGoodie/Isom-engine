@@ -1,6 +1,6 @@
 package demo.console.command;
 
-import lib.core.GameBase;
+import lib.core.IsomApp;
 
 public abstract class Command {
 
@@ -10,7 +10,7 @@ public abstract class Command {
 		this.name = name;
 	}
 	
-	public abstract String execute(GameBase game, String[] cmdArgs);
+	public abstract String execute(IsomApp game, String[] cmdArgs);
 	
 	public abstract String getUsage();
 }

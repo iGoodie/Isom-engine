@@ -16,7 +16,7 @@ public class TileRegistry {
 		Tile tile = Tile.generateTile(image);
 		TILES.add(tile);
 		
-		ConsolePrinter.info("Tile#%d registered (%s)", tile.getId(), tile);
+		ConsolePrinter.info("Tile#%d registered. (%s)", tile.getId(), tile);
 		
 		return tile;
 	}

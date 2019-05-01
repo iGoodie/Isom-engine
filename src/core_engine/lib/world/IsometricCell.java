@@ -8,8 +8,8 @@ import org.apache.commons.collections4.list.TreeList;
 import lib.camera.Camera;
 import lib.core.Renderable;
 import lib.maths.Boundary;
-import lib.world.entitiy.Entity;
-import lib.world.entitiy.PropEntity;
+import lib.world.entity.Entity;
+import lib.world.entity.PropEntity;
 
 public class IsometricCell implements Renderable {
 
@@ -25,14 +25,16 @@ public class IsometricCell implements Renderable {
 	}
 
 	public void addEntity(Entity entity) {
-		assert boundary.inRange(entity.getWorldPos());
+		assert boundary.inRange(entity.getWorldPos()) : "Entity must belong to this cell";
 
 		entities.add(entity);
 	}
 
 	public void updateForEntity(Entity entity) {
-		// TODO Check boundary
-		// TODO Act accordingly
+		if(!boundary.inRange(entity.getWorldPos())) {
+			entities.remove(entity);
+			parentLayer.updateForEntity(entity);
+		}
 	}
 
 	@Override
@@ -44,9 +46,9 @@ public class IsometricCell implements Renderable {
 		Collections.sort(entities);
 
 		cam.attachCamera();
-		for (Entity e : entities) {
-			if (e instanceof PropEntity && cam.propOnScreen((PropEntity) e)) {
-				e.render();
+		for (Entity entity : entities) {
+			if (entity instanceof PropEntity && cam.isPropInFrustum((PropEntity) entity)) {
+				entity.render();
 			}
 		}
 		cam.deattachCamera();

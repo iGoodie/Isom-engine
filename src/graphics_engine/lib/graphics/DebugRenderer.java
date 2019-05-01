@@ -3,7 +3,7 @@ package lib.graphics;
 import java.util.LinkedList;
 import java.util.List;
 
-import lib.core.GameBase;
+import lib.core.IsomApp;
 
 public final class DebugRenderer {
 
@@ -19,11 +19,11 @@ public final class DebugRenderer {
 	public static final int LOWER_LEFT = 2;
 	public static final int LOWER_RIGHT = 3;
 
-	private static GameBase parent;
+	private static IsomApp parent;
 	private static List<String>[] lines;
 
 	@SuppressWarnings("unchecked")
-	public static void setParent(GameBase parent) {
+	public static void setParent(IsomApp parent) {
 		DebugRenderer.parent = parent;
 		DebugRenderer.lines = new LinkedList[4];
 		for (int i = 0; i < 4; i++)

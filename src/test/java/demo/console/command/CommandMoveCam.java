@@ -1,6 +1,6 @@
 package demo.console.command;
 
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.maths.IsoVector;
 
 public class CommandMoveCam extends Command {
@@ -15,7 +15,7 @@ public class CommandMoveCam extends Command {
 	}
 
 	@Override
-	public String execute(GameBase game, String[] cmdArgs) {
+	public String execute(IsomApp game, String[] cmdArgs) {
 		if (cmdArgs.length != 2 && cmdArgs.length != 3) {
 			return getUsage();
 		}

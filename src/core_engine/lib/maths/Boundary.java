@@ -3,10 +3,11 @@ package lib.maths;
 import lombok.Getter;
 import processing.core.PVector;
 
+@Getter
 public class Boundary {
 
-	private @Getter PVector position;
-	private @Getter float width, height;
+	private PVector position;
+	private float width, height;
 
 	public Boundary(float x, float y, float width, float height) {
 		this.position = new PVector(x, y);

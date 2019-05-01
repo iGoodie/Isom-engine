@@ -68,7 +68,8 @@ public class CommandLine extends CommandLineContainer {
 	}
 
 	private boolean optionAccepts(CommandLineOption opt, String argument) {
-		return Arrays.stream(acceptanceTable.get(opt.getName())).anyMatch(argument::equals);
+		return Arrays.stream(acceptanceTable.get(opt.getName()))
+				.anyMatch(argument::equals);
 	}
 
 	public boolean containsOption(String option) {

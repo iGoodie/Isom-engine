@@ -30,6 +30,28 @@ public class YetAnotherWorldStage extends Stage<TestGame> implements KeyboardLis
 		Keyboard.subscribe(this);
 		Mouse.subscribe(this);
 	}
+	
+	@Override
+	public void update(float dt) {
+		map.update(dt);
+	}
+
+	@Override
+	public void render() {
+		parent.grid(20, 0xFF_303030);
+		map.render();
+
+		DebugRenderer.appendLine(map.getName());
+		
+		IsoVector origin = IsoVector.createOnWorld(0, 0).toScreen(parent.getCoordinator(), parent.getCamera());
+		IsoVector xAxis = IsoVector.createOnWorld(2, 0).toScreen(parent.getCoordinator(), parent.getCamera());
+		IsoVector yAxis = IsoVector.createOnWorld(0, 1).toScreen(parent.getCoordinator(), parent.getCamera());
+		parent.stroke(255);
+		parent.line(origin.x, origin.y, xAxis.x, xAxis.y);
+		parent.line(origin.x, origin.y, yAxis.x, yAxis.y);
+		parent.textWithStroke("X-axis", xAxis.x, xAxis.y, 255, 0);
+		parent.textWithStroke("Y-axis", yAxis.x, yAxis.y, 255, 0);
+	}
 
 	@Override
 	public void keyPressed(KeyPair pair) {
@@ -59,28 +81,6 @@ public class YetAnotherWorldStage extends Stage<TestGame> implements KeyboardLis
 		zoom = MathUtils.clamp(zoom, 0.125f, 2f); // Clamping bw [0.5 , 2.0]
 
 		parent.getCamera().zoomTo(zoom);
-	}
-
-	@Override
-	public void update(float dt) {
-		map.update(dt);
-	}
-
-	@Override
-	public void render() {
-		parent.grid(20, 0xFF_303030);
-		map.render();
-
-		DebugRenderer.appendLine(map.getName());
-		
-		IsoVector origin = IsoVector.createOnWorld(0, 0).toScreen(parent.getCoordinator(), parent.getCamera());
-		IsoVector xAxis = IsoVector.createOnWorld(2, 0).toScreen(parent.getCoordinator(), parent.getCamera());
-		IsoVector yAxis = IsoVector.createOnWorld(0, 1).toScreen(parent.getCoordinator(), parent.getCamera());
-		parent.stroke(255);
-		parent.line(origin.x, origin.y, xAxis.x, xAxis.y);
-		parent.line(origin.x, origin.y, yAxis.x, yAxis.y);
-		parent.textWithStroke("X-axis", xAxis.x, xAxis.y, 255, 0);
-		parent.textWithStroke("Y-axis", yAxis.x, yAxis.y, 255, 0);
 	}
 
 	@Override

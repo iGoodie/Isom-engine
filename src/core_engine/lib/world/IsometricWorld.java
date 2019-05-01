@@ -8,12 +8,12 @@ import com.programmer.igoodie.utils.math.Randomizer;
 import lib.camera.Camera;
 import lib.camera.Coordinator;
 import lib.core.Drawable;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.graphics.DebugRenderer;
 import lib.maths.IsoVector;
 import lib.registry.TileRegistry;
-import lib.world.entitiy.Entity;
-import lib.world.entitiy.PropEntity;
+import lib.world.entity.Entity;
+import lib.world.entity.PropEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,15 +21,17 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class IsometricWorld implements Drawable {
 
-	public static IsometricWorld loadWorld(GameBase parent, File file) {
+	public static IsometricWorld loadWorld(IsomApp parent, File file) {
 		// TODO feat: Deserialize from file
 		IsometricWorld world = new IsometricWorld(parent, 0, 3, 1000, 1000);
 		world.setName("UNKNOWN_MAP");
 
 		// TODO: Load tiles from file
 		for (int i = 0; i < world.width; i++)
-			for (int j = 0; j < world.height; j++)
-				world.tiles[i][j] = TileRegistry.getTileByID(Randomizer.randomInt(1, 3));
+			for (int j = 0; j < world.height; j++) {
+				int tileId = Randomizer.randomInt(1, 3);
+				world.tiles[i][j] = TileRegistry.getTileByID(tileId);
+			}
 
 		// TODO: Load entities from file
 		world.spawnEntity(0, new PropEntity(parent, 0, IsoVector.createOnWorld(0, 0)));
@@ -48,13 +50,13 @@ public class IsometricWorld implements Drawable {
 
 	protected @Getter int id;
 	protected @Getter @Setter String name;
-	protected GameBase parent;
+	protected IsomApp parent;
 
 	public Tile[][] tiles;
 	private IsometricLayer[] layers;
 	private @Getter int width, height;
 
-	public IsometricWorld(GameBase parent, int id, int layerCount, int width, int height) {
+	public IsometricWorld(IsomApp parent, int id, int layerCount, int width, int height) {
 		this.id = id;
 		this.parent = parent;
 		this.width = width;

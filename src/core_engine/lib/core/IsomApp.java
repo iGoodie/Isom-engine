@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import com.programmer.igoodie.utils.io.FileUtils;
 import com.programmer.igoodie.utils.log.ConsolePrinter;
+import com.programmer.igoodie.utils.system.Syntax;
 
 import lib.camera.Camera;
 import lib.camera.Coordinator;
@@ -18,7 +19,7 @@ import lib.util.time.DeltaTimer;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public abstract class GameBase extends AppletBase implements Drawable, IsoConstants {
+public abstract class IsomApp extends AppletBase implements Drawable, IsoConstants {
 
 	public static void main(Class<?> clss, LaunchBuilder lb) {
 		FileUtils.setExternalDataPath(IsoConstants.EXTERNAL_DATA_PATH);
@@ -27,11 +28,11 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 		ConsolePrinter.info("Launch Arguments: " + Arrays.toString(args));
 
-		AppletBase.main(clss, args);
+		AppletBase.main(args);
 	}
 
 	/* Elements */
-	protected Stage<? extends GameBase> currentStage;
+	protected Stage<? extends IsomApp> currentStage;
 	protected DeltaTimer deltaTimer = new DeltaTimer();
 	protected Coordinator coordinator;
 
@@ -43,9 +44,9 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	public boolean debugEnabled = DEVELOPER_MODE;
 
 	/* Initializers */
-	public GameBase() {
+	public IsomApp() {
 		DebugRenderer.setParent(this);
-		
+
 		for (int i = 0; i < cameras.length; i++) // Init cameras
 			cameras[i] = new Camera("Cam#" + i, this, 0, 0);
 	}
@@ -103,7 +104,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	/* Getter/Setter Methods */
-	public Stage<? extends GameBase> getCurrentStage() {
+	public Stage<? extends IsomApp> getCurrentStage() {
 		return currentStage;
 	}
 
@@ -116,7 +117,7 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 	}
 
 	/* General Methods */
-	public void changeStage(Stage<? extends GameBase> s) {
+	public void changeStage(Stage<? extends IsomApp> s) {
 		currentStage.dispose();
 		currentStage = s;
 	}
@@ -137,22 +138,6 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	/* Overriding Methods */
 	@Override
-	public void mousePressed() {
-		/*
-		 * IsoVector c = Coordinator.screen2Camera(getCamera(), mouseX, mouseY);
-		 * System.out.println(c);
-		 */
-		/*
-		 * IsoVector s2c = Coordinator.screenToCanvas(getCamera(), new IsoVector(mouseX,
-		 * mouseY)); System.out.println(s2c);
-		 */
-		/*
-		 * IsoVector w2c = Coordinator.worldToCanvas(new IsoVector(0, 1));
-		 * System.out.println(w2c);
-		 */
-	}
-
-	@Override
 	public void mousePressed(MouseEvent event) {
 		Mouse.buttonActivated(event.getX(), event.getY(), event.getCount(), event.getButton());
 	}
@@ -169,19 +154,13 @@ public abstract class GameBase extends AppletBase implements Drawable, IsoConsta
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		// String printable = "ABCDEFGHIJKLMNOPQRSTUWXYZ1234567890ÖÇŞİĞÜéß.,!?
-		// _^~-+/\\*=()[]{}<>$₺@£#%½&'\";`";
-		// ConsoleLogger.debug("KeyPressed: %s %b", Keyboard.getKeyString(key, keyCode),
-		// printable.indexOf(Character.toUpperCase(key)) != -1); //Log pressed key
-		// ConsoleLogger.debug(event.getModifiers());
-		// ConsoleLogger.debug(event.getNative());
-		// ConsoleLogger.debug("Key Pressed: %s", Keyboard.getKeyString(key, keyCode));
-
-		// If a meta is on. TODO: regulate this
+		// If a meta is on.
 		if (event.getModifiers() != 0) {
-			if (keyCode != 0x00000010 && keyCode != 0x00000011 && keyCode != 0x00000012) { // And it's not CTRL, ALT or
-																							// SHIFT
-				if (key != '\uFFFF' && key != '\u0000') {
+			int codeCTRL = 0x00000010;
+			int codeALT = 0x00000011;
+			int codeSHIFT = 0x00000012;
+			if (!Syntax.in(keyCode, codeCTRL, codeALT, codeSHIFT)) {
+				if (!Syntax.in(key, '\uFFFF', '\u0000')) {
 					key = (char) keyCode;
 				}
 			}

@@ -7,6 +7,7 @@ import com.programmer.igoodie.utils.math.Randomizer;
 import lombok.Getter;
 
 // TODO Put sub task classes for percentage info
+@Getter
 public class ResourceLoader implements Runnable {
 	
 	private static ArrayList<String> lines = new ArrayList<>();
@@ -21,9 +22,9 @@ public class ResourceLoader implements Runnable {
 		lines.add(line);
 	}
 
-	protected @Getter String loadingInfo = "Fetching..";
-	protected @Getter float percentage = 0f; // interval: [0,1]
-	protected @Getter boolean loading = true;
+	protected String loadingInfo = "Fetching..";
+	protected float percentage = 0f; // interval: [0,1]
+	protected boolean loading = true;
 	
 	@Override
 	public void run() {

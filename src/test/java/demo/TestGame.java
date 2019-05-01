@@ -7,14 +7,14 @@ import demo.console.GameConsole;
 import demo.stages.IntroStage;
 import lib.camera.Coordinator;
 import lib.config.LaunchBuilder;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.graphics.Fonts;
 import lib.input.keyboard.KeyPair;
 import lib.input.keyboard.Keyboard;
 import lib.input.keyboard.KeyboardListener;
 import processing.opengl.PJOGL;
 
-public class TestGame extends GameBase implements TestConstants, KeyboardListener {
+public class TestGame extends IsomApp implements TestConstants, KeyboardListener {
 
 	/* Singleton */
 	private static TestGame game;
@@ -32,7 +32,7 @@ public class TestGame extends GameBase implements TestConstants, KeyboardListene
 		super.settings(); // TODO: Find less-ugly way to handle
 
 		game = this;
-		
+
 		Keyboard.subscribe(this);
 
 		size(ST_WIDTH, ST_HEIGHT, P2D);
@@ -122,10 +122,10 @@ public class TestGame extends GameBase implements TestConstants, KeyboardListene
 
 		// Initialize launch builder
 		LaunchBuilder builder = new LaunchBuilder(TestGame.class, args);
-		builder.argDisplayPrimaryMonitor();
+		builder.argDisplay(1);
 		builder.argWindowColor(0xFF_000000);
 
-		GameBase.main(TestGame.class, builder); // Continues on other thread (async)
+		IsomApp.main(TestGame.class, builder); // Continues on other thread (async)
 	}
 
 }

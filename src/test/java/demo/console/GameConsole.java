@@ -1,18 +1,19 @@
 package demo.console;
 
 import lib.core.Drawable;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.graphics.Fonts;
 import lombok.Getter;
 
 @Getter
 public class GameConsole implements Drawable {
 
-	GameBase parent;
+	IsomApp parent;
 
 	ConsoleKernel kernel;
 
-	public GameConsole(GameBase parent) {
+	public GameConsole(IsomApp parent) {
+		this.parent = parent;
 		this.kernel = new ConsoleKernel(parent);
 	}
 

@@ -1,6 +1,6 @@
 package lib.camera;
 
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.maths.IsoVector;
 
 /*
@@ -11,9 +11,9 @@ public class Coordinator {
 	private int tileWidth, tileHeight;
 	private int tileHalfWidth, tileHalfHeight;
 
-	private GameBase parent;
+	private IsomApp parent;
 
-	public Coordinator(GameBase p, int tile_w, int tile_h) {
+	public Coordinator(IsomApp p, int tile_w, int tile_h) {
 		parent = p;
 		this.tileWidth = tile_w;
 		this.tileHeight = tile_h;

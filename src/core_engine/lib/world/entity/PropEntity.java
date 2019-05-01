@@ -1,6 +1,6 @@
-package lib.world.entitiy;
+package lib.world.entity;
 
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.image.Sprite;
 import lib.maths.IsoVector;
 import lib.registry.SpriteRegistry;
@@ -13,7 +13,7 @@ public class PropEntity extends Entity implements Comparable<Entity> {
 
 	private @Getter IsoVector canvasPos;
 
-	public PropEntity(GameBase parent, int spriteID, IsoVector worldPos) {
+	public PropEntity(IsomApp parent, int spriteID, IsoVector worldPos) {
 		super(parent, worldPos);
 		this.sprite = SpriteRegistry.getSpriteByID(spriteID);
 		this.canvasPos = worldPos.toCanvas(parent.getCoordinator(), parent.getCamera());

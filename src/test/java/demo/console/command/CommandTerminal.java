@@ -1,9 +1,10 @@
 package demo.console.command;
 
+import java.util.Arrays;
+
 import com.programmer.igoodie.utils.log.ConsolePrinter;
 
-import demo.console.GameConsole;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 
 public class CommandTerminal extends Command {
 
@@ -17,7 +18,7 @@ public class CommandTerminal extends Command {
 	}
 
 	@Override
-	public String execute(GameBase game, String[] cmdArgs) {
+	public String execute(IsomApp game, String[] cmdArgs) {
 		switch (cmdArgs[0]) { // Terminal cmd type
 		case "p":
 			return subPrint(cmdArgs);
@@ -31,8 +32,7 @@ public class CommandTerminal extends Command {
 			return getUsage();
 
 		// Build string with given arguments
-		String[] msgArgs = new String[cmdArgs.length - 1];
-		System.arraycopy(cmdArgs, 1, msgArgs, 0, msgArgs.length);
+		String[] msgArgs = Arrays.copyOf(cmdArgs, cmdArgs.length);
 		ConsolePrinter.info(String.join(" ", msgArgs));
 
 		return null;

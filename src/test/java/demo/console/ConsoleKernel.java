@@ -8,44 +8,48 @@ import java.util.Map;
 import demo.console.command.Command;
 import demo.console.command.CommandMoveCam;
 import demo.console.command.CommandTerminal;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lombok.Getter;
 
 @Getter
 public class ConsoleKernel {
 
 	public static final int CMD_HISTORY_LINE_LIMIT = 50;
-	
+
 	private static Map<String, Command> commandList = new HashMap<>();
 	{
 		registerCommand(new CommandMoveCam());
 		registerCommand(new CommandTerminal());
 	}
-	
+
 	public static void registerCommand(Command cmd) {
 		commandList.put(cmd.name, cmd);
 	}
-	
-	public GameBase parent;
-	
+
+	public IsomApp parent;
+
 	public StringBuffer inputBuffer = new StringBuffer("> ");
 	private List<String> history = new ArrayList<>();
-	
-	public ConsoleKernel(GameBase parent) {
+
+	public ConsoleKernel(IsomApp parent) {
 		this.parent = parent;
 
 		print("< Command line initialized.");
 		print("< Command line is ready to execute commands.");
 	}
 	
+	public void printf(String format, Object...args) {
+		print(String.format(format, args));
+	}
+
 	public void print(String line) {
 		history.add(line);
 
-		if (history.size() > CMD_HISTORY_LINE_LIMIT) {
+		while (history.size() > CMD_HISTORY_LINE_LIMIT) {
 			history.remove(0);
 		}
 	}
-	
+
 	public void parseAndExecute(String input) {
 		int argsIndex = input.indexOf(' ');
 		String cmdName, cmdArgs[];
@@ -64,7 +68,7 @@ public class ConsoleKernel {
 		// Search and execute command
 		Command cmd = commandList.get(cmdName);
 		if (cmd == null) {
-			print(String.format("< Cannot find command '%s'", cmdName));
+			printf("< Cannot find command '%s'", cmdName);
 			return;
 		}
 
@@ -86,5 +90,5 @@ public class ConsoleKernel {
 		inputBuffer.setLength(0);
 		inputBuffer.append("> ");
 	}
-	
+
 }

@@ -1,23 +1,23 @@
-package lib.world.entitiy;
+package lib.world.entity;
 
 import lib.core.Drawable;
-import lib.core.GameBase;
+import lib.core.IsomApp;
 import lib.maths.IsoVector;
 import lib.world.IsometricCell;
 import lombok.Getter;
 
 public abstract class Entity implements Drawable, Comparable<Entity> {
 
-	protected GameBase parent;
+	protected IsomApp parent;
 	protected IsometricCell parentCell;
 	protected @Getter IsoVector worldPos;
 
-	public Entity(GameBase parent, IsoVector worldPos) {
+	public Entity(IsomApp parent, IsoVector worldPos) {
 		this.worldPos = worldPos;
 		this.parent = parent;
 	}
 
-	public Entity(GameBase parent) {
+	public Entity(IsomApp parent) {
 		this(parent, IsoVector.createOnWorld(0, 0));
 	}
 

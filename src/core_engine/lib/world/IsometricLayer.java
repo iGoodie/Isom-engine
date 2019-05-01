@@ -2,7 +2,7 @@ package lib.world;
 
 import lib.core.Renderable;
 import lib.maths.IsoVector;
-import lib.world.entitiy.Entity;
+import lib.world.entity.Entity;
 
 public class IsometricLayer implements Renderable {
 
@@ -35,8 +35,13 @@ public class IsometricLayer implements Renderable {
 	}
 
 	public void updateForEntity(Entity entity) {
-		// TODO Check belonging cell
-		// TODO Act accordingly
+		spawnEntity(entity);
+//		IsoVector worldPos = entity.getWorldPos();
+//		final float rowCount = cells.length;
+//		final float colCount = cells[0].length;
+//		int cellX = (int) IsomApp.map(worldPos.x, 0, parentWorld.getWidth(), 0, rowCount);
+//		int cellY = (int) IsomApp.map(worldPos.y, 0, parentWorld.getHeight(), 0, colCount);
+//		cells[cellX][cellY].addEntity(entity);
 	}
 
 	@Override
