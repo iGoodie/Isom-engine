@@ -10,21 +10,19 @@
 
 ## What is Isom-engine?
 
-Isom-engine is an isometric rendering engine (being) built on-top of Processing library. It provides some good utilities for isometric 2D game rendering programs such as;
+Isom-engine is an isometric rendering engine was being built on-top of Processing library. However, due to the performance hit on loaded amount of tile rendering callback, an attempt to implement it from scratch with LWJGL has started. It aims to re-implement following features using OpenGL bindings in this branch:
 * 3 layered coordination map (Isometric World, Canvas, Screen planes)
 * Multi-threaded resource loading mechanism
 * Debug units (with [Goodieutils](https://github.com/iGoodie/Goodieutils) extensions)
 * LUA scripting port
 * Processing extensions (including a new GameBase class)
 * Better input handling patterns
+* Isometric projection for 3D meshes
 
 :exclamation: **DISCLAIMER** :exclamation: *The project started as a capstone project. The development before the pre-release is planned to continue a whole semester or more (6-8 months). The engine doesn't promise a highly optimal performance comparing to the other engines out there.*
 
 <!--p><img height="60px" src="https://cdn.discordapp.com/attachments/414163950855389186/414426001146118165/preview.png"></p-->
 ## Preview
 
-![Intro Stage](preview/p1.png?raw=true)
-![Tiles and Props](preview/p2.png?raw=true)
-![Console and Commands](preview/p3.png?raw=true)
-![Frustum Test](preview/p4.png?raw=true)
-![Prop Optimization Test](preview/p5.png?raw=true)
+![3D Mesh Projection](preview/p1.png?raw=true)
+![Culling Demo](preview/p2.png?raw=true)

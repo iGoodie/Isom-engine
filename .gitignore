@@ -3,6 +3,7 @@
 .project
 
 # Development Data
+.TODO
 /build
 /client/bin
 /media
@@ -10,3 +11,4 @@
 # Libraries
 /lib
 /target/
+
