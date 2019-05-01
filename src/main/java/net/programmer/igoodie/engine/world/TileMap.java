@@ -51,7 +51,7 @@ public class TileMap implements Drawable {
 		Vector2f cameraWorldPos = canvasToWorldExact(camera.getPosition().x, camera.getPosition().y);
 
 		float radiusSq = canvasToWorldExact(camera.getWidth() / 2f, camera.getHeight() / 2f)
-				.mul(.5f / camera.getZoom()).lengthSquared();
+				.mul(1.1f / camera.getZoom()).lengthSquared();
 		float radius = Mathf.sqrt(radiusSq);
 
 		float startX = Mathf.clamp(cameraWorldPos.x - radius, 0, getWidth());
